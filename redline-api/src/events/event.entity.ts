@@ -11,6 +11,7 @@ import { User } from 'src/auth/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/category.entity';
 import { EventToUser } from './eventToUser.entity';
+import { Review } from 'src/reviews/review.entity';
 
 @Entity()
 export class Event extends BaseEntity {
@@ -77,4 +78,16 @@ export class Event extends BaseEntity {
     { cascade: true },
   )
   attending: EventToUser[];
+
+  @OneToMany(
+    type => Review,
+    review => review.event,
+  )
+  reviews: Review[];
+
+  /**
+   * @todo Add pricing to event
+   * @body Had an idea to add pricing to the event, it didn't work.
+   * Pricing has to include multiple prices.
+   */
 }

@@ -13,6 +13,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/category.entity';
 import { Vehicle } from 'src/vehicles/vehicle.entity';
 import { EventToUser } from 'src/events/eventToUser.entity';
+import { Review } from 'src/reviews/review.entity';
 
 @Entity()
 @Unique(['username'])
@@ -69,4 +70,10 @@ export class User extends BaseEntity {
     { cascade: true },
   )
   attendingEvents: EventToUser[];
+
+  @OneToMany(
+    type => Review,
+    review => review.author,
+  )
+  reviews: Review[];
 }

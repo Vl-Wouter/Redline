@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { CategoriesModule } from './categories/categories.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
+import { ReviewsModule } from './reviews/reviews.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { VehiclesModule } from './vehicles/vehicles.module';
     AuthModule,
     CategoriesModule,
     VehiclesModule,
+    ReviewsModule,
   ],
   controllers: [],
   providers: [],

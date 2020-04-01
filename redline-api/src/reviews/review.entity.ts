@@ -1,5 +1,6 @@
 import { BaseEntity, Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from 'src/auth/user.entity';
+import { Event } from 'src/events/event.entity';
 
 @Entity()
 export class Review extends BaseEntity {

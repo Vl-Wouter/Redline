@@ -194,10 +194,8 @@ export default {
       startTime: '',
       endTime: '',
       address: '',
-      coordinates: {
-        lat: '',
-        long: ''
-      },
+      lat: '',
+      lng: '',
       prices: []
     }
   }),
@@ -233,10 +231,8 @@ export default {
         )
         const feature = data.features[0]
 
-        this.form.coordinates = {
-          lng: feature.center[0],
-          lat: feature.center[1]
-        }
+        this.form.lng = feature.center[0]
+        this.form.lat = feature.center[1]
         this.form.address = feature.place_name
 
         this.map.flyTo({

@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <!-- TODO: Refactor flow to create events
+      Rethink data structure to send to database, refactor into components
+     -->
     <section>
       <h1>Add a new event</h1>
     </section>

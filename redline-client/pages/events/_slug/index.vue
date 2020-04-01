@@ -1,6 +1,9 @@
 <template>
   <div>
     <div v-if="event" class="event">
+      <!-- TODO: Refactor the event page
+        Refactor into reusable components, add new components, add current event-data to the page
+       -->
       <header>
         <img
           :src="`http://localhost:4000/events/header/${event.header}`"
@@ -27,13 +30,6 @@
           </div>
         </section>
         <description-block expandable :content="event.description" />
-        <!-- <section v-html="cleanDescription"></section>
-        <a
-          href="#"
-          data-target="descriptionOverlay"
-          @click.prevent="toggleOverlay($event)"
-          >Read more...</a
-        > -->
         <section class="event__location">
           <div id="eventMap" class="map" @load="createMap"></div>
           <h3>Location</h3>

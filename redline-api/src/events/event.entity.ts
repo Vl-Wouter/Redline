@@ -5,10 +5,12 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/category.entity';
+import { EventToUser } from './eventToUser.entity';
 
 @Entity()
 export class Event extends BaseEntity {
@@ -59,7 +61,7 @@ export class Event extends BaseEntity {
 
   @ManyToOne(
     type => User,
-    user => user.events,
+    user => user.ownEvents,
     { eager: false, cascade: true },
   )
   @ApiProperty()
@@ -68,4 +70,11 @@ export class Event extends BaseEntity {
   @Column()
   @ApiProperty()
   header: string;
+
+  @OneToMany(
+    type => EventToUser,
+    eventToUser => eventToUser.event,
+    { cascade: true },
+  )
+  attending: EventToUser[];
 }

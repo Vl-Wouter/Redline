@@ -6,15 +6,15 @@ import { start } from 'repl';
 import { User } from 'src/auth/user.entity';
 import { slugify } from 'src/utils/slugify.utils';
 import { unlinkSync } from 'fs';
+import { InternalServerErrorException } from '@nestjs/common';
 
 @EntityRepository(Event)
 export class EventRepository extends Repository<Event> {
   async getEvents(filterDTO: GetEventFilterDTO): Promise<Event[]> {
     const { search, category, startTime, endTime, address } = filterDTO;
-    const query = this.createQueryBuilder('event').leftJoinAndSelect(
-      'event.organiser',
-      'organiser',
-    );
+    const query = this.createQueryBuilder('event')
+      .leftJoinAndSelect('event.organiser', 'organiser')
+      .leftJoinAndSelect('event.attending', 'attendee');
 
     if (search)
       query.andWhere(
@@ -56,8 +56,8 @@ export class EventRepository extends Repository<Event> {
       await event.save();
       return event;
     } catch (error) {
-      console.error(error);
       unlinkSync(`./${headerImage.path}`);
+      throw new InternalServerErrorException(error);
     }
   }
 }

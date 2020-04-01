@@ -45,6 +45,7 @@ export class CategoriesController {
   @UseGuards(AuthGuard())
   @ApiOperation({ operationId: 'Create a category' })
   @ApiBearerAuth()
+  @ApiBody({ type: CreateCategoryDTO })
   @ApiCreatedResponse({
     description: 'Category has successfully been created',
     type: Category,
@@ -83,7 +84,7 @@ export class CategoriesController {
   @UseGuards(AuthGuard())
   @ApiOperation({ operationId: 'Update a category by name' })
   @ApiBearerAuth()
-  @ApiBody({ type: Category })
+  @ApiBody({ type: UpdateCategoryDTO })
   @ApiOkResponse({
     description: 'Category successfully updated',
     type: Category,

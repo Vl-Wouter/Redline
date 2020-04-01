@@ -109,7 +109,7 @@ export class EventsController {
     @UploadedFile() headerImage,
     @Body() createEventDTO: CreateEventDTO,
     @GetUser() user: User,
-  ): Promise<Event> | void {
+  ): Promise<Event> {
     console.log(createEventDTO);
     return this.eventService.createEvent(createEventDTO, user, headerImage);
   }
@@ -124,8 +124,11 @@ export class EventsController {
   @ApiNoContentResponse({ description: 'Event has successfully been deleted' })
   @ApiNotFoundResponse({ description: 'Unable to find event to remove' })
   @ApiUnauthorizedResponse({ description: 'User cannot delete an event' })
-  deleteEvent(@Param('slug') slug: string): Promise<void> {
-    return this.eventService.deleteEvent(slug);
+  deleteEvent(
+    @Param('slug') slug: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.eventService.deleteEvent(slug, user);
   }
 
   @Patch('/:slug')
@@ -145,7 +148,24 @@ export class EventsController {
   updateEvent(
     @Param('slug') slug: string,
     @Body() updateEventDTO: UpdateEventDTO,
+    @GetUser() user: User,
   ): Promise<Event> {
-    return this.eventService.updateEvent(slug, updateEventDTO);
+    return this.eventService.updateEvent(slug, updateEventDTO, user);
+  }
+
+  @Post('/:id/attend')
+  @UseGuards(AuthGuard())
+  attendEvent(
+    @Param('id') id: number,
+    @Body('vehicle') vehicleId: number,
+    @GetUser() user: User,
+  ) {
+    return this.eventService.attendEvent(id, user, vehicleId);
+  }
+
+  @Post('/:id/leave')
+  @UseGuards(AuthGuard())
+  leaveEvent(@Param('id') id: number, @GetUser() user: User) {
+    return this.eventService.leaveEvent(id, user);
   }
 }

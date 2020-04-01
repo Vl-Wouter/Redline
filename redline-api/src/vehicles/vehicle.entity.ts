@@ -5,9 +5,11 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from 'src/auth/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { EventToUser } from 'src/events/eventToUser.entity';
 
 @Entity()
 export class Vehicle extends BaseEntity {
@@ -32,4 +34,11 @@ export class Vehicle extends BaseEntity {
   )
   @JoinColumn({ name: 'ownerId' })
   owner: User;
+
+  @OneToMany(
+    type => EventToUser,
+    eventToUser => eventToUser.vehicle,
+    { cascade: true },
+  )
+  events: EventToUser[];
 }

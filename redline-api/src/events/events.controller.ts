@@ -166,10 +166,6 @@ export class EventsController {
   @Post('/:id/leave')
   @UseGuards(AuthGuard())
   leaveEvent(@Param('id') id: number, @GetUser() user: User) {
-    /**
-     * @todo Make sure people can leave an event
-     * @body Events can be attended by people, but can people leave an event? This is a test for the todo app
-     */
     return this.eventService.leaveEvent(id, user);
   }
 }

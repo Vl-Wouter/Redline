@@ -24,6 +24,8 @@ import {
   ApiUnauthorizedResponse,
   ApiInternalServerErrorResponse,
   ApiBody,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import { CreateVehicleDTO } from './dto/create-vehicle.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -92,6 +94,15 @@ export class VehiclesController {
 
   @Delete('/:id')
   @UseGuards(AuthGuard())
+  @ApiOperation({ operationId: 'Delete a vehicle' })
+  @ApiBearerAuth()
+  @ApiNoContentResponse({
+    description: 'Vehicle has successfully been deleted',
+  })
+  @ApiNotFoundResponse({ description: 'Cannot find a vehicle to delete' })
+  @ApiUnauthorizedResponse({
+    description: 'User is not authorized to delete this vehicle',
+  })
   deleteVehicle(@Param('id') id: number, @GetUser() user: User): Promise<void> {
     return this.vehiclesService.deleteVehicle(id, user);
   }

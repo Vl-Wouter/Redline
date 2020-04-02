@@ -3,19 +3,26 @@
     <div v-if="event" class="event">
       <header>
         <img
-          :src="`http://localhost:4000/events/header/${event.header}`"
+          :src="`http://localhost:4000/api/events/header/${event.header}`"
           alt="header image"
         />
+        <a href="#" @click.prevent="$router.go(-1)" class="backBtn">Back</a>
         <div class="event__detail">
           <h2>{{ event.title }}</h2>
-          <span>155 going</span>
+          <span>{{ event.attending.length }} going</span>
         </div>
         <div class="event__detail">
-          <span>{{ event.category }}</span>
-          <span>Recommended (6)</span>
+          <span>{{ event['__category__'].name }}</span>
+          <span>{{ event.reviews && event.reviews.length }} reviews</span>
         </div>
       </header>
       <main>
+        <attend-button
+          :event="event"
+          :is-attending="isAttending"
+          v-if="$store.state.user.current"
+          >{{ isAttending ? 'Leave event' : "I'm Going" }}</attend-button
+        >
         <section class="event__date">
           <unicon name="calendar-alt" height="18" />
           <div class="times">
@@ -27,15 +34,8 @@
           </div>
         </section>
         <description-block expandable :content="event.description" />
-        <!-- <section v-html="cleanDescription"></section>
-        <a
-          href="#"
-          data-target="descriptionOverlay"
-          @click.prevent="toggleOverlay($event)"
-          >Read more...</a
-        > -->
         <section class="event__location">
-          <div id="eventMap" class="map" @load="createMap"></div>
+          <div id="eventMap" class="map"></div>
           <h3>Location</h3>
           <p class="Location">{{ event.address }}</p>
         </section>
@@ -66,9 +66,12 @@
 <script>
 import mapboxgl from 'mapbox-gl'
 import DescriptionBlock from '~/components/events/DescriptionBlock'
+import AttendButton from '~/components/events/AttendButton'
 export default {
+  layout: 'no_nav',
   components: {
-    DescriptionBlock
+    DescriptionBlock,
+    AttendButton
   },
   data: () => ({
     event: null,
@@ -79,40 +82,39 @@ export default {
   computed: {
     cleanDescription() {
       return this.event ? this.$sanitize(this.event.description) : null
+    },
+    isAttending() {
+      if (this.$store.state.user.current) {
+        return this.event.attending.find(
+          (attendee) => attendee.userId === this.$store.state.user.current.id
+        )
+      }
+      return false
     }
   },
   async mounted() {
-    const { slug } = this.$route.params
     try {
-      const { data } = await this.$axios.get(`/events/${slug}`)
+      const { data } = await this.$axios.get(
+        `/events/${this.$route.params.slug}`
+      )
       this.event = data
-      this.loading = false
-      this.map = new mapboxgl.Map({
-        container: 'eventMap',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [0, 0],
-        zoom: 12
+      this.$nextTick(function() {
+        const { longitude, latitude } = this.event
+        mapboxgl.accessToken = process.env.MAPBOX_KEY
+        this.map = new mapboxgl.Map({
+          container: 'eventMap',
+          style: 'mapbox://styles/mapbox/streets-v11',
+          center: [longitude, latitude],
+          zoom: 12,
+          interactive: false
+        })
+        new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(this.map)
       })
-      // mapboxgl.accessToken = process.env.MAPBOX_KEY
     } catch (error) {
       this.error = error.response ? error.response.data : error
     }
   },
-  methods: {
-    toggleOverlay(event) {
-      const { target } = event.target.dataset
-      document.querySelector(`#${target}`).classList.toggle('out')
-    },
-    createMap() {
-      console.log('Map creation')
-      this.map = new mapboxgl.Map({
-        container: 'eventMap',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [0, 0],
-        zoom: 12
-      })
-    }
-  }
+  methods: {}
 }
 </script>
 
@@ -126,6 +128,12 @@ header {
     margin-left: -16px;
     margin-bottom: 8px;
     border-radius: 0 0 4px 4px;
+  }
+
+  .backBtn {
+    position: absolute;
+    top: 16px;
+    left: 0px;
   }
 
   h2 {
@@ -164,7 +172,7 @@ header {
 .event {
   min-height: 100vh;
   position: relative;
-  margin-bottom: 64px;
+  padding-bottom: 64px;
 
   h3 {
     text-align: center;
@@ -225,7 +233,32 @@ header {
 
 .map {
   width: 100vw;
-  margin-left: -16px;
   height: 200px;
+  margin: 40px 0;
+  margin-left: -16px;
+  position: relative;
+}
+</style>
+
+<style lang="scss">
+a {
+  text-decoration: none;
+}
+div.mapboxgl-marker {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.mapboxgl-ctrl-attrib-inner {
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  a {
+    color: app-color-level('foreground', 4);
+    font-size: 0.8rem;
+    text-align: left;
+    font-weight: 400;
+  }
 }
 </style>

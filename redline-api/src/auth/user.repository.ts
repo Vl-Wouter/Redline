@@ -56,6 +56,7 @@ export class UserRepository extends Repository<User> {
 
     if (user && (await user.validatePassword(password))) {
       return {
+        id: user.id,
         username: user.username,
         roles: user.roles,
         fullName: `${user.firstName} ${user.lastName}`,

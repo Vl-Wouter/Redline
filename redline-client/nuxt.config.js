@@ -63,7 +63,8 @@ export default {
   axios: {
     progress: true,
     host: 'localhost',
-    port: 4000
+    port: 4000,
+    prefix: '/api'
   },
   /*
    ** Build configuration

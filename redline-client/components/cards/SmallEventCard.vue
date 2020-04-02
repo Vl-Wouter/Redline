@@ -1,7 +1,7 @@
 <template>
   <card>
     <section class="card__header">
-      <span class="small category">{{ event.category }}</span>
+      <span class="small category">{{ event['__category__'].name }}</span>
       <span class="small">{{ event.startTime | localDateTime }}</span>
     </section>
     <section class="card__main">

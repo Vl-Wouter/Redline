@@ -69,7 +69,7 @@ export class EventsController {
   })
   @ApiOkResponse({ description: 'Image has been returned' })
   async getEventHeader(@Param('name') name: string, @Res() res): Promise<any> {
-    res.sendFile(name, { root: 'uploads/events' });
+    res.sendFile(`/events/${name}`, { root: 'uploads' });
   }
 
   @Get('/:slug')
@@ -145,11 +145,13 @@ export class EventsController {
   })
   @ApiUnauthorizedResponse({ description: 'User cannot update an event' })
   @ApiNotFoundResponse({ description: 'Cannot find event to update' })
+  @UsePipes(ValidationPipe)
   updateEvent(
     @Param('slug') slug: string,
     @Body() updateEventDTO: UpdateEventDTO,
     @GetUser() user: User,
   ): Promise<Event> {
+    console.log(updateEventDTO);
     return this.eventService.updateEvent(slug, updateEventDTO, user);
   }
 

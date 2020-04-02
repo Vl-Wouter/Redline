@@ -1,0 +1,21 @@
+{
+  "name": "redline",
+  "version": "1.0.0",
+  "description": "> Bachelor thesis Wouter Vlaeyen | Artevelde 2020",
+  "main": "index.js",
+  "scripts": {
+    "dev:client": "cd redline-client && npm run dev",
+    "dev:server": "cd redline-api && npm run start:dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vl-Wouter/Redline.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vl-Wouter/Redline/issues"
+  },
+  "homepage": "https://github.com/Vl-Wouter/Redline#readme"
+}

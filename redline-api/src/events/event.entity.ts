@@ -54,10 +54,10 @@ export class Event extends BaseEntity {
   @ApiProperty()
   address: string;
 
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float' })
   latitude: number;
 
-  @Column({ default: 0 })
+  @Column({ default: 0, type: 'float' })
   longitude: number;
 
   @ManyToOne(

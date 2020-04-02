@@ -12,3 +12,4 @@
 | 30/03/2020 |        06:15 | Event page + Api                        |
 | 31/03/2020 |        06:30 | Api refactoring + Categories            |
 | 01/04/2020 |        06:30 | Vehicles, Reviews + Event attending API |
+| 02/04/2020 |        05:15 | Writing thesis, work on client and api  |

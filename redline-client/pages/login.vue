@@ -20,6 +20,8 @@
         />
       </form-field>
       <button type="submit">Login</button>
+      <a href="#" @click.prevent="$router.go(-1)">Cancel</a>
+      <nuxt-link to="/login"><a>No account? Register here</a></nuxt-link>
     </form>
   </div>
 </template>
@@ -28,6 +30,7 @@
 import FormField from '@/components/forms/FormField'
 import Alert from '@/components/Alert'
 export default {
+  layout: 'no_nav',
   components: {
     FormField,
     Alert
@@ -49,6 +52,7 @@ export default {
       }
       try {
         await this.$store.dispatch('user/signIn', this.user)
+        this.$axios.setToken(this.$store.state.user.current.token, 'Bearer')
         this.$router.push('/')
       } catch (error) {
         this.error = error.response.data

@@ -4,8 +4,9 @@
       class="text__block"
       :class="{ expandable, expanded }"
       v-html="sanitizedContent"
+      ref="description"
     ></section>
-    <button v-if="expandable" @click="toggleContent">
+    <button v-if="isExpandable" @click="toggleContent">
       Read {{ expanded ? 'less' : 'more' }}
     </button>
   </section>
@@ -14,7 +15,8 @@
 <script>
 export default {
   data: () => ({
-    expanded: false
+    expanded: false,
+    isExpandable: false
   }),
   props: {
     expandable: {
@@ -35,6 +37,12 @@ export default {
     toggleContent() {
       this.expanded = !this.expanded
     }
+  },
+  mounted() {
+    this.$nextTick(function() {
+      const element = this.$refs.description
+      this.isExpandable = element.offsetHeight < element.scrollHeight
+    })
   }
 }
 </script>

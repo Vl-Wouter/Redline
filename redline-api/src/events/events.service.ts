@@ -38,7 +38,7 @@ export class EventsService {
   async getEventBySlug(slug: string): Promise<Event> {
     const found = await this.eventRepository.findOne(
       { slug },
-      { relations: ['organiser', 'attending'] },
+      { relations: ['organiser', 'attending', 'reviews'] },
     );
 
     if (!found)

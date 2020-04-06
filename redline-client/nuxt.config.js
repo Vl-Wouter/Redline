@@ -74,5 +74,35 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  manifest: {
+    name: 'Redline | Car Community App',
+    short_name: 'Redline PWA',
+    lang: 'en',
+    display: 'standalone'
+  },
+  workbox: {
+    runtimeCaching: [
+      {
+        urlPattern: 'https://use.typekit.net/*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: {
+          cacheableResponse: {
+            statuses: [0, 200]
+          }
+        }
+      },
+      {
+        urlPattern: 'http://localhost:4000/api/*',
+        handler: 'cacheFirst',
+        method: 'GET',
+        strategyOptions: {
+          cacheableResponse: {
+            statuses: [0, 200]
+          }
+        }
+      }
+    ]
   }
 }

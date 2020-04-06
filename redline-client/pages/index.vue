@@ -36,7 +36,6 @@ export default {
   },
   data: () => ({
     error: null,
-    events: null,
     loading: true
   }),
   computed: {
@@ -62,6 +61,11 @@ export default {
     removeError() {
       this.error = null
     }
+  },
+  head() {
+    return {
+      title: 'Redline | Car Community App'
+    }
   }
 }
 </script>
@@ -70,7 +74,7 @@ export default {
 .container {
   margin: 0 auto;
   padding: 16px 0 64px 0;
-  min-height: 100vh;
+  min-height: 100%;
   /* display: flex;
   justify-content: center;
   align-items: center;

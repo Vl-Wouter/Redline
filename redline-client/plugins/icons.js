@@ -5,9 +5,17 @@ import {
   uniPlusCircle,
   uniUpload,
   uniTimes,
-  uniCalendarAlt
+  uniCalendarAlt,
+  uniFilter
 } from 'vue-unicons/src/icons'
 
-Unicon.add([uniSignInAlt, uniPlusCircle, uniUpload, uniTimes, uniCalendarAlt])
+Unicon.add([
+  uniSignInAlt,
+  uniPlusCircle,
+  uniUpload,
+  uniTimes,
+  uniCalendarAlt,
+  uniFilter
+])
 
 Vue.use(Unicon)

@@ -21,11 +21,19 @@ export default {
     isAttending: Boolean
   },
   methods: {
-    toggleAttendance() {
-      if (this.isAttending) {
-        this.$axios.post(`/events/${this.event.id}/leave`)
-      } else {
-        this.$axios.post(`/events/${this.event.id}/attend`)
+    async toggleAttendance() {
+      try {
+        if (this.isAttending) {
+          await this.$axios.post(`/events/${this.event.id}/leave`)
+          this.$emit('leave-event')
+        } else {
+          const { data } = await this.$axios.post(
+            `/events/${this.event.id}/attend`
+          )
+          this.$emit('attend-event', data)
+        }
+      } catch (error) {
+        this.$emit('set-error', error)
       }
     }
   }

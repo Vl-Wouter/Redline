@@ -9,7 +9,9 @@
         <a href="#" @click.prevent="$router.go(-1)" class="backBtn">Back</a>
         <div class="event__detail">
           <h2>{{ event.title }}</h2>
-          <span>{{ event.attending.length }} going</span>
+          <v-button class="text-primary" @click.native="openAttendList"
+            >{{ event.attending.length }} going</v-button
+          >
         </div>
         <div class="event__detail">
           <span>{{ event['__category__'].name }}</span>
@@ -21,6 +23,9 @@
           :event="event"
           :is-attending="isAttending"
           v-if="$store.state.user.current"
+          @attend-event="attendEvent"
+          @leave-event="leaveEvent"
+          @set-error="this.error = error"
           >{{ isAttending ? 'Leave event' : "I'm Going" }}</attend-button
         >
         <section class="event__date">
@@ -35,7 +40,7 @@
         </section>
         <description-block expandable :content="event.description" />
         <section class="event__location">
-          <div id="eventMap" class="map"></div>
+          <Map :center="mapCenter" />
           <h3>Location</h3>
           <p class="Location">{{ event.address }}</p>
         </section>
@@ -59,25 +64,30 @@
           </div>
         </section>
       </main>
+      <attend-list ref="attendList" :attendees="event.attending" />
     </div>
   </div>
 </template>
 
 <script>
-import mapboxgl from 'mapbox-gl'
 import DescriptionBlock from '~/components/events/DescriptionBlock'
+import Button from '~/components/ui/Button'
 import AttendButton from '~/components/events/AttendButton'
+import Map from '~/components/Map'
+import AttendList from '~/components/events/AttendList'
 export default {
   layout: 'no_nav',
   components: {
     DescriptionBlock,
-    AttendButton
+    AttendButton,
+    AttendList,
+    'v-button': Button,
+    Map
   },
   data: () => ({
     event: null,
     loading: true,
-    error: null,
-    map: null
+    error: null
   }),
   computed: {
     cleanDescription() {
@@ -90,6 +100,22 @@ export default {
         )
       }
       return false
+    },
+    isOwnerOrAdmin() {
+      const user = this.$store.state.user.current
+      if (user) {
+        return (
+          user.id === this.event.organiser.id ||
+          user.roles.includes('ADMIN') ||
+          user.roles.includes('MODERATOR')
+        )
+      } else {
+        return false
+      }
+    },
+    mapCenter() {
+      if (!this.event) return [4.35142, 50.849068]
+      return [this.event.longitude, this.event.latitude]
     }
   },
   async mounted() {
@@ -98,23 +124,24 @@ export default {
         `/events/${this.$route.params.slug}`
       )
       this.event = data
-      this.$nextTick(function() {
-        const { longitude, latitude } = this.event
-        mapboxgl.accessToken = process.env.MAPBOX_KEY
-        this.map = new mapboxgl.Map({
-          container: 'eventMap',
-          style: 'mapbox://styles/mapbox/streets-v11',
-          center: [longitude, latitude],
-          zoom: 12,
-          interactive: false
-        })
-        new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(this.map)
-      })
     } catch (error) {
       this.error = error.response ? error.response.data : error
     }
   },
-  methods: {}
+  methods: {
+    attendEvent(data) {
+      this.event.attending.push(data)
+    },
+
+    leaveEvent() {
+      this.event.attending = this.event.attending.filter(
+        (attendee) => attendee.userId !== this.$store.state.user.current.id
+      )
+    },
+    openAttendList() {
+      this.$refs.attendList.toggle()
+    }
+  }
 }
 </script>
 
@@ -125,7 +152,6 @@ header {
     height: 200px;
     width: 100vw;
     object-fit: cover;
-    margin-left: -16px;
     margin-bottom: 8px;
     border-radius: 0 0 4px 4px;
   }
@@ -133,7 +159,7 @@ header {
   .backBtn {
     position: absolute;
     top: 16px;
-    left: 0px;
+    left: 16px;
   }
 
   h2 {
@@ -141,38 +167,39 @@ header {
   }
 }
 
-.overlay {
-  position: absolute;
-  background: app-color('background');
-  padding: 16px;
-  box-shadow: 0 -5px 10px #00000020;
-  width: 100%;
-  z-index: 999;
-  transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+// .overlay {
+//   position: absolute;
+//   background: app-color('background');
+//   padding: 16px;
+//   box-shadow: 0 -5px 10px #00000020;
+//   width: 100%;
+//   z-index: 999;
+//   transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 16px;
-  }
+//   &__header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: baseline;
+//     margin-bottom: 16px;
+//   }
 
-  &[direction='down'] {
-    position: absolute;
-    bottom: 0;
-    padding-bottom: 64px;
+//   &[direction='down'] {
+//     position: absolute;
+//     bottom: 0;
+//     padding-bottom: 64px;
 
-    &.out {
-      transform: translateY(100%);
-      transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-    }
-  }
-}
+//     &.out {
+//       transform: translateY(100%);
+//       transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+//     }
+//   }
+// }
 
 .event {
   min-height: 100vh;
   position: relative;
   padding-bottom: 64px;
+  overflow-x: hidden;
 
   h3 {
     text-align: center;
@@ -183,11 +210,11 @@ header {
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 8px;
+    padding: 0 16px;
   }
 
   &__date {
     width: 100vw;
-    margin-left: -16px;
     padding: 32px 16px;
     background: app-color-level('background', -0.5);
     display: flex;
@@ -213,20 +240,23 @@ header {
     margin-bottom: 32px;
   }
 
-  &__prices .price {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin: 16px 0;
-    border-bottom: 1px solid app-color-level('background', -1);
+  &__prices {
+    padding: 0 16px;
+    .price {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 16px 0;
+      border-bottom: 1px solid app-color-level('background', -1);
 
-    &:last-child {
-      border: none;
-    }
+      &:last-child {
+        border: none;
+      }
 
-    .category {
-      font-weight: 700;
-      color: app-color();
+      .category {
+        font-weight: 700;
+        color: app-color();
+      }
     }
   }
 }
@@ -235,7 +265,6 @@ header {
   width: 100vw;
   height: 200px;
   margin: 40px 0;
-  margin-left: -16px;
   position: relative;
 }
 </style>

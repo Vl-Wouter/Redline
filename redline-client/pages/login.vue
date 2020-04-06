@@ -20,7 +20,7 @@
         />
       </form-field>
       <button type="submit">Login</button>
-      <a href="#" @click.prevent="$router.go(-1)">Cancel</a>
+      <a href="#" @click.prevent="router.push('/')">Cancel</a>
       <nuxt-link to="/login"><a>No account? Register here</a></nuxt-link>
     </form>
   </div>

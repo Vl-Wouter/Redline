@@ -94,9 +94,9 @@
             @blur="processAddress($event)"
           />
         </form-field>
-        <div id="addressMap" class="map"></div>
+        <Map :center="mapCenter" />
       </section>
-      <section v-show="step === 2" class="form__step">
+      <!-- <section v-show="step === 2" class="form__step">
         <form-field
           label="Prices"
           field="addPrice"
@@ -141,7 +141,7 @@
             <p>{{ price.price | toEUR }}</p>
           </div>
         </div>
-      </section>
+      </section> -->
       <div class="button__container">
         <a v-if="step === 0" @click.prevent="$router.go(-1)">Cancel</a>
         <button v-else type="button" @click="step--">Back</button>
@@ -163,24 +163,23 @@
 <script>
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { Datetime } from 'vue-datetime'
-import mapboxgl from 'mapbox-gl'
 import FormField from '~/components/forms/FormField'
+import Map from '~/components/Map'
 // // You need a specific loader for CSS files
 import 'vue-datetime/dist/vue-datetime.css'
 export default {
   layout: 'no_nav',
+  middleware: 'authenticated',
   components: {
     FormField,
-    Datetime
+    Datetime,
+    Map
   },
   data: () => ({
     editor: ClassicEditor,
     error: null,
     totalSteps: 0,
     step: 0,
-    mapbox_token: null,
-    map: {},
-    marker: null,
     fileName: 'Choose a file',
     priceInput: {
       category: '',
@@ -199,16 +198,17 @@ export default {
       prices: []
     }
   }),
+  computed: {
+    mapCenter() {
+      if (this.form.lng && this.form.lat) {
+        return [this.form.lng, this.form.lat]
+      }
+      return [4.35142, 50.849068]
+    }
+  },
   mounted() {
     const totalSteps = document.querySelectorAll('.form__step').length - 1
     this.totalSteps = totalSteps
-    mapboxgl.accessToken = process.env.MAPBOX_KEY
-    this.map = new mapboxgl.Map({
-      container: 'addressMap',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [4.35142, 50.849068],
-      zoom: 12
-    })
   },
   methods: {
     handleFile(event) {
@@ -234,27 +234,9 @@ export default {
         this.form.lng = feature.center[0]
         this.form.lat = feature.center[1]
         this.form.address = feature.place_name
-
-        this.map.flyTo({
-          center: feature.center,
-          speed: 0.8,
-          zoom: 12,
-          essential: true
-        })
-        this.marker = new mapboxgl.Marker()
-          .setLngLat(feature.center)
-          .addTo(this.map)
       } catch (error) {
         console.log(error)
       }
-    },
-    addPrice() {
-      this.form.prices.push({ ...this.priceInput })
-      this.priceInput.category = ''
-      this.priceInput.price = ''
-    },
-    removePrice(index) {
-      this.form.prices.splice(index, 1)
     },
     async submitForm() {
       console.log(this.form)
@@ -270,7 +252,7 @@ export default {
           }
         })
         console.log(data)
-        // this.$router.push(`/events/${data.slug}`)
+        this.$router.push(`/events/${data.slug}`)
       } catch (error) {
         console.table(error)
         this.error = error

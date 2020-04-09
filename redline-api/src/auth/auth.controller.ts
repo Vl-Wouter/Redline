@@ -4,6 +4,8 @@ import {
   Body,
   ValidationPipe,
   UseGuards,
+  Get,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDTO } from './dto';
@@ -18,6 +20,7 @@ import {
   ApiOkResponse,
   ApiHideProperty,
   ApiBearerAuth,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 
 @Controller('auth')
@@ -51,5 +54,13 @@ export class AuthController {
   @ApiBearerAuth()
   test(@GetUser() user: User) {
     console.log(user);
+  }
+
+  @Get('/:username')
+  @ApiOperation({ operationId: 'Get user by name' })
+  @ApiOkResponse({ description: 'User found', type: User })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  getUserByName(@Param('username') username: string): Promise<User> {
+    return this.authService.getUserByName(username);
   }
 }

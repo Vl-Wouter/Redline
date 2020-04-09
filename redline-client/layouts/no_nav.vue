@@ -4,8 +4,4 @@
   </main>
 </template>
 
-<style lang="scss" scoped>
-.main {
-  padding: 0;
-}
-</style>
+<style lang="scss" scoped></style>

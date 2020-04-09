@@ -1,4 +1,8 @@
 export default async function({ store }) {
-  await store.dispatch('events/fetchEvents')
-  await store.dispatch('events/fetchCategories')
+  const { lastFetch } = store.state.events
+  const minutesSinceFetch = Math.floor((Date.now() - lastFetch) / 1000 / 60)
+  if (minutesSinceFetch > 15) {
+    await store.dispatch('events/fetchEvents')
+    await store.dispatch('events/fetchCategories')
+  }
 }

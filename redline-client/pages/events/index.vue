@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <div v-if="events" class="eventContainer">
       <header>
         <h2>All Events</h2>
@@ -18,49 +18,19 @@
           <small-event-card :event="event" />
         </nuxt-link>
       </section>
-      <aside ref="filterContainer" class="filters out">
-        <h3>Filters</h3>
-        <form method="post">
-          <div>
-            <input
-              type="text"
-              name="searchTerm"
-              id="searchTerm"
-              placeholder="Search..."
-              v-model="filterData.search"
-              @input="filterEvents"
-            />
-          </div>
-          <div>
-            <p>Category</p>
-            <div
-              v-for="category in categories"
-              :key="category.id"
-              class="filters__categories"
-            >
-              <input
-                type="checkbox"
-                :name="category.name"
-                :id="category.name"
-                :value="category.id"
-                v-model="filterData.categoryIds"
-                @change="filterEvents"
-              />
-              <label :for="category.name">{{ category.name }}</label>
-            </div>
-          </div>
-        </form>
-      </aside>
+      <filters ref="filterOverlay" @filter="filterEvents" />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
 import SmallEventCard from '~/components/cards/SmallEventCard'
+import Filters from '~/components/events/Filters'
 export default {
   middleware: 'events',
   components: {
-    SmallEventCard
+    SmallEventCard,
+    Filters
   },
   data: () => ({
     events: null,
@@ -77,12 +47,16 @@ export default {
       return this.$store.getters['events/getCategories']
     }
   },
+  mounted() {
+    const events = this.$store.getters['events/getAll']
+    this.groupEvents(events)
+  },
   methods: {
     toggleFilter() {
-      this.$refs.filterContainer.classList.toggle('out')
+      this.$refs.filterOverlay.toggle()
     },
-    filterEvents() {
-      const { search, categoryIds, startDate, endDate } = this.filterData
+    filterEvents(filters) {
+      const { search, categoryIds, startDate, endDate } = filters
       let events = this.$store.getters['events/getAll']
       if (search) {
         events = events.filter(
@@ -90,7 +64,7 @@ export default {
             event.title.includes(search) || event.description.includes(search)
         )
       }
-      if (categoryIds.length > 0) {
+      if (categoryIds && categoryIds.length > 0) {
         events = events.filter((event) =>
           categoryIds.includes(event.__category__.id)
         )
@@ -127,11 +101,16 @@ export default {
         ]
         return r
       }, {})
+    },
+    resetFilters() {
+      this.filterData = {
+        search: '',
+        categoryIds: [],
+        startDate: '',
+        endDate: ''
+      }
+      this.filterEvents()
     }
-  },
-  mounted() {
-    const events = this.$store.getters['events/getAll']
-    this.groupEvents(events)
   }
 }
 </script>
@@ -172,16 +151,22 @@ header {
   height: 100vh;
   padding: 16px;
   box-shadow: -5px 0 10px #00000020;
+  transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 
-  input {
-    border: none;
-    background: none;
-    padding: 8px 0;
-    border-bottom: 1px solid #bcbcbc;
-    width: 100%;
-    font-size: 1rem;
-    font-family: $base-font-family;
+  section {
+    margin: 16px 0;
+    display: block;
   }
+
+  // input {
+  //   border: none;
+  //   background: none;
+  //   padding: 8px 0;
+  //   border-bottom: 1px solid #bcbcbc;
+  //   width: 100%;
+  //   font-size: 1rem;
+  //   font-family: $base-font-family;
+  // }
 
   &__categories {
     display: flex;
@@ -196,6 +181,7 @@ header {
 
   &.out {
     transform: translateX(105%);
+    transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
   }
 }
 </style>

@@ -8,8 +8,18 @@
 export default {
   props: {
     control: Boolean,
-    btnType: String,
-    btnColor: String
+    btnType: {
+      type: String,
+      default() {
+        return 'button'
+      }
+    },
+    btnColor: {
+      type: String,
+      default() {
+        return ''
+      }
+    }
   }
 }
 </script>
@@ -18,10 +28,20 @@ export default {
 .btn {
   border: none;
   background: none;
-  padding: 8px 16px;
+  padding: 12px 16px;
   font-size: 0.9rem;
   cursor: pointer;
   color: inherit;
+  border-radius: 4px;
+  margin: 8px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .control {

@@ -32,13 +32,31 @@ export class EventsService {
   ) {}
 
   async getEvents(filterDTO: GetEventFilterDTO): Promise<Event[]> {
-    return this.eventRepository.find({ relations: ['organiser', 'attending'] });
+    return this.eventRepository.find({
+      relations: ['organiser', 'attending'],
+      join: {
+        alias: 'event',
+        leftJoinAndSelect: {
+          reviews: 'event.reviews',
+          author: 'reviews.author',
+        },
+      },
+    });
   }
 
   async getEventBySlug(slug: string): Promise<Event> {
     const found = await this.eventRepository.findOne(
       { slug },
-      { relations: ['organiser', 'attending', 'reviews'] },
+      {
+        relations: ['organiser', 'attending'],
+        join: {
+          alias: 'event',
+          leftJoinAndSelect: {
+            reviews: 'event.reviews',
+            author: 'reviews.author',
+          },
+        },
+      },
     );
 
     if (!found)

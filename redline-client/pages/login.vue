@@ -4,36 +4,38 @@
     <alert v-if="error" type="error">{{ error.message }}</alert>
     <form method="POST" @submit.prevent="login">
       <form-field label="Username" field="username">
-        <input
-          id="username"
-          v-model="user.username"
-          type="text"
-          name="username"
-        />
+        <text-input v-model="user.username" input-type="text" name="username" />
       </form-field>
       <form-field label="Password" field="password">
-        <input
-          id="password"
+        <text-input
           v-model="user.password"
-          type="password"
+          input-type="password"
           name="password"
         />
       </form-field>
-      <button type="submit">Login</button>
-      <a href="#" @click.prevent="router.push('/')">Cancel</a>
+      <v-button btn-type="submit" class="primary control">Log in</v-button>
+      <v-button
+        btn-type="button"
+        class="text-error control"
+        @click.native.prevent="$router.push('/')"
+        >Cancel</v-button
+      >
       <nuxt-link to="/login"><a>No account? Register here</a></nuxt-link>
     </form>
   </div>
 </template>
 
 <script>
-import FormField from '@/components/forms/FormField'
+import { FormField, TextInput } from '~/components/forms'
 import Alert from '@/components/Alert'
+import Button from '~/components/ui/Button'
 export default {
   layout: 'no_nav',
   components: {
     FormField,
-    Alert
+    TextInput,
+    Alert,
+    'v-button': Button
   },
   data: () => ({
     error: null,

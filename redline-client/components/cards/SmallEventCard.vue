@@ -1,19 +1,21 @@
 <template>
-  <card>
-    <section class="card__header">
-      <span class="small category">{{ event['__category__'].name }}</span>
-      <span class="small">{{ event.startTime | localDateTime }}</span>
-    </section>
-    <section class="card__main">
-      <h2>{{ event.title }}</h2>
-    </section>
-    <section class="card__footer">
-      <span class="small primary">{{
-        event.price ? event.price : 'FREE'
-      }}</span>
-      <span class="small">{{ event.address.split(',')[0] }}</span>
-    </section>
-  </card>
+  <nuxt-link :to="`/events/${event.slug}`">
+    <card>
+      <section class="card__header">
+        <span class="small category">{{ event['__category__'].name }}</span>
+        <span class="small">{{ event.startTime | localDateTime }}</span>
+      </section>
+      <section class="card__main">
+        <h2>{{ event.title }}</h2>
+      </section>
+      <section class="card__footer">
+        <span class="small primary">{{
+          event.price ? event.price : 'FREE'
+        }}</span>
+        <span class="small">{{ event.address.split(',')[0] }}</span>
+      </section>
+    </card>
+  </nuxt-link>
 </template>
 
 <script>
@@ -23,7 +25,12 @@ export default {
     Card
   },
   props: {
-    event: Object
+    event: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
   }
 }
 </script>

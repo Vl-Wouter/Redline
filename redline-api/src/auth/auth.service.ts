@@ -33,4 +33,29 @@ export class AuthService {
 
     return { accessToken };
   }
+
+  async getUserByName(username: string) {
+    return this.userRepository.findOne(
+      { username },
+      {
+        select: [
+          'id',
+          'firstName',
+          'lastName',
+          'username',
+          'roles',
+          'profileImg',
+        ],
+        relations: ['attendingEvents', 'ownEvents', 'vehicles'],
+        join: {
+          alias: 'user',
+          leftJoinAndSelect: {
+            attendingEvents: 'user.attendingEvents',
+            eventData: 'attendingEvents.event',
+            eventCategory: 'eventData.category',
+          },
+        },
+      },
+    );
+  }
 }

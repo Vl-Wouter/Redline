@@ -6,26 +6,34 @@
           :src="`http://localhost:4000/api/events/header/${event.header}`"
           alt="header image"
         />
-        <a href="#" @click.prevent="$router.go(-1)" class="backBtn">Back</a>
+        <a href="#" class="backBtn" @click.prevent="$router.go(-1)">Back</a>
         <div class="event__detail">
-          <h2>{{ event.title }}</h2>
-          <v-button class="text-primary" @click.native="openAttendList"
-            >{{ event.attending.length }} going</v-button
-          >
-        </div>
-        <div class="event__detail">
-          <span>{{ event['__category__'].name }}</span>
-          <span>{{ event.reviews && event.reviews.length }} reviews</span>
+          <section>
+            <h2>{{ event.title }}</h2>
+            <span>{{ event['__category__'].name }}</span>
+          </section>
+          <section>
+            <v-button class="text-primary" @click.native="openAttendList"
+              >{{ event.attending.length }} going</v-button
+            >
+            <v-button class="text-primary" @click.native="openReviews"
+              >{{
+                (event.reviews && event.reviews.length) || 0
+              }}
+              reviews</v-button
+            >
+          </section>
         </div>
       </header>
       <main>
         <attend-button
+          v-if="$store.state.user.current"
+          id="attendBtn"
           :event="event"
           :is-attending="isAttending"
-          v-if="$store.state.user.current"
           @attend-event="attendEvent"
           @leave-event="leaveEvent"
-          @set-error="this.error = error"
+          @set-error="error = error"
           >{{ isAttending ? 'Leave event' : "I'm Going" }}</attend-button
         >
         <section class="event__date">
@@ -48,9 +56,9 @@
           <h3>Prices</h3>
           <div v-if="event.prices">
             <div
-              class="price"
               v-for="(price, index) in event.prices"
               :key="index"
+              class="price"
             >
               <p class="category">{{ price.category }}</p>
               <p class="price">{{ price.price | toEUR }}</p>
@@ -64,7 +72,18 @@
           </div>
         </section>
       </main>
-      <attend-list ref="attendList" :attendees="event.attending" />
+      <attend-list
+        id="attendList"
+        ref="attendList"
+        :attendees="event.attending"
+      />
+      <review-list
+        id="reviewList"
+        ref="reviewList"
+        :reviews="event.reviews"
+        :event="event"
+        @add-review="addReview"
+      />
     </div>
   </div>
 </template>
@@ -75,12 +94,14 @@ import Button from '~/components/ui/Button'
 import AttendButton from '~/components/events/AttendButton'
 import Map from '~/components/Map'
 import AttendList from '~/components/events/AttendList'
+import ReviewList from '~/components/events/ReviewList'
 export default {
-  layout: 'no_nav',
+  layout: 'noNavNoMargin',
   components: {
     DescriptionBlock,
     AttendButton,
     AttendList,
+    ReviewList,
     'v-button': Button,
     Map
   },
@@ -95,9 +116,14 @@ export default {
     },
     isAttending() {
       if (this.$store.state.user.current) {
-        return this.event.attending.find(
+        const found = this.event.attending.find(
           (attendee) => attendee.userId === this.$store.state.user.current.id
         )
+        if (found) {
+          return true
+        } else {
+          return false
+        }
       }
       return false
     },
@@ -119,13 +145,17 @@ export default {
     }
   },
   async mounted() {
-    try {
-      const { data } = await this.$axios.get(
-        `/events/${this.$route.params.slug}`
-      )
-      this.event = data
-    } catch (error) {
-      this.error = error.response ? error.response.data : error
+    const { slug } = this.$route.params
+    const event = this.$store.getters['events/getBySlug'](slug) // Try to get cached event first
+    if (!event) {
+      try {
+        const { data: event } = await this.$axios.get(`/events/${slug}`) // Get from server is cache is not found
+        this.event = event
+      } catch (error) {
+        this.error = error.response ? error.response.data : error
+      }
+    } else {
+      this.event = event
     }
   },
   methods: {
@@ -138,8 +168,14 @@ export default {
         (attendee) => attendee.userId !== this.$store.state.user.current.id
       )
     },
+    addReview(review) {
+      this.event.reviews.push(review)
+    },
     openAttendList() {
       this.$refs.attendList.toggle()
+    },
+    openReviews() {
+      this.$refs.reviewList.toggle()
     }
   }
 }
@@ -167,34 +203,6 @@ header {
   }
 }
 
-// .overlay {
-//   position: absolute;
-//   background: app-color('background');
-//   padding: 16px;
-//   box-shadow: 0 -5px 10px #00000020;
-//   width: 100%;
-//   z-index: 999;
-//   transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-
-//   &__header {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: baseline;
-//     margin-bottom: 16px;
-//   }
-
-//   &[direction='down'] {
-//     position: absolute;
-//     bottom: 0;
-//     padding-bottom: 64px;
-
-//     &.out {
-//       transform: translateY(100%);
-//       transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-//     }
-//   }
-// }
-
 .event {
   min-height: 100vh;
   position: relative;
@@ -211,6 +219,13 @@ header {
     align-items: baseline;
     margin-bottom: 8px;
     padding: 0 16px;
+
+    button {
+      display: block;
+      text-align: right;
+      padding: 0;
+      margin: 8px 0;
+    }
   }
 
   &__date {
@@ -266,6 +281,50 @@ header {
   height: 200px;
   margin: 40px 0;
   position: relative;
+}
+
+@media screen and (min-width: 1024px) {
+  .event {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: 100vh auto;
+    gap: 32px;
+
+    header {
+      grid-row: 1 / auto;
+      grid-column: 1 / 2;
+      width: 100%;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      .event__detail {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+
+    main {
+      grid-column: 2;
+      display: grid;
+      grid-template-rows: repeat(2, 50%);
+      padding: 16px 0;
+
+      .description {
+        grid-row: 1 / 2;
+        grid-column: 1;
+      }
+    }
+  }
 }
 </style>
 

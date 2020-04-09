@@ -3,7 +3,7 @@
     class="bottom primary"
     btn-type="button"
     control
-    btnColor="primary"
+    btn-color="primary"
     @click.native="toggleAttendance"
   >
     <slot />
@@ -17,7 +17,12 @@ export default {
     'v-button': Button
   },
   props: {
-    event: Object,
+    event: {
+      type: Object,
+      default() {
+        return {}
+      }
+    },
     isAttending: Boolean
   },
   methods: {

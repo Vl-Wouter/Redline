@@ -1,14 +1,10 @@
 <template>
-  <div class="map" id="mapContainer"></div>
+  <div id="mapContainer" class="map"></div>
 </template>
 
 <script>
 import mapboxgl from 'mapbox-gl'
 export default {
-  data: () => ({
-    map: null,
-    marker: null
-  }),
   props: {
     center: {
       type: Array,
@@ -18,6 +14,10 @@ export default {
     },
     fill: Boolean
   },
+  data: () => ({
+    map: null,
+    marker: null
+  }),
   watch: {
     center: {
       immediate: true,

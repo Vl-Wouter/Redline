@@ -6,7 +6,15 @@ import {
   uniUpload,
   uniTimes,
   uniCalendarAlt,
-  uniFilter
+  uniFilter,
+  uniUserCircle,
+  uniHomeAlt,
+  uniRss,
+  uniSignOutAlt,
+  uniCog,
+  uniArrowLeft,
+  uniThumbsUp,
+  uniThumbsDown
 } from 'vue-unicons/src/icons'
 
 Unicon.add([
@@ -15,7 +23,15 @@ Unicon.add([
   uniUpload,
   uniTimes,
   uniCalendarAlt,
-  uniFilter
+  uniFilter,
+  uniUserCircle,
+  uniHomeAlt,
+  uniRss,
+  uniSignOutAlt,
+  uniCog,
+  uniArrowLeft,
+  uniThumbsDown,
+  uniThumbsUp
 ])
 
 Vue.use(Unicon)

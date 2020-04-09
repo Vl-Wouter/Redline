@@ -30,12 +30,17 @@ export default {
   components: {
     'v-button': Button
   },
+  props: {
+    attendees: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+  },
   data: () => ({
     open: false
   }),
-  props: {
-    attendees: Array
-  },
   methods: {
     toggle() {
       if (this.open) this.open = false
@@ -93,6 +98,16 @@ header {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .overlay {
+    position: relative;
+
+    &.out {
+      transform: translateX(0);
     }
   }
 }

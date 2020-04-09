@@ -14,30 +14,32 @@ export class EventRepository extends Repository<Event> {
     const { search, category, startTime, endTime, address } = filterDTO;
     const query = this.createQueryBuilder('event')
       .leftJoinAndSelect('event.organiser', 'organiser')
-      .leftJoinAndSelect('event.attending', 'attendee');
+      .leftJoinAndSelect('event.attending', 'attendee')
+      .innerJoinAndSelect('event.reviews', 'review')
+      .innerJoinAndSelect('reviews.author', 'reviewAuthor');
 
-    if (search)
-      query.andWhere(
-        '(event.title LIKE :search or event.description LIKE :search)',
-        { search: `%${search}%` },
-      );
+    // if (search)
+    //   query.andWhere(
+    //     '(event.title LIKE :search or event.description LIKE :search)',
+    //     { search: `%${search}%` },
+    //   );
 
-    if (category)
-      query.andWhere('event.category.name = :category', { category });
+    // if (category)
+    //   query.andWhere('event.category.name = :category', { category });
 
-    if (startTime)
-      query.andWhere(
-        'event.startTime > :startTime OR event.endTime > :startTime',
-        { startTime },
-      );
+    // if (startTime)
+    //   query.andWhere(
+    //     'event.startTime > :startTime OR event.endTime > :startTime',
+    //     { startTime },
+    //   );
 
-    if (endTime)
-      query.andWhere('event.startTime < :endTime OR event.endTime < :endTime', {
-        endTime,
-      });
+    // if (endTime)
+    //   query.andWhere('event.startTime < :endTime OR event.endTime < :endTime', {
+    //     endTime,
+    //   });
 
-    if (address) {
-    }
+    // if (address) {
+    // }
 
     const events = await query.getMany();
     return events;

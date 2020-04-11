@@ -25,12 +25,18 @@ export default {
     },
     isAttending: Boolean
   },
+  data: () => ({
+    loading: false
+  }),
   methods: {
     async toggleAttendance() {
+      this.loading = true
       try {
         if (this.isAttending) {
-          await this.$axios.post(`/events/${this.event.id}/leave`)
-          this.$emit('leave-event')
+          const { data } = await this.$axios.post(
+            `/events/${this.event.id}/leave`
+          )
+          this.$emit('leave-event', data)
         } else {
           const { data } = await this.$axios.post(
             `/events/${this.event.id}/attend`
@@ -39,6 +45,8 @@ export default {
         }
       } catch (error) {
         this.$emit('set-error', error)
+      } finally {
+        this.loading = false
       }
     }
   }
@@ -53,5 +61,7 @@ export default {
   width: 100vw;
   height: 64px;
   z-index: 999;
+  margin-bottom: 0;
+  border-radius: 0;
 }
 </style>

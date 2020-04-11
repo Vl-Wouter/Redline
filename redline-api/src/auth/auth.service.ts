@@ -1,10 +1,15 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDTO } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { CreateUserDTO } from './dto/create-user.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class AuthService {
@@ -57,5 +62,18 @@ export class AuthService {
         },
       },
     );
+  }
+
+  async getAllUserDetails(username: string, user: User) {
+    if (username !== user.username)
+      throw new NotFoundException(`Cannot find user details`);
+    return this.userRepository
+      .createQueryBuilder('u')
+      .where('u.username = :username', { username: username })
+      .addSelect('u.email')
+      .leftJoinAndSelect('u.ownEvents', 'events')
+      .leftJoinAndSelect('events.category', 'eventCat')
+      .leftJoinAndSelect('u.vehicles', 'v')
+      .getOne();
   }
 }

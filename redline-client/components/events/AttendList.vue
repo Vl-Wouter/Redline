@@ -7,7 +7,11 @@
     <div v-for="person in attendees" :key="person.id" class="person">
       <div class="image">
         <img v-if="person.vehicle" src="" alt="Vehicle image" />
-        <img v-else-if="person.user.profileImg" src="" alt="User image" />
+        <img
+          v-else-if="person.user && person.user.profileImg"
+          src=""
+          alt="User image"
+        />
         <img v-else src="~/static/images/user.png" alt="Default image" />
       </div>
       <div>

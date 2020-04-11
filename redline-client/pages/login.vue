@@ -77,5 +77,9 @@ export default {
     width: 80%;
     text-align: left;
   }
+
+  button.btn {
+    margin: 8px 0;
+  }
 }
 </style>

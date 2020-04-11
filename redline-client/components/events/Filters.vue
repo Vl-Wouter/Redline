@@ -8,13 +8,13 @@
     />
     <section class="filter__section">
       <h4>Category</h4>
-      <check-input
+      <toggle-input
         v-for="cat in categories"
         :key="cat.id"
         v-model="filters.categoryIds"
         :val="cat.id"
         :name="cat.name"
-        :check-label="cat.name"
+        :toggle-label="cat.name"
         @change.native="updateFilter"
       />
     </section>
@@ -38,13 +38,13 @@
 
 <script>
 import { Datetime } from 'vue-datetime'
-import { TextInput, CheckInput } from '../forms'
+import { TextInput, ToggleInput } from '../forms'
 import SideOverlay from './SideOverlay'
 export default {
   components: {
     SideOverlay,
     TextInput,
-    CheckInput,
+    ToggleInput,
     Datetime
   },
   data: () => ({

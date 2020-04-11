@@ -14,6 +14,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  Header,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { Event } from './event.entity';
@@ -131,10 +132,10 @@ export class EventsController {
     return this.eventService.deleteEvent(slug, user);
   }
 
-  @Patch('/:slug')
+  @Patch('/:id')
   @UseGuards(AuthGuard())
   @ApiOperation({
-    operationId: 'Update event by slug',
+    operationId: 'Update event by id',
     description: 'Update certain event values',
   })
   @ApiBearerAuth()
@@ -147,16 +148,23 @@ export class EventsController {
   @ApiNotFoundResponse({ description: 'Cannot find event to update' })
   @UsePipes(ValidationPipe)
   updateEvent(
-    @Param('slug') slug: string,
+    @Param('id') id: number,
     @Body() updateEventDTO: UpdateEventDTO,
     @GetUser() user: User,
   ): Promise<Event> {
     console.log(updateEventDTO);
-    return this.eventService.updateEvent(slug, updateEventDTO, user);
+    return this.eventService.updateEvent(id, updateEventDTO, user);
   }
 
   @Post('/:id/attend')
   @UseGuards(AuthGuard())
+  @ApiOperation({ operationId: 'Attend an event as user' })
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'Added user to list of attendees',
+    type: Event,
+  })
+  @ApiNotFoundResponse({ description: 'Cannot find an event to attend' })
   attendEvent(
     @Param('id') id: number,
     @Body('vehicle') vehicleId: number,
@@ -167,11 +175,14 @@ export class EventsController {
 
   @Post('/:id/leave')
   @UseGuards(AuthGuard())
+  @ApiOperation({ operationId: 'Leave an event as user' })
+  @ApiBearerAuth()
+  @ApiOkResponse({
+    description: 'Removed user from list of attendees',
+    type: Event,
+  })
+  @ApiNotFoundResponse({ description: 'Cannot find user in list of attendees' })
   leaveEvent(@Param('id') id: number, @GetUser() user: User) {
-    /**
-     * @todo Make sure people can leave an event
-     * @body Events can be attended by people, but can people leave an event? This is a test for the todo app
-     */
     return this.eventService.leaveEvent(id, user);
   }
 }

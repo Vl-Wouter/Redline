@@ -6,14 +6,22 @@
       :class="{ expandable, expanded }"
       v-html="sanitizedContent"
     ></section>
-    <button v-if="isExpandable" @click="toggleContent">
+    <v-button
+      class="text-primary"
+      v-if="isExpandable"
+      @click.native="toggleContent"
+    >
       Read {{ expanded ? 'less' : 'more' }}
-    </button>
+    </v-button>
   </section>
 </template>
 
 <script>
+import Button from '../ui/Button'
 export default {
+  components: {
+    'v-button': Button
+  },
   props: {
     expandable: {
       type: Boolean,
@@ -66,5 +74,9 @@ export default {
       transition: all 0.3s cubic-bezier(0.86, 0, 0.07, 1);
     }
   }
+}
+
+button.btn {
+  padding-left: 0;
 }
 </style>

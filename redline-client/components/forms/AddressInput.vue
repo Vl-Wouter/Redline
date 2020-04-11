@@ -4,7 +4,7 @@
       input-type="text"
       @blur.native="processAddress($event.target.value)"
     />
-    <Map :center="mapCenter" class="map" />
+    <Map v-if="hasMap" :center="mapCenter" class="map" />
   </section>
 </template>
 
@@ -12,6 +12,14 @@
 import Map from '../Map'
 import TextInput from './TextInput'
 export default {
+  props: {
+    hasMap: {
+      type: Boolean,
+      default() {
+        return true
+      }
+    }
+  },
   components: {
     TextInput,
     Map

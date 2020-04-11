@@ -27,20 +27,31 @@ export default {
 <style lang="scss" scoped>
 .btn {
   border: none;
-  background: none;
+  background: app-color-level('background', -0.4);
   padding: 12px 16px;
   font-size: 0.9rem;
   cursor: pointer;
   color: inherit;
   border-radius: 4px;
-  margin: 8px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:first-child {
-    margin-top: 0;
+    margin-left: 0;
   }
 
   &:last-child {
-    margin-bottom: 0;
+    margin-right: 0;
+  }
+
+  &:only-child {
+    margin: 0;
+  }
+
+  .unicon {
+    height: 16px;
+    fill: currentColor;
   }
 }
 
@@ -60,6 +71,7 @@ export default {
   }
 
   .text-#{$name} {
+    background: none;
     color: app-color($name);
 
     &:hover,

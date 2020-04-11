@@ -15,12 +15,12 @@ import { checkModOrAdmin } from 'src/utils/check-role.utils';
 import { EventToUser } from './eventToUser.entity';
 import { EventToUserRepository } from './eventToUser.repository';
 
-const getParams = (slug, user: User) => {
-  if (!checkModOrAdmin(user)) {
-    return { slug, organiser: user };
-  }
-  return { slug };
-};
+// const getParams = (param, user: User) => {
+//   if (!checkModOrAdmin(user)) {
+//     return { param, organiser: user };
+//   }
+//   return { param };
+// };
 
 @Injectable()
 export class EventsService {
@@ -74,7 +74,10 @@ export class EventsService {
   }
 
   async deleteEvent(slug: string, user: User): Promise<void> {
-    const event = await this.eventRepository.findOne(getParams(slug, user));
+    const options = checkModOrAdmin(user)
+      ? { slug, organiser: user }
+      : { slug };
+    const event = await this.eventRepository.findOne(options);
     if (!event)
       throw new NotFoundException('No owned event found with this id');
     try {
@@ -87,18 +90,29 @@ export class EventsService {
     }
   }
 
+  async getEventById(id) {
+    return this.eventRepository.findOne(id, {
+      relations: ['organiser', 'attending'],
+      join: {
+        alias: 'event',
+        leftJoinAndSelect: {
+          reviews: 'event.reviews',
+          author: 'reviews.author',
+        },
+      },
+    });
+  }
+
   async updateEvent(
-    slug: string,
+    id: number,
     updateEventDto: UpdateEventDTO,
     user: User,
   ): Promise<Event> {
-    const result = await this.eventRepository.update(
-      getParams(slug, user),
-      updateEventDto,
-    );
+    const options = checkModOrAdmin(user) ? { id, organiser: user } : { id };
+    const result = await this.eventRepository.update(options, updateEventDto);
     if (result.affected === 0)
-      throw new NotFoundException(`Event "${slug}" is not found in the db`);
-    return this.getEventBySlug(slug);
+      throw new NotFoundException(`Event "${id}" is not found in the db`);
+    return this.getEventById(id);
   }
 
   async attendEvent(eventId: number, user: User, vehicleId: number) {
@@ -107,15 +121,13 @@ export class EventsService {
     attending.eventId = eventId;
     if (vehicleId) attending.vehicleId = vehicleId;
     await attending.save();
-
-    return attending;
+    return this.getEventById(eventId);
   }
 
   async leaveEvent(eventId: number, user: User) {
     const result = await this.eventToUserRepository.delete({ eventId, user });
-    const attendees = await this.eventToUserRepository.find();
-    console.log(attendees);
     if (result.affected === 0)
       throw new NotFoundException('The user is not attending this event');
+    else return this.getEventById(eventId);
   }
 }

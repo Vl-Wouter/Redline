@@ -15,6 +15,22 @@ export const mutations = {
   },
   addEvent(state, event) {
     state.all.push(event)
+  },
+  updateEvent(state, { id, data }) {
+    const index = state.all.findIndex((event) => event.id === id)
+    state.all.splice(index, 1, data)
+  },
+  addReview(state, review) {
+    const index = state.all.findIndex((event) => event.id === review.eventId)
+    state.all[index].reviews.push(review)
+    const newState = state.all[index]
+    state.all.splice(index, 1, newState)
+  },
+  removeReview(state, review) {
+    const index = state.all.findIndex((event) => event.id === review.eventId)
+    const event = state.all[index]
+    event.reviews = event.reviews.filter((item) => item.id !== review.id)
+    state.all.splice(index, 1, event)
   }
 }
 
@@ -26,6 +42,14 @@ export const actions = {
   async fetchCategories({ commit }) {
     const { data: categories } = await this.$axios.get('/categories')
     commit('setCategories', categories)
+  },
+  async removeReview({ commit }, review) {
+    await this.$axios.delete(`/reviews/${review.id}`)
+    commit('removeReview', review)
+  },
+  async addReview({ state, commit }, reviewData) {
+    const { data: review } = await this.$axios.post(`/reviews`, reviewData)
+    commit('addReview', review)
   }
 }
 

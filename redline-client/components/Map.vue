@@ -26,7 +26,7 @@ export default {
         this.map.flyTo({
           center: val,
           speed: 0.8,
-          zoom: 12,
+          zoom: 13,
           essential: true
         })
         this.marker.remove()

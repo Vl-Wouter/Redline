@@ -1,14 +1,14 @@
 <template>
   <div class="check__container">
     <input
-      type="checkbox"
+      :type="type"
       :name="name"
       :id="name"
       :value="val"
       v-model="checked"
       @change="onChange"
     />
-    <label :for="name">{{ checkLabel }}</label>
+    <label v-if="toggleLabel" :for="name">{{ toggleLabel }}</label>
   </div>
 </template>
 
@@ -25,21 +25,30 @@ export default {
       }
     },
     value: {
-      type: [String, Array],
+      type: [String, Array, Boolean],
       default() {
         return []
       }
     },
     val: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default() {
         return ''
       }
     },
-    checkLabel: {
+    toggleLabel: {
       type: String,
       default() {
-        return 'Put a label here please'
+        return null
+      }
+    },
+    type: {
+      type: String,
+      default() {
+        return 'checkbox'
+      },
+      validator(value) {
+        return ['checkbox', 'radio'].includes(value)
       }
     }
   },

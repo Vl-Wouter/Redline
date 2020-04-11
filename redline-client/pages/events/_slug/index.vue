@@ -97,6 +97,7 @@ import AttendList from '~/components/events/AttendList'
 import ReviewList from '~/components/events/ReviewList'
 export default {
   layout: 'noNavNoMargin',
+  middleware: 'events',
   components: {
     DescriptionBlock,
     AttendButton,
@@ -106,13 +107,17 @@ export default {
     Map
   },
   data: () => ({
-    event: null,
     loading: true,
     error: null
   }),
   computed: {
     cleanDescription() {
       return this.event ? this.$sanitize(this.event.description) : null
+    },
+    event() {
+      console.log(this.$route)
+      const { slug } = this.$route.params
+      return this.$store.getters['events/getBySlug'](slug)
     },
     isAttending() {
       if (this.$store.state.user.current) {
@@ -145,31 +150,29 @@ export default {
     }
   },
   async mounted() {
-    const { slug } = this.$route.params
-    const event = this.$store.getters['events/getBySlug'](slug) // Try to get cached event first
-    if (!event) {
-      try {
-        const { data: event } = await this.$axios.get(`/events/${slug}`) // Get from server is cache is not found
-        this.event = event
-      } catch (error) {
-        this.error = error.response ? error.response.data : error
-      }
-    } else {
-      this.event = event
-    }
+    // const { slug } = this.$route.params
+    // const event = this.$store.getters['events/getBySlug'](slug) // Try to get cached event first
+    // if (!event) {
+    //   try {
+    //     const { data: event } = await this.$axios.get(`/events/${slug}`) // Get from server is cache is not found
+    //     this.event = event
+    //   } catch (error) {
+    //     this.error = error.response ? error.response.data : error
+    //   }
+    // } else {
+    //   this.event = event
+    // }
   },
   methods: {
     attendEvent(data) {
-      this.event.attending.push(data)
+      this.$store.commit('events/updateEvent', { id: this.event.id, data })
     },
 
-    leaveEvent() {
-      this.event.attending = this.event.attending.filter(
-        (attendee) => attendee.userId !== this.$store.state.user.current.id
-      )
+    leaveEvent(data) {
+      this.$store.commit('events/updateEvent', { id: this.event.id, data })
     },
     addReview(review) {
-      this.event.reviews.push(review)
+      this.$store.dispatch('events/addReview', review)
     },
     openAttendList() {
       this.$refs.attendList.toggle()
@@ -253,6 +256,11 @@ header {
   &__location {
     text-align: center;
     margin-bottom: 32px;
+    padding: 0 16px;
+
+    .map {
+      margin-left: -16px;
+    }
   }
 
   &__prices {

@@ -24,7 +24,6 @@ export class ReviewsService {
     const review = Review.create(createReviewDTO);
     review.author = user;
     await review.save();
-
     return review;
   }
 

@@ -76,6 +76,10 @@ a {
   font-weight: 700;
 }
 
+.unicon {
+  fill: currentColor;
+}
+
 .title__link {
   display: flex;
   justify-content: space-between;

@@ -12,15 +12,19 @@
           Posting as <b>{{ user.fullName }}</b>
         </p>
         <section class="review__options">
-          <radio-input
+          <toggle-input
+            name="isRecommended"
+            type="radio"
             v-model="reviewForm.isRecommended"
-            name="recommended"
-            radio-label="I recommend this event"
+            :val="true"
+            toggle-label="I recommend this event"
           />
-          <radio-input
-            v-model="reviewForm.isRecommended"
+          <toggle-input
             name="notRecommended"
-            radio-label="I do not recommend this event"
+            type="radio"
+            v-model="reviewForm.isRecommended"
+            :val="false"
+            toggle-label="I do not recommend this event"
           />
         </section>
         <section>
@@ -34,47 +38,24 @@
         <v-button type="submit" class="control primary">Send review</v-button>
       </form>
     </card>
-    <card v-for="review in reviews" :key="review.id">
-      <header class="review__header">
-        <p>{{ review.author.firstName }} {{ review.author.lastName }}</p>
-        <unicon
-          :name="review.isRecommended ? 'thumbs-up' : 'thumbs-down'"
-          height="16"
-          :class="review.isRecommended ? 'fill__success' : 'fill__error'"
-        />
-      </header>
-      <main>{{ review.content }}</main>
-    </card>
-    <!-- <section v-for="review in reviews" :key="review.id" class="review">
-      <header class="review__header">
-        <p>{{ review.author.firstName }} {{ review.author.lastName }}</p>
-        <p>
-          {{
-            review.isRecommended
-              ? 'Recommends this event'
-              : 'Does not recommend this event'
-          }}
-        </p>
-      </header>
-      <main class="review__main">
-        {{ review.content }}
-      </main> -->
-    <!-- </section> -->
+    <review-card v-for="review in reviews" :review="review" :key="review.id" />
   </side-overlay>
 </template>
 
 <script>
 import Button from '../ui/Button'
-import { TextArea, RadioInput } from '../forms'
+import { TextArea, ToggleInput } from '../forms'
 import Card from '../cards/Card'
+import ReviewCard from '../cards/ReviewCard'
 import SideOverlay from './SideOverlay'
 export default {
   components: {
     SideOverlay,
     'v-button': Button,
     TextArea,
-    RadioInput,
-    Card
+    ToggleInput,
+    Card,
+    ReviewCard
   },
   props: {
     reviews: {
@@ -109,8 +90,8 @@ export default {
         eventId: this.event.id
       }
       try {
-        const { data: review } = this.$axios.post('/reviews', reviewObject)
-        this.$emit('add-review', review)
+        // const { data: review } = this.$axios.post('/reviews', reviewObject)
+        this.$emit('add-review', reviewObject)
       } catch (error) {
         console.error(error)
       }
@@ -123,26 +104,5 @@ export default {
 .small {
   font-size: 0.9rem;
   color: app-color-level('foreground', 3);
-}
-
-.review__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 700;
-  margin-bottom: 8px;
-
-  .unicon {
-    height: 16px;
-  }
-
-  .fill {
-    &__success {
-      fill: green;
-    }
-    &__error {
-      fill: red;
-    }
-  }
 }
 </style>

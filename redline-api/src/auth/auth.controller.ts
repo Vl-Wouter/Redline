@@ -21,6 +21,7 @@ import {
   ApiHideProperty,
   ApiBearerAuth,
   ApiNotFoundResponse,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
 @Controller('auth')
@@ -57,10 +58,24 @@ export class AuthController {
   }
 
   @Get('/:username')
-  @ApiOperation({ operationId: 'Get user by name' })
+  @ApiOperation({ operationId: 'Get user profile by name' })
   @ApiOkResponse({ description: 'User found', type: User })
   @ApiNotFoundResponse({ description: 'User not found' })
   getUserByName(@Param('username') username: string): Promise<User> {
     return this.authService.getUserByName(username);
+  }
+
+  @Get('/:username/all')
+  @UseGuards(AuthGuard())
+  @ApiOperation({ operationId: 'Get user settings' })
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'Found user information' })
+  @ApiUnauthorizedResponse({ description: 'Cannot fetch user details' })
+  @ApiNotFoundResponse({ description: 'Cannot find user' })
+  getAllUserDetails(
+    @Param('username') username: string,
+    @GetUser() user: User,
+  ) {
+    return this.authService.getAllUserDetails(username, user);
   }
 }

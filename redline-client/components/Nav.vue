@@ -1,7 +1,7 @@
 <template>
   <nav>
     <nuxt-link to="/"><unicon name="home-alt"/></nuxt-link>
-    <nuxt-link to="/"><unicon name="rss"/></nuxt-link>
+    <nuxt-link v-if="user" to="/feed"><unicon name="rss"/></nuxt-link>
     <nuxt-link v-if="user" to="/new"><unicon name="plus-circle"/></nuxt-link>
     <nuxt-link v-if="user" :to="`/users/${user.username}`"
       ><div class="userImg">

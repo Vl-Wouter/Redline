@@ -14,7 +14,10 @@ import {
   uniCog,
   uniArrowLeft,
   uniThumbsUp,
-  uniThumbsDown
+  uniThumbsDown,
+  uniTrash,
+  uniEditAlt,
+  uniEye
 } from 'vue-unicons/src/icons'
 
 Unicon.add([
@@ -31,7 +34,10 @@ Unicon.add([
   uniCog,
   uniArrowLeft,
   uniThumbsDown,
-  uniThumbsUp
+  uniThumbsUp,
+  uniTrash,
+  uniEditAlt,
+  uniEye
 ])
 
 Vue.use(Unicon)

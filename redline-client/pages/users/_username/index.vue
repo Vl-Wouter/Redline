@@ -1,7 +1,7 @@
 <template>
   <div v-if="user">
     <header class="header">
-      <nuxt-link v-if="isSelf" :to="`/users/${user.username}/settings`"
+      <nuxt-link v-if="isSelf" to="settings" append
         ><a class="profile__settings"><unicon name="cog"/></a
       ></nuxt-link>
       <img
@@ -85,7 +85,13 @@ export default {
       )
       this.user = user
     } catch (error) {
-      console.log(error)
+      const errObj = error.response
+        ? {
+            message: error.response.data.message,
+            statusCode: error.response.data.statusCode
+          }
+        : { message: error.message, statusCode: error.status }
+      this.$nuxt.error(errObj)
     }
   },
   methods: {

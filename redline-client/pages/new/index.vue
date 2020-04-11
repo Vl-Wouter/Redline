@@ -1,10 +1,7 @@
 <template>
   <div>
     <header>
-      <v-button class="text-primary" @click.native="$router.go(-1)"
-        ><unicon name="arrow-left"
-      /></v-button>
-      <h2>Add new content</h2>
+      <back-link text="Back" />
     </header>
     <main>
       <nuxt-link to="/new/event">Event</nuxt-link>
@@ -13,12 +10,12 @@
 </template>
 
 <script>
-import Button from '~/components/ui/Button'
+import BackLink from '~/components/ui/BackLink'
 export default {
   layout: 'no_nav',
   middleware: 'authenticated',
   components: {
-    'v-button': Button
+    BackLink
   }
 }
 </script>

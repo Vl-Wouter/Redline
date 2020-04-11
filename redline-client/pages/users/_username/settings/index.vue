@@ -17,7 +17,7 @@
     </card>
     <section>
       <h2>Profile</h2>
-      <nuxt-link to="#">
+      <nuxt-link to="profile" append>
         <section class="setting__link">
           <h4>Edit profile</h4>
           <p>Edit your name, profile picture and banner</p>
@@ -30,20 +30,29 @@
         </section>
       </nuxt-link>
       <h2>Events</h2>
-      <nuxt-link :to="`/users/${user.username}/settings/my-events`">
+      <nuxt-link to="my-events" append>
         <section class="setting__link">
           <h4>My events</h4>
           <p>View, edit or remove your events</p>
         </section>
       </nuxt-link>
+      <section>
+        <h2>Moderation</h2>
+        <nuxt-link to="mod-events" append>
+          <section class="setting__link">
+            <h4>All Events</h4>
+            <p>View, edit or remove events as moderator</p>
+          </section>
+        </nuxt-link>
+      </section>
       <h2>Application</h2>
-      <nuxt-link :to="`/users/${user.username}/settings/my-events`">
+      <nuxt-link to="/about">
         <section class="setting__link">
           <h4>About</h4>
           <p>About this app</p>
         </section>
       </nuxt-link>
-      <nuxt-link :to="`/users/${user.username}/settings/my-events`">
+      <nuxt-link to="/privacy">
         <section class="setting__link">
           <h4>Privacy Policy</h4>
           <p>We do care about privacy.</p>

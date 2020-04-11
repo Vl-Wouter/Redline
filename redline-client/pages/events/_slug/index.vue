@@ -6,7 +6,8 @@
           :src="`http://localhost:4000/api/events/header/${event.header}`"
           alt="header image"
         />
-        <a href="#" class="backBtn" @click.prevent="$router.go(-1)">Back</a>
+        <!-- <a href="#" class="backBtn" @click.prevent="$router.go(-1)">Back</a> -->
+        <back-link class="backBtn" />
         <div class="event__detail">
           <section>
             <h2>{{ event.title }}</h2>
@@ -95,6 +96,7 @@ import AttendButton from '~/components/events/AttendButton'
 import Map from '~/components/Map'
 import AttendList from '~/components/events/AttendList'
 import ReviewList from '~/components/events/ReviewList'
+import BackLink from '~/components/ui/BackLink'
 export default {
   layout: 'noNavNoMargin',
   middleware: 'events',
@@ -104,7 +106,8 @@ export default {
     AttendList,
     ReviewList,
     'v-button': Button,
-    Map
+    Map,
+    BackLink
   },
   data: () => ({
     loading: true,
@@ -115,9 +118,14 @@ export default {
       return this.event ? this.$sanitize(this.event.description) : null
     },
     event() {
-      console.log(this.$route)
       const { slug } = this.$route.params
-      return this.$store.getters['events/getBySlug'](slug)
+      const event = this.$store.getters['events/getBySlug'](slug)
+      if (!event)
+        this.$nuxt.error({
+          message: `Cannot find the event: ${slug}`,
+          statusCode: 404
+        })
+      return event
     },
     isAttending() {
       if (this.$store.state.user.current) {
@@ -148,20 +156,6 @@ export default {
       if (!this.event) return [4.35142, 50.849068]
       return [this.event.longitude, this.event.latitude]
     }
-  },
-  async mounted() {
-    // const { slug } = this.$route.params
-    // const event = this.$store.getters['events/getBySlug'](slug) // Try to get cached event first
-    // if (!event) {
-    //   try {
-    //     const { data: event } = await this.$axios.get(`/events/${slug}`) // Get from server is cache is not found
-    //     this.event = event
-    //   } catch (error) {
-    //     this.error = error.response ? error.response.data : error
-    //   }
-    // } else {
-    //   this.event = event
-    // }
   },
   methods: {
     attendEvent(data) {
@@ -199,6 +193,10 @@ header {
     position: absolute;
     top: 16px;
     left: 16px;
+    color: app-color('background');
+    background: app-color();
+    border-radius: 8px;
+    padding: 0 8px;
   }
 
   h2 {

@@ -57,7 +57,8 @@ export default {
         this.$axios.setToken(this.$store.state.user.current.token, 'Bearer')
         this.$router.push('/')
       } catch (error) {
-        this.error = error.response.data
+        const errObj = error.response ? error.response.data : error
+        this.$nuxt.error({ message: errObj.message, statusCode: errObj.status })
       }
     }
   }

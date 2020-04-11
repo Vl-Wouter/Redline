@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   async getUserByName(username: string) {
-    return this.userRepository.findOne(
+    const found = await this.userRepository.findOne(
       { username },
       {
         select: [
@@ -62,6 +62,11 @@ export class AuthService {
         },
       },
     );
+    if (!found)
+      throw new NotFoundException(
+        `Cannot find a user with the username ${username}`,
+      );
+    return found;
   }
 
   async getAllUserDetails(username: string, user: User) {

@@ -7,6 +7,7 @@
         <text-input v-model="user.username" input-type="text" name="username" />
       </form-field>
       <form-field label="Password" field="password">
+        <nuxt-link to="#">Forgot password?</nuxt-link>
         <text-input
           v-model="user.password"
           input-type="password"
@@ -20,7 +21,11 @@
         @click.native.prevent="$router.push('/')"
         >Cancel</v-button
       >
-      <nuxt-link to="/login"><a>No account? Register here</a></nuxt-link>
+      <div class="center">
+        <nuxt-link to="/register" class="center__link"
+          >No account? Register here</nuxt-link
+        >
+      </div>
     </form>
   </div>
 </template>
@@ -77,10 +82,26 @@ export default {
   form {
     width: 80%;
     text-align: left;
+
+    a {
+      font-weight: 400;
+      font-size: 0.9rem;
+    }
   }
 
   button.btn {
     margin: 8px 0;
   }
+}
+
+.center__link {
+  width: 100%;
+  text-align: center;
+  font-weight: 400;
+}
+
+.center {
+  width: 100%;
+  text-align: center;
 }
 </style>

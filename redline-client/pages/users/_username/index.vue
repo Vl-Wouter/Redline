@@ -11,8 +11,10 @@
       />
       <div class="header__profile">
         <div class="profile__img">
-          <img v-if="user.profileImg" src="" alt="profile image" />
-          <img v-else src="~/static/images/user.png" alt="profile image" />
+          <img
+            :src="`${apiURL}/auth/${user.username}/avatar`"
+            alt="profile image"
+          />
         </div>
         <div class="profile__info">
           <h3>{{ user.firstName }} {{ user.lastName }}</h3>
@@ -22,6 +24,9 @@
         </div>
       </div>
     </header>
+    <section class="vehicles">
+      <span v-if="isSelf && user.vehicles.length === 0">Add a new vehicle</span>
+    </section>
     <main class="tab">
       <section class="tab__header">
         <v-button
@@ -68,7 +73,8 @@ export default {
   data: () => ({
     currentTab: 0,
     user: null,
-    loading: true
+    loading: true,
+    apiURL: process.env.API_URL
   }),
   computed: {
     isSelf() {
@@ -80,9 +86,8 @@ export default {
   },
   async mounted() {
     try {
-      const { data: user } = await this.$axios.get(
-        `/auth/${this.$route.params.username}`
-      )
+      const { username } = this.$route.params
+      const { data: user } = await this.$axios.get(`/auth/${username}`)
       this.user = user
     } catch (error) {
       const errObj = error.response
@@ -158,6 +163,10 @@ export default {
       fill: app-color('background');
     }
   }
+}
+
+.vehicles {
+  margin: 32px 16px;
 }
 
 .tab {

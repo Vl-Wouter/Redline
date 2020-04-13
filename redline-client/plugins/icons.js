@@ -17,7 +17,9 @@ import {
   uniThumbsDown,
   uniTrash,
   uniEditAlt,
-  uniEye
+  uniEye,
+  uniEnvelope,
+  uniInstagram
 } from 'vue-unicons/src/icons'
 
 Unicon.add([
@@ -37,7 +39,9 @@ Unicon.add([
   uniThumbsUp,
   uniTrash,
   uniEditAlt,
-  uniEye
+  uniEye,
+  uniEnvelope,
+  uniInstagram
 ])
 
 Vue.use(Unicon)

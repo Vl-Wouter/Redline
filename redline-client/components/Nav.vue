@@ -6,10 +6,9 @@
     <nuxt-link v-if="user" :to="`/users/${user.username}`"
       ><div class="userImg">
         <img
-          v-if="user.profileImg"
-          :src="user.profileImg"
+          :src="`http://localhost:4000/api/auth/${user.username}/avatar`"
           alt="Profile Image"
-        /><img v-else src="~/static/images/user.png" alt="Profile image" /></div
+        /></div
     ></nuxt-link>
     <nuxt-link v-if="!user" to="/login"><unicon name="sign-in-alt"/></nuxt-link>
   </nav>

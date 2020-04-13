@@ -3,7 +3,7 @@
     <label v-if="label" :for="field" class="field__label">{{ label }}</label>
     <span v-if="helper" class="small">{{ helper }}</span>
     <slot />
-    <span v-show="error">{{ error }}</span>
+    <span v-show="error" class="error">{{ error }}</span>
   </div>
 </template>
 
@@ -51,9 +51,14 @@ export default {
       transition: all 0.2s ease-in-out;
     }
 
-    input {
-      border-color: app-color('primary');
-    }
+    // input {
+    //   border-color: app-color('primary');
+    // }
+  }
+
+  .error {
+    font-size: 0.9rem;
+    color: app-color('error');
   }
 
   .field__label {

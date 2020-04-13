@@ -9,10 +9,11 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UserRole } from './user-role.enum';
 import { JwtPayload } from './jwt-payload.interface';
+import { handleImage } from 'src/utils/file-upload.utils';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
-  async signUp(createUserDTO: CreateUserDTO): Promise<void> {
+  async signUp(createUserDTO: CreateUserDTO, profileImage): Promise<void> {
     const {
       username,
       password,
@@ -20,7 +21,6 @@ export class UserRepository extends Repository<User> {
       firstName,
       lastName,
       roles,
-      profileImg,
     } = createUserDTO;
 
     const user = new User();
@@ -35,7 +35,18 @@ export class UserRepository extends Repository<User> {
     } else {
       user.roles = [UserRole.USER];
     }
-    if (profileImg) user.profileImg = profileImg;
+    if (profileImage) {
+      console.log(profileImage);
+      user.profileImg = await handleImage(profileImage.path, {
+        width: 256,
+        isSquare: true,
+        dest: `uploads/users/${user.username}`,
+        name: 'avatar',
+        format: 'jpg',
+      });
+    } else {
+      user.profileImg = `users/default/user.png`;
+    }
     try {
       await user.save();
     } catch (error) {

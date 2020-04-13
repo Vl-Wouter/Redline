@@ -49,5 +49,9 @@ export default {
   font-family: $base-font-family;
   border-radius: 4px;
   border: none;
+
+  &.error {
+    background: app-color-level('error', 7);
+  }
 }
 </style>

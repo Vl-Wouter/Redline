@@ -6,6 +6,9 @@ import {
   UseGuards,
   Get,
   Param,
+  UseInterceptors,
+  UploadedFile,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDTO } from './dto';
@@ -18,11 +21,13 @@ import {
   ApiTags,
   ApiCreatedResponse,
   ApiOkResponse,
-  ApiHideProperty,
   ApiBearerAuth,
   ApiNotFoundResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from 'src/utils/file-upload.utils';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -30,10 +35,22 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
+  @UseInterceptors(
+    FileInterceptor('profileImg', {
+      storage: diskStorage({
+        destination: './uploads/tmp',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
   @ApiOperation({ operationId: 'Sign up', description: 'Create a new user' })
   @ApiCreatedResponse({ description: 'User has been created' })
-  signUp(@Body(ValidationPipe) createUserDTO: CreateUserDTO): Promise<void> {
-    return this.authService.signUp(createUserDTO);
+  signUp(
+    @Body(ValidationPipe) createUserDTO: CreateUserDTO,
+    @UploadedFile() profileImage,
+  ): Promise<void> {
+    return this.authService.signUp(createUserDTO, profileImage);
   }
 
   @Post('/signin')
@@ -45,16 +62,9 @@ export class AuthController {
     return this.authService.signIn(authCredentialsDTO);
   }
 
-  @Post('/test')
-  @UseGuards(AuthGuard())
-  @ApiOperation({
-    description: 'Test route to check authentication',
-    operationId: 'Auth Test',
-    deprecated: true,
-  })
-  @ApiBearerAuth()
-  test(@GetUser() user: User) {
-    console.log(user);
+  @Post('/check')
+  checkExisting(@Body() criteria) {
+    return this.authService.checkExisting(criteria);
   }
 
   @Get('/:username')
@@ -63,6 +73,11 @@ export class AuthController {
   @ApiNotFoundResponse({ description: 'User not found' })
   getUserByName(@Param('username') username: string): Promise<User> {
     return this.authService.getUserByName(username);
+  }
+
+  @Get('/:username/avatar')
+  getUserAvatar(@Param('username') username: string, @Res() res) {
+    res.sendFile(`/users/${username}/avatar.jpg`, { root: 'uploads' });
   }
 
   @Get('/:username/all')

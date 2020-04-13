@@ -8,6 +8,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -16,6 +18,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
       dest: './uploads',
     }),
     CacheModule.register(),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'redline-client/dist'),
+      exclude: ['/api*'],
+    }),
     EventsModule,
     AuthModule,
     CategoriesModule,

@@ -19,8 +19,8 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(createUserDTO: CreateUserDTO): Promise<void> {
-    return this.userRepository.signUp(createUserDTO);
+  async signUp(createUserDTO: CreateUserDTO, profileImage): Promise<void> {
+    return this.userRepository.signUp(createUserDTO, profileImage);
   }
 
   async signIn(
@@ -37,6 +37,13 @@ export class AuthService {
     const accessToken = await this.jwtService.sign(payload);
 
     return { accessToken };
+  }
+
+  async checkExisting(criteria) {
+    const { field, value } = criteria;
+    const found = await this.userRepository.findOne({ [field]: value });
+    if (!found) return false;
+    return true;
   }
 
   async getUserByName(username: string) {

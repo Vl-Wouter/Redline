@@ -1,6 +1,9 @@
 <template>
   <div>
     <div v-if="event" class="event">
+      <!-- TODO: Refactor the event page
+        Refactor into reusable components, add new components, add current event-data to the page
+       -->
       <header>
         <img
           :src="`http://localhost:4000/api/events/header/${event.header}`"

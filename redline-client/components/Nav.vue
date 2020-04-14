@@ -1,10 +1,16 @@
 <template>
   <nav>
-    <nuxt-link to="/">Home</nuxt-link>
+    <nuxt-link to="/"><unicon name="home-alt"/></nuxt-link>
+    <nuxt-link v-if="user" to="/feed"><unicon name="rss"/></nuxt-link>
+    <nuxt-link v-if="user" to="/new"><unicon name="plus-circle"/></nuxt-link>
+    <nuxt-link v-if="user" :to="`/users/${user.username}`"
+      ><div class="userImg">
+        <img
+          :src="`http://localhost:4000/api/auth/${user.username}/avatar`"
+          alt="Profile Image"
+        /></div
+    ></nuxt-link>
     <nuxt-link v-if="!user" to="/login"><unicon name="sign-in-alt"/></nuxt-link>
-    <nuxt-link v-if="user" to="/events/new"
-      ><unicon name="plus-circle"
-    /></nuxt-link>
   </nav>
 </template>
 
@@ -23,7 +29,7 @@ nav {
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: 0 16px;
+  padding: 0 32px;
   line-height: 64px;
   height: 64px;
   box-shadow: 0 -5px 10px #00000020;
@@ -45,11 +51,28 @@ nav {
       fill: app-color-level('primary', 3);
     }
 
+    .userImg {
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      img {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2px solid app-color-level('primary', 3);
+      }
+    }
+
     &.nuxt-link-exact-active {
       color: app-color('primary');
 
       .unicon {
         fill: app-color('primary');
+      }
+
+      .userImg img {
+        border: 2px solid app-color();
       }
 
       &:after {

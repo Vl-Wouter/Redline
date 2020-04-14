@@ -1,66 +1,63 @@
 <template>
-  <div class="container">
-    <alert v-if="error" type="error" @removeError="removeError">{{
-      error.message
-    }}</alert>
-    <div v-else-if="events">
-      <h2>Hi {{ user ? user.fullName : 'Guest' }}</h2>
-      <div class="title__link">
-        <p>Upcoming Events</p>
-        <nuxt-link to="/events">View All</nuxt-link>
-      </div>
-      <main>
-        <nuxt-link
-          v-for="event in events"
-          :key="event.id"
-          :to="`/events/${event.slug}`"
-        >
-          <small-event-card :event="event" />
-        </nuxt-link>
-      </main>
-    </div>
-    <error-view v-if="!events && !loading" />
-  </div>
+  <main class="container">
+    <header>
+      <h2>Hello {{ user ? user.fullName : 'Guest' }}</h2>
+    </header>
+    <main>
+      <section class="upcoming">
+        <header class="title__link">
+          <p>Upcoming events</p>
+          <nuxt-link to="/events">View All</nuxt-link>
+        </header>
+        <main class="event__grid">
+          <!-- <card v-for="event in events" :key="event.id" class="event__card">
+            <img
+              :src="`http://localhost:4000/api/events/header/${event.header}`"
+              alt="Header image"
+            />
+            <main class="event__card__content">
+              <h3>{{ event.title }}</h3>
+              <p>{{ event.startTime | localDate }}</p>
+            </main>
+          </card> -->
+          <square-event-card
+            v-for="event in events"
+            :key="event.id"
+            :event="event"
+          />
+        </main>
+      </section>
+    </main>
+  </main>
 </template>
 
 <script>
-import SmallEventCard from '~/components/cards/SmallEventCard'
-import Alert from '~/components/Alert'
-import ErrorView from '~/components/ErrorView'
-
+import SquareEventCard from '~/components/cards/SquareEventCard'
 export default {
+  middleware: 'events',
   components: {
-    SmallEventCard,
-    Alert,
-    ErrorView
+    SquareEventCard
   },
   data: () => ({
     error: null,
-    events: null,
     loading: true
   }),
   computed: {
     user() {
       return this.$store.state.user.current
-    }
-  },
-  async mounted() {
-    try {
-      const { data } = await this.$axios.get('/events')
-      this.events = data
-    } catch (error) {
-      if (error.response) {
-        this.error = error.response.data
-      } else {
-        this.error = error
-      }
-    } finally {
-      this.loading = false
+    },
+    events() {
+      return this.$store.getters['events/getAll'].slice(0, 6)
     }
   },
   methods: {
     removeError() {
       this.error = null
+    }
+  },
+  head() {
+    return {
+      title: 'Redline | Car Community App'
     }
   }
 }
@@ -70,17 +67,17 @@ export default {
 .container {
   margin: 0 auto;
   padding: 16px 0 64px 0;
-  min-height: 100vh;
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center; */
+  min-height: 100%;
 }
 
 a {
   text-decoration: none;
   color: app-color('primary');
   font-weight: 700;
+}
+
+.unicon {
+  fill: currentColor;
 }
 
 .title__link {
@@ -108,5 +105,13 @@ a {
 
 .links {
   padding-top: 15px;
+}
+
+.event__grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, calc(50% - 8px));
+  grid-template-rows: auto;
+  gap: 16px;
 }
 </style>

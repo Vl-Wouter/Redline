@@ -1,21 +1,27 @@
 <template>
-  <section>
+  <section class="description">
     <section
+      ref="description"
       class="text__block"
       :class="{ expandable, expanded }"
       v-html="sanitizedContent"
     ></section>
-    <button v-if="expandable" @click="toggleContent">
+    <v-button
+      class="text-primary"
+      v-if="isExpandable"
+      @click.native="toggleContent"
+    >
       Read {{ expanded ? 'less' : 'more' }}
-    </button>
+    </v-button>
   </section>
 </template>
 
 <script>
+import Button from '../ui/Button'
 export default {
-  data: () => ({
-    expanded: false
-  }),
+  components: {
+    'v-button': Button
+  },
   props: {
     expandable: {
       type: Boolean,
@@ -26,10 +32,20 @@ export default {
       default: null
     }
   },
+  data: () => ({
+    expanded: false,
+    isExpandable: false
+  }),
   computed: {
     sanitizedContent() {
       return this.$sanitize(this.content)
     }
+  },
+  mounted() {
+    this.$nextTick(function() {
+      const element = this.$refs.description
+      this.isExpandable = element.offsetHeight < element.scrollHeight
+    })
   },
   methods: {
     toggleContent() {
@@ -40,11 +56,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.description {
+  padding: 0 16px;
+}
 .text__block {
   &.expandable {
-    max-height: 100px;
+    line-height: 1.4em;
+    max-height: (1.4 * 3) * 1em;
     overflow: hidden;
     text-overflow: ellipsis;
+    word-wrap: break-word;
     margin-bottom: 16px;
     transition: all 0.3s cubic-bezier(0.86, 0, 0.07, 1);
 
@@ -53,5 +74,9 @@ export default {
       transition: all 0.3s cubic-bezier(0.86, 0, 0.07, 1);
     }
   }
+}
+
+button.btn {
+  padding-left: 0;
 }
 </style>

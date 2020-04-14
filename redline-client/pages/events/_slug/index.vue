@@ -6,19 +6,40 @@
        -->
       <header>
         <img
-          :src="`http://localhost:4000/events/header/${event.header}`"
+          :src="`http://localhost:4000/api/events/header/${event.header}`"
           alt="header image"
         />
+        <!-- <a href="#" class="backBtn" @click.prevent="$router.go(-1)">Back</a> -->
+        <back-link class="backBtn" />
         <div class="event__detail">
-          <h2>{{ event.title }}</h2>
-          <span>155 going</span>
-        </div>
-        <div class="event__detail">
-          <span>{{ event.category }}</span>
-          <span>Recommended (6)</span>
+          <section>
+            <h2>{{ event.title }}</h2>
+            <span>{{ event['__category__'].name }}</span>
+          </section>
+          <section>
+            <v-button class="text-primary" @click.native="openAttendList"
+              >{{ event.attending.length }} going</v-button
+            >
+            <v-button class="text-primary" @click.native="openReviews"
+              >{{
+                (event.reviews && event.reviews.length) || 0
+              }}
+              reviews</v-button
+            >
+          </section>
         </div>
       </header>
       <main>
+        <attend-button
+          v-if="$store.state.user.current"
+          id="attendBtn"
+          :event="event"
+          :is-attending="isAttending"
+          @attend-event="attendEvent"
+          @leave-event="leaveEvent"
+          @set-error="error = error"
+          >{{ isAttending ? 'Leave event' : "I'm Going" }}</attend-button
+        >
         <section class="event__date">
           <unicon name="calendar-alt" height="18" />
           <div class="times">
@@ -31,7 +52,7 @@
         </section>
         <description-block expandable :content="event.description" />
         <section class="event__location">
-          <div id="eventMap" class="map" @load="createMap"></div>
+          <Map :center="mapCenter" />
           <h3>Location</h3>
           <p class="Location">{{ event.address }}</p>
         </section>
@@ -39,9 +60,9 @@
           <h3>Prices</h3>
           <div v-if="event.prices">
             <div
-              class="price"
               v-for="(price, index) in event.prices"
               :key="index"
+              class="price"
             >
               <p class="category">{{ price.category }}</p>
               <p class="price">{{ price.price | toEUR }}</p>
@@ -55,58 +76,106 @@
           </div>
         </section>
       </main>
+      <attend-list
+        id="attendList"
+        ref="attendList"
+        :attendees="event.attending"
+      />
+      <review-list
+        id="reviewList"
+        ref="reviewList"
+        :reviews="event.reviews"
+        :event="event"
+        @add-review="addReview"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import mapboxgl from 'mapbox-gl'
 import DescriptionBlock from '~/components/events/DescriptionBlock'
+import Button from '~/components/ui/Button'
+import AttendButton from '~/components/events/AttendButton'
+import Map from '~/components/Map'
+import AttendList from '~/components/events/AttendList'
+import ReviewList from '~/components/events/ReviewList'
+import BackLink from '~/components/ui/BackLink'
 export default {
+  layout: 'noNavNoMargin',
+  middleware: 'events',
   components: {
-    DescriptionBlock
+    DescriptionBlock,
+    AttendButton,
+    AttendList,
+    ReviewList,
+    'v-button': Button,
+    Map,
+    BackLink
   },
   data: () => ({
-    event: null,
     loading: true,
-    error: null,
-    map: null
+    error: null
   }),
   computed: {
     cleanDescription() {
       return this.event ? this.$sanitize(this.event.description) : null
-    }
-  },
-  async mounted() {
-    const { slug } = this.$route.params
-    try {
-      const { data } = await this.$axios.get(`/events/${slug}`)
-      this.event = data
-      this.loading = false
-      this.map = new mapboxgl.Map({
-        container: 'eventMap',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [0, 0],
-        zoom: 12
-      })
-      // mapboxgl.accessToken = process.env.MAPBOX_KEY
-    } catch (error) {
-      this.error = error.response ? error.response.data : error
+    },
+    event() {
+      const { slug } = this.$route.params
+      const event = this.$store.getters['events/getBySlug'](slug)
+      if (!event)
+        this.$nuxt.error({
+          message: `Cannot find the event: ${slug}`,
+          statusCode: 404
+        })
+      return event
+    },
+    isAttending() {
+      if (this.$store.state.user.current) {
+        const found = this.event.attending.find(
+          (attendee) => attendee.userId === this.$store.state.user.current.id
+        )
+        if (found) {
+          return true
+        } else {
+          return false
+        }
+      }
+      return false
+    },
+    isOwnerOrAdmin() {
+      const user = this.$store.state.user.current
+      if (user) {
+        return (
+          user.id === this.event.organiser.id ||
+          user.roles.includes('ADMIN') ||
+          user.roles.includes('MODERATOR')
+        )
+      } else {
+        return false
+      }
+    },
+    mapCenter() {
+      if (!this.event) return [4.35142, 50.849068]
+      return [this.event.longitude, this.event.latitude]
     }
   },
   methods: {
-    toggleOverlay(event) {
-      const { target } = event.target.dataset
-      document.querySelector(`#${target}`).classList.toggle('out')
+    attendEvent(data) {
+      this.$store.commit('events/updateEvent', { id: this.event.id, data })
     },
-    createMap() {
-      console.log('Map creation')
-      this.map = new mapboxgl.Map({
-        container: 'eventMap',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [0, 0],
-        zoom: 12
-      })
+
+    leaveEvent(data) {
+      this.$store.commit('events/updateEvent', { id: this.event.id, data })
+    },
+    addReview(review) {
+      this.$store.dispatch('events/addReview', review)
+    },
+    openAttendList() {
+      this.$refs.attendList.toggle()
+    },
+    openReviews() {
+      this.$refs.reviewList.toggle()
     }
   }
 }
@@ -119,9 +188,18 @@ header {
     height: 200px;
     width: 100vw;
     object-fit: cover;
-    margin-left: -16px;
     margin-bottom: 8px;
     border-radius: 0 0 4px 4px;
+  }
+
+  .backBtn {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    color: app-color('background');
+    background: app-color();
+    border-radius: 8px;
+    padding: 0 8px;
   }
 
   h2 {
@@ -129,38 +207,11 @@ header {
   }
 }
 
-.overlay {
-  position: absolute;
-  background: app-color('background');
-  padding: 16px;
-  box-shadow: 0 -5px 10px #00000020;
-  width: 100%;
-  z-index: 999;
-  transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 16px;
-  }
-
-  &[direction='down'] {
-    position: absolute;
-    bottom: 0;
-    padding-bottom: 64px;
-
-    &.out {
-      transform: translateY(100%);
-      transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
-    }
-  }
-}
-
 .event {
   min-height: 100vh;
   position: relative;
-  margin-bottom: 64px;
+  padding-bottom: 64px;
+  overflow-x: hidden;
 
   h3 {
     text-align: center;
@@ -171,11 +222,18 @@ header {
     justify-content: space-between;
     align-items: baseline;
     margin-bottom: 8px;
+    padding: 0 16px;
+
+    button {
+      display: block;
+      text-align: right;
+      padding: 0;
+      margin: 8px 0;
+    }
   }
 
   &__date {
     width: 100vw;
-    margin-left: -16px;
     padding: 32px 16px;
     background: app-color-level('background', -0.5);
     display: flex;
@@ -199,29 +257,105 @@ header {
   &__location {
     text-align: center;
     margin-bottom: 32px;
+    padding: 0 16px;
+
+    .map {
+      margin-left: -16px;
+    }
   }
 
-  &__prices .price {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin: 16px 0;
-    border-bottom: 1px solid app-color-level('background', -1);
+  &__prices {
+    padding: 0 16px;
+    .price {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 16px 0;
+      border-bottom: 1px solid app-color-level('background', -1);
 
-    &:last-child {
-      border: none;
-    }
+      &:last-child {
+        border: none;
+      }
 
-    .category {
-      font-weight: 700;
-      color: app-color();
+      .category {
+        font-weight: 700;
+        color: app-color();
+      }
     }
   }
 }
 
 .map {
   width: 100vw;
-  margin-left: -16px;
   height: 200px;
+  margin: 40px 0;
+  position: relative;
+}
+
+@media screen and (min-width: 1024px) {
+  .event {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: 100vh auto;
+    gap: 32px;
+
+    header {
+      grid-row: 1 / auto;
+      grid-column: 1 / 2;
+      width: 100%;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+      }
+
+      .event__detail {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+
+    main {
+      grid-column: 2;
+      display: grid;
+      grid-template-rows: repeat(2, 50%);
+      padding: 16px 0;
+
+      .description {
+        grid-row: 1 / 2;
+        grid-column: 1;
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+a {
+  text-decoration: none;
+}
+div.mapboxgl-marker {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.mapboxgl-ctrl-attrib-inner {
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  a {
+    color: app-color-level('foreground', 4);
+    font-size: 0.8rem;
+    text-align: left;
+    font-weight: 400;
+  }
 }
 </style>

@@ -30,6 +30,7 @@ html {
 
 .main {
   padding: 0 16px;
+  padding-top: 32px;
   min-height: 100vh;
   background: #fcfcfc;
 }

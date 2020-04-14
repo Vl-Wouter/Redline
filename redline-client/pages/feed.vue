@@ -4,10 +4,6 @@
 
 <script>
 export default {
-  mounted() {
-    if (!this.$store.state.user.current) {
-      this.$router.push('/login')
-    }
-  }
+  middleware: 'authenticated'
 }
 </script>

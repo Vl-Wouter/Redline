@@ -3,17 +3,37 @@
     <label v-if="label" :for="field" class="field__label">{{ label }}</label>
     <span v-if="helper" class="small">{{ helper }}</span>
     <slot />
-    <span v-if="error">{{ error }}</span>
+    <span v-show="error" class="error">{{ error }}</span>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    error: String,
-    helper: String,
-    label: String,
-    field: String
+    error: {
+      type: String,
+      default() {
+        return null
+      }
+    },
+    helper: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    label: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
+    field: {
+      type: String,
+      default() {
+        return ''
+      }
+    }
   }
 }
 </script>
@@ -31,31 +51,32 @@ export default {
       transition: all 0.2s ease-in-out;
     }
 
-    input {
-      border-color: app-color('primary');
-    }
+    // input {
+    //   border-color: app-color('primary');
+    // }
+  }
+
+  .error {
+    font-size: 0.9rem;
+    color: app-color('error');
   }
 
   .field__label {
     display: block;
-    font-size: 0.9rem;
-    color: app-color-level('foreground', 2);
+    font-size: 1rem;
+    color: app-color-level('foreground', 0.5);
     transition: all 0.2s ease-in-out;
   }
 
   .small {
     font-size: 0.8rem;
     color: app-color-level('foreground', 3);
+    margin-bottom: 8px;
+    display: block;
   }
 
-  input {
-    border: none;
-    background: none;
-    padding: 8px 0;
-    border-bottom: 1px solid #bcbcbc;
-    width: 100%;
-    font-size: 1rem;
-    font-family: $base-font-family;
+  label {
+    margin-bottom: 4px;
   }
 }
 </style>

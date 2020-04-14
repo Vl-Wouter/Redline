@@ -42,3 +42,8 @@ Vue.filter('toEUR', (input, locale = undefined) => {
     currency: 'EUR'
   }).format(input)
 })
+
+Vue.filter('fullName', (input) => {
+  if (!input.firstName || !input.lastName) return null
+  return `${input.firstName} ${input.lastName}`
+})

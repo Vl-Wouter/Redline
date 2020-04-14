@@ -6,9 +6,12 @@ import {
   IsLatitude,
   IsLongitude,
 } from 'class-validator';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
 
 export class UpdateEventDTO {
+  @IsNumber()
+  @ApiProperty()
+  id: number;
   @IsOptional()
   @IsNotEmpty()
   @ApiPropertyOptional()

@@ -10,7 +10,9 @@
   >
     <header class="overlay__header">
       <h3>{{ title }}</h3>
-      <v-button @click.native="toggleOverlay"><unicon name="times"/></v-button>
+      <v-button class="text-primary" @click.native="toggleOverlay"
+        ><unicon name="times" height="24"
+      /></v-button>
     </header>
     <slot />
   </aside>
@@ -89,7 +91,12 @@ export default {
     button.btn {
       padding: 0;
       margin: 0;
-      fill: app-color();
+      height: 24px;
+      display: flex;
+
+      .unicon {
+        height: 24px;
+      }
     }
   }
 }

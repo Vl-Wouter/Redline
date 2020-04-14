@@ -53,26 +53,41 @@ export default {
       default() {
         return false
       }
+    },
+    hasPreview: {
+      type: Object,
+      default() {
+        return null
+      }
     }
   },
   data: () => ({
     label: '',
     previews: []
   }),
+  mounted() {
+    if (this.hasPreview) {
+      this.previews.push(this.hasPreview)
+    }
+  },
   methods: {
     handleFiles(files) {
       if (files.length > 1) {
         this.label = `${files.length} files`
+        ;[...files].forEach((file) => {
+          this.previews.push({
+            url: URL.createObjectURL(file),
+            name: file.name
+          })
+        })
       } else {
         this.label = files[0].name
         this.$emit('files', files[0])
-      }
-      ;[...files].forEach((file) => {
-        this.previews.push({
-          url: URL.createObjectURL(file),
-          name: file.name
+        this.previews.splice(0, 1, {
+          url: URL.createObjectURL(files[0]),
+          name: files[0].name
         })
-      })
+      }
     }
   }
 }

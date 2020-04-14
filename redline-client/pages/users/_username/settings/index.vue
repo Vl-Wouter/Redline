@@ -4,7 +4,7 @@
     <card class="user__details">
       <section>
         <img
-          src="~/static/images/user.png"
+          :src="`${apiURL}/auth/${user.username}/avatar`"
           alt="user image"
           class="user__img"
         />
@@ -77,6 +77,9 @@ export default {
     'v-button': Button,
     BackLink
   },
+  data: () => ({
+    apiURL: process.env.API_URL
+  }),
   computed: {
     user() {
       return this.$store.getters['user/getSettingsData']

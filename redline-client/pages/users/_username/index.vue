@@ -19,13 +19,15 @@
         <div class="profile__info">
           <h3>{{ user.firstName }} {{ user.lastName }}</h3>
           <p>
-            {{ user.username }} {{ user.igHandle ? `— @${user.igHandle}` : '' }}
+            {{ user.username }} {{ user.igHandle ? `| @${user.igHandle}` : '' }}
           </p>
         </div>
       </div>
     </header>
     <section class="vehicles">
-      <span v-if="isSelf && user.vehicles.length === 0">Add a new vehicle</span>
+      <nuxt-link to="/new/vehicle" v-if="isSelf"
+        ><span>Add a new vehicle</span></nuxt-link
+      >
     </section>
     <main class="tab">
       <section class="tab__header">

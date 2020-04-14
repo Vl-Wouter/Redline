@@ -30,6 +30,20 @@ export const actions = {
       `/auth/${state.current.username}/all`
     )
     commit('setData', data)
+  },
+  async updateAvatar({ state, commit }, data) {
+    const { data: updatedUser } = await this.$axios.post(
+      `/auth/${state.current.username}/avatar`,
+      data
+    )
+    commit('setData', updatedUser)
+  },
+  async updateUser({ state, commit }, data) {
+    const { data: updatedUser } = await this.$axios.patch(
+      `/auth/${state.current.username}`,
+      data
+    )
+    commit('setData', updatedUser)
   }
 }
 

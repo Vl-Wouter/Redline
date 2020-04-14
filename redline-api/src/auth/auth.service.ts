@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { User } from './user.entity';
+import { handleImage } from 'src/utils/file-upload.utils';
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,29 @@ export class AuthService {
     const accessToken = await this.jwtService.sign(payload);
 
     return { accessToken };
+  }
+
+  async updateUserByName(username: string, userData, user: User) {
+    if (username !== user.username)
+      throw new UnauthorizedException('You cannot update this profile');
+    await this.userRepository.update({ username }, userData);
+    return this.getAllUserDetails(username, user);
+  }
+
+  async updateUserAvatar(username: string, image, user) {
+    console.log(username, image);
+    if (username !== user.username)
+      throw new UnauthorizedException('You cannot update this profile image');
+    const profileImg = await handleImage(image.path, {
+      width: 256,
+      isSquare: true,
+      dest: `uploads/users/${username}`,
+      name: 'avatar',
+      format: 'jpg',
+    });
+    console.log(profileImg);
+    await this.userRepository.update({ username }, { profileImg });
+    return this.getAllUserDetails(username, user);
   }
 
   async checkExisting(criteria) {

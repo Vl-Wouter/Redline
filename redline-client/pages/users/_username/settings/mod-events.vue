@@ -32,7 +32,7 @@ import Modal from '~/components/ui/Modal'
 import Button from '~/components/ui/Button'
 import BackLink from '~/components/ui/BackLink'
 export default {
-  middleware: ['authenticated', 'isSelf', 'userData'],
+  middleware: ['authenticated', 'isSelf', 'userData', 'isAdmin'],
   components: {
     EventActionsCard,
     Modal,

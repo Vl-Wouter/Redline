@@ -22,6 +22,7 @@ export default {
   font-weight: 400;
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   .unicon {
     height: 24px;

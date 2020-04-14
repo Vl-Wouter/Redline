@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  Patch,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDTO } from './dto';
@@ -75,9 +76,38 @@ export class AuthController {
     return this.authService.getUserByName(username);
   }
 
+  @Patch('/:username')
+  @UseGuards(AuthGuard())
+  updateUserByName(
+    @Param('username') username: string,
+    @Body() userData,
+    @GetUser() user: User,
+  ) {
+    return this.authService.updateUserByName(username, userData, user);
+  }
+
   @Get('/:username/avatar')
   getUserAvatar(@Param('username') username: string, @Res() res) {
     res.sendFile(`/users/${username}/avatar.jpg`, { root: 'uploads' });
+  }
+
+  @Post('/:username/avatar')
+  @UseGuards(AuthGuard())
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './uploads/tmp',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  updateUserAvatar(
+    @Param('username') username: string,
+    @UploadedFile() avatarFile,
+    @GetUser() user: User,
+  ) {
+    return this.authService.updateUserAvatar(username, avatarFile, user);
   }
 
   @Get('/:username/all')

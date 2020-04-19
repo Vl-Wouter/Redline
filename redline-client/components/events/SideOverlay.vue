@@ -93,6 +93,7 @@ export default {
       margin: 0;
       height: 24px;
       display: flex;
+      background: none;
 
       .unicon {
         height: 24px;

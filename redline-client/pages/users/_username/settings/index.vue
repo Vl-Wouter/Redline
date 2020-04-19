@@ -23,7 +23,7 @@
           <p>Edit your name, profile picture and banner</p>
         </section>
       </nuxt-link>
-      <nuxt-link to="#">
+      <nuxt-link to="account" append>
         <section class="setting__link">
           <h4>Account settings</h4>
           <p>E-mail, password</p>

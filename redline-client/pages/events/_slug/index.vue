@@ -1,15 +1,11 @@
 <template>
   <div>
     <div v-if="event" class="event">
-      <!-- TODO: Refactor the event page
-        Refactor into reusable components, add new components, add current event-data to the page
-       -->
       <header>
         <img
           :src="`http://localhost:4000/api/events/header/${event.header}`"
           alt="header image"
         />
-        <!-- <a href="#" class="backBtn" @click.prevent="$router.go(-1)">Back</a> -->
         <back-link class="backBtn" />
         <div class="event__detail">
           <section>
@@ -88,6 +84,23 @@
         :event="event"
         @add-review="addReview"
       />
+      <modal v-if="modal.isOpen">
+        <h2>Attend event</h2>
+        <form-field
+          label="Are you coming with a car?"
+          field="vehicleId"
+          helper="You can also leave this field as is to attend without a car"
+        >
+          <select-input
+            name="Vehicle"
+            :options="userVehicles"
+            v-model="modal.form.vehicleId"
+          />
+        </form-field>
+        <v-button class="control primary" @click.native="setAttending"
+          >Attend event</v-button
+        >
+      </modal>
     </div>
   </div>
 </template>
@@ -100,6 +113,8 @@ import Map from '~/components/Map'
 import AttendList from '~/components/events/AttendList'
 import ReviewList from '~/components/events/ReviewList'
 import BackLink from '~/components/ui/BackLink'
+import Modal from '~/components/ui/Modal'
+import { FormField, SelectInput } from '~/components/forms'
 export default {
   layout: 'noNavNoMargin',
   middleware: 'events',
@@ -110,13 +125,33 @@ export default {
     ReviewList,
     'v-button': Button,
     Map,
-    BackLink
+    BackLink,
+    Modal,
+    FormField,
+    SelectInput
   },
   data: () => ({
+    modal: {
+      isOpen: false,
+      form: {
+        vehicleId: null
+      }
+    },
     loading: true,
     error: null
   }),
   computed: {
+    userVehicles() {
+      const vehicles = this.$store.getters['user/getVehicles']
+      const options = []
+      vehicles.forEach((item) => {
+        options.push({
+          id: item.id,
+          name: `${item.brand} ${item.model}`
+        })
+      })
+      return options
+    },
     cleanDescription() {
       return this.event ? this.$sanitize(this.event.description) : null
     },
@@ -162,9 +197,20 @@ export default {
   },
   methods: {
     attendEvent(data) {
-      this.$store.commit('events/updateEvent', { id: this.event.id, data })
+      this.modal.isOpen = true
     },
-
+    async setAttending() {
+      try {
+        const { data } = await this.$axios.post(
+          `/events/${this.event.id}/attend`,
+          this.modal.form
+        )
+        this.$store.commit('events/updateEvent', { id: this.event.id, data })
+        this.modal.isOpen = false
+      } catch (error) {
+        console.log(error)
+      }
+    },
     leaveEvent(data) {
       this.$store.commit('events/updateEvent', { id: this.event.id, data })
     },

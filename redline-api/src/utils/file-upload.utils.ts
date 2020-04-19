@@ -21,7 +21,7 @@ export const editFileName = (req, file, callback) => {
   callback(null, `${name}-${randomName}${fileExtName}`);
 };
 
-export const handleImage = async (input, options) => {
+export const handleImage = async (input: string, options) => {
   const { width, isSquare, dest, name, format } = options;
   try {
     const image = sharp(input);

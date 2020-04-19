@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user">
+  <div v-if="user" class="userPage">
     <header class="header">
       <nuxt-link v-if="isSelf" to="settings" append
         ><a class="profile__settings"><unicon name="cog"/></a
@@ -11,10 +11,7 @@
       />
       <div class="header__profile">
         <div class="profile__img">
-          <img
-            :src="`${apiURL}/auth/${user.username}/avatar`"
-            alt="profile image"
-          />
+          <img :src="`${apiURL}/img/${user.profileImg}`" alt="profile image" />
         </div>
         <div class="profile__info">
           <h3>{{ user.firstName }} {{ user.lastName }}</h3>
@@ -25,9 +22,29 @@
       </div>
     </header>
     <section class="vehicles">
-      <nuxt-link to="/new/vehicle" v-if="isSelf"
-        ><span>Add a new vehicle</span></nuxt-link
+      <nuxt-link to="/new/vehicle" v-if="isSelf" class="vehicle__card">
+        <card>
+          <section class="card__content">
+            <h3>Add a new vehicle</h3>
+          </section>
+        </card>
+      </nuxt-link>
+      <section
+        v-for="vehicle in user.vehicles"
+        :key="vehicle.id"
+        class="vehicle__card"
       >
+        <card>
+          <img
+            v-if="vehicle.photo"
+            :src="`${apiURL}/img/${vehicle.photo}`"
+            alt="Vehicle Image"
+          />
+          <section class="card__content">
+            <h3>{{ vehicle.brand }} {{ vehicle.model }}</h3>
+          </section>
+        </card>
+      </section>
     </section>
     <main class="tab">
       <section class="tab__header">
@@ -66,11 +83,13 @@
 <script>
 import Button from '~/components/ui/Button'
 import SmallEventCard from '~/components/cards/SmallEventCard'
+import Card from '~/components/cards/Card'
 export default {
   layout: 'noMargin',
   components: {
     'v-button': Button,
-    SmallEventCard
+    SmallEventCard,
+    Card
   },
   data: () => ({
     currentTab: 0,
@@ -110,6 +129,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.userPage {
+  overflow-x: hidden;
+  padding-bottom: 64px;
+}
 .header {
   width: 100%;
 
@@ -168,7 +191,72 @@ export default {
 }
 
 .vehicles {
-  margin: 32px 16px;
+  margin: 32px 0;
+  margin-top: -16px;
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  padding: 0 16px;
+  overflow: auto;
+
+  .vehicle__card {
+    flex: 0 0 40%;
+    margin: 0 1%;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .card {
+    width: 100%;
+    position: relative;
+    padding-bottom: 100%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      position: absolute;
+    }
+
+    img + .card__content {
+      background: #00000080;
+      color: app-color('background');
+    }
+
+    &__content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      padding: 8px;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-end;
+    }
+  }
+
+  // .vehicle__card {
+  //   flex: 0 0 30%;
+  //   margin: 0 1%;
+  //   width: 100%;
+  //   padding-bottom: 100%;
+  //   position: relative;
+  //   background: blue;
+
+  //   .card {
+  //     position: absolute;
+  //     top: 0;
+  //     left: 0;
 }
 
 .tab {

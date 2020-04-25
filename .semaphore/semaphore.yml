@@ -32,8 +32,13 @@ blocks:
           - checkout
           - nvm use
           - cache restore
-      jobs:
-        - name: Static Test
-          commands:
-            - cd redline-client
-            - npm run lint
+      # jobs:
+      #   - name: Static Test
+      #     commands:
+      #       - cd redline-client
+      #       - npm run lint
+promotions:
+  - name: Dockerize
+    pipeline_filte: docker-build.yml
+    auto_promote_on:
+      - result: passed

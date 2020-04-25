@@ -40,7 +40,7 @@
         <card>
           <img
             v-if="vehicle.photo"
-            :src="`${apiURL}/img/${vehicle.photo}`"
+            :src="`${axios.defaults.baseURL}/img/${vehicle.photo}`"
             alt="Vehicle Image"
           />
           <section class="card__content">

@@ -14,7 +14,7 @@
     <nuxt-link v-if="user" :to="`/users/${user.username}`"
       ><div class="userImg">
         <img
-          :src="`http://localhost:4000/api/auth/${user.username}/avatar`"
+          :src="`/api/auth/${user.username}/avatar`"
           alt="Profile Image"
         /></div
     ></nuxt-link>

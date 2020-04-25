@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev:client": "cd redline-client && npm run dev",
-    "dev:server": "cd redline-api && npm run start:dev"
+    "dev:server": "cd redline-api && npm run start:dev",
+    "install:all": "cd redline-api && npm install && cd .. && cd redline-client && npm install"
   },
   "repository": {
     "type": "git",

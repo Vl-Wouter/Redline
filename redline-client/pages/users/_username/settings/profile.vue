@@ -61,7 +61,7 @@ export default {
     ]
     this.userData = { firstName, lastName, username }
     this.imgPreview = {
-      url: `http://localhost:4000/api/auth/${this.user.username}/avatar`,
+      url: `${this.$axios.defaults.baseURL}/img/${this.user.profileImg}`,
       name: 'Current avatar'
     }
   },

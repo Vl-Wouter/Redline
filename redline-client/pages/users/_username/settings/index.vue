@@ -4,7 +4,7 @@
     <card class="user__details">
       <section>
         <img
-          :src="`${apiURL}/auth/${user.username}/avatar`"
+          :src="`${$axios.defaults.baseURL}/img/${user.profileImg}`"
           alt="user image"
           class="user__img"
         />

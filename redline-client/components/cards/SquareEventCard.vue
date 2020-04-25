@@ -1,7 +1,10 @@
 <template>
   <nuxt-link :to="`/events/${event.slug}`">
     <card class="event__card">
-      <img :src="`${apiURL}/events/header/${event.header}`" :alt="event.slug" />
+      <img
+        :src="`${$axios.defaults.baseURL}/img/${event.header}`"
+        :alt="event.slug"
+      />
       <main class="event__card__content">
         <h3>{{ event.title }}</h3>
         <p>{{ event.startTime | localDate }}</p>
@@ -13,9 +16,6 @@
 <script>
 import Card from './Card'
 export default {
-  data: () => ({
-    apiURL: `http://${process.env.API_HOST}:${process.env.API_PORT}/api`
-  }),
   props: {
     event: {
       type: Object,

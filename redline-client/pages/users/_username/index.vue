@@ -11,7 +11,10 @@
       />
       <div class="header__profile">
         <div class="profile__img">
-          <img :src="`${apiURL}/img/${user.profileImg}`" alt="profile image" />
+          <img
+            :src="`${$axios.defaults.baseURL}/img/${user.profileImg}`"
+            alt="profile image"
+          />
         </div>
         <div class="profile__info">
           <h3>{{ user.firstName }} {{ user.lastName }}</h3>
@@ -94,8 +97,7 @@ export default {
   data: () => ({
     currentTab: 0,
     user: null,
-    loading: true,
-    apiURL: process.env.API_URL
+    loading: true
   }),
   computed: {
     isSelf() {

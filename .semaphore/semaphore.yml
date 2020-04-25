@@ -19,6 +19,8 @@ blocks:
           commands:
             - cache restore
             - npm install
+            - cd redline-api && npm install
+            - cd .. && cd redline-client && npm install
             - cache store
   - name: Tests
     task:
@@ -33,4 +35,5 @@ blocks:
         jobs:
           - name: Static Test
             commands:
+              - cd redline-client
               - npm run lint

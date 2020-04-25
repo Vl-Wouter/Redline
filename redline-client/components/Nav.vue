@@ -1,8 +1,16 @@
 <template>
   <nav>
-    <nuxt-link to="/"><unicon name="home-alt"/></nuxt-link>
-    <nuxt-link v-if="user" to="/feed"><unicon name="rss"/></nuxt-link>
-    <nuxt-link v-if="user" to="/new"><unicon name="plus-circle"/></nuxt-link>
+    <nuxt-link to="/"
+      ><unicon name="home-alt" /><span class="link__text">Home</span></nuxt-link
+    >
+    <!-- <nuxt-link v-if="user" to="/feed"
+      ><unicon name="rss" /><span class="link__text">Feed</span></nuxt-link
+    > -->
+    <nuxt-link v-if="user" to="/new"
+      ><unicon name="plus-circle" /><span class="link__text"
+        >Add Content</span
+      ></nuxt-link
+    >
     <nuxt-link v-if="user" :to="`/users/${user.username}`"
       ><div class="userImg">
         <img
@@ -51,6 +59,10 @@ nav {
       fill: app-color-level('primary', 3);
     }
 
+    .link__text {
+      display: none;
+    }
+
     .userImg {
       display: flex;
       align-items: center;
@@ -84,6 +96,53 @@ nav {
         left: 0;
         bottom: 0;
         border-radius: 4px 4px 0 0;
+      }
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  nav {
+    position: absolute;
+    top: 0;
+    height: 48px;
+    box-shadow: 0 5px 10px #00000020;
+    background: app-color();
+    color: app-color('background');
+    z-index: 1;
+
+    a {
+      display: flex;
+      align-items: center;
+
+      .unicon {
+        margin-right: 4px;
+      }
+      .link__text {
+        display: inline-block;
+      }
+
+      &.nuxt-link-exact-active {
+        color: app-color('background');
+
+        .unicon {
+          fill: app-color('background');
+        }
+
+        .userImg img {
+          border: 2px solid app-color();
+        }
+
+        &:after {
+          content: '';
+          width: 100%;
+          height: 8px;
+          background: app-color('background');
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          border-radius: 4px 4px 0 0;
+        }
       }
     }
   }

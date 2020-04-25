@@ -104,4 +104,15 @@ a {
   grid-template-rows: auto;
   gap: 16px;
 }
+
+@media (min-width: 900px) {
+  .container {
+    width: 65%;
+    padding-top: 56px;
+  }
+
+  .event__grid {
+    grid-template-columns: repeat(3, calc(25% - (4px * 4)));
+  }
+}
 </style>

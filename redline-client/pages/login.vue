@@ -104,4 +104,11 @@ export default {
   width: 100%;
   text-align: center;
 }
+
+@media (min-width: 900px) {
+  .container {
+    width: 45%;
+    margin: 0 auto;
+  }
+}
 </style>

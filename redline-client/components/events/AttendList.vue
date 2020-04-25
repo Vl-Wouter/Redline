@@ -59,7 +59,7 @@ export default {
   height: 100%;
   background: app-color('background');
   width: 100vw;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding: 16px;

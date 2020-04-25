@@ -184,4 +184,12 @@ header {
     transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
   }
 }
+
+@media (min-width: 900px) {
+  .eventContainer {
+    width: 65%;
+    margin: 0 auto;
+    margin-top: 56px;
+  }
+}
 </style>

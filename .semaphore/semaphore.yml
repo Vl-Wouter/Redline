@@ -27,13 +27,13 @@ blocks:
       env_vars:
         - name: NODE_ENV
           value: test
-        prologue:
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - cache restore
+      jobs:
+        - name: Static Test
           commands:
-            - checkout
-            - nvm use
-            - cache restore
-        jobs:
-          - name: Static Test
-            commands:
-              - cd redline-client
-              - npm run lint
+            - cd redline-client
+            - npm run lint

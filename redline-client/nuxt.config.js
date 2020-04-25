@@ -62,7 +62,7 @@ export default {
    */
   axios: {
     progress: true,
-    prefix: '/api'
+    baseURL: '/api'
   },
   /*
    ** Build configuration

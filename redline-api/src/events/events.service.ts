@@ -14,6 +14,7 @@ import { unlinkSync } from 'fs';
 import { checkModOrAdmin } from 'src/utils/check-role.utils';
 import { EventToUser } from './eventToUser.entity';
 import { EventToUserRepository } from './eventToUser.repository';
+import { handleImage } from 'src/utils/file-upload.utils';
 
 // const getParams = (param, user: User) => {
 //   if (!checkModOrAdmin(user)) {
@@ -112,6 +113,7 @@ export class EventsService {
     const result = await this.eventRepository.update(options, updateEventDto);
     if (result.affected === 0)
       throw new NotFoundException(`Event "${id}" is not found in the db`);
+
     return this.getEventById(id);
   }
 
@@ -129,5 +131,18 @@ export class EventsService {
     if (result.affected === 0)
       throw new NotFoundException('The user is not attending this event');
     else return this.getEventById(eventId);
+  }
+
+  async updateHeader(id: number, user: User, header) {
+    const found = await this.getEventById(id);
+    found.header = await handleImage(header.path, {
+      width: 2000,
+      isSquare: false,
+      dest: `uploads/events/${found.slug}`,
+      name: 'header',
+      format: 'jpg',
+    });
+    await found.save();
+    return found;
   }
 }

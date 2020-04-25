@@ -96,17 +96,27 @@ export default {
         ...locationData
       }
     },
-    setHeader(fileData) {
-      this.event.header = fileData
+    async setHeader(fileData) {
+      try {
+        const formData = new FormData()
+        formData.append('header', fileData)
+        const { data: event } = await this.$axios.post(
+          `/events/${this.event.id}/updateHeader`,
+          formData
+        )
+        await this.$store.commit('events/updateEvent', { id: event.id, event })
+      } catch (error) {
+        console.log(error.response ? error.response.data : error)
+      }
     },
     async editEvent() {
-      if (typeof this.event.header === 'string') delete this.event.header
       const {
         __category__,
         organiser,
         slug,
         reviews,
         attending,
+        header,
         ...eventObject
       } = this.event
       try {

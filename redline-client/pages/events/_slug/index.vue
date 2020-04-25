@@ -3,7 +3,7 @@
     <div v-if="event" class="event">
       <header>
         <img
-          :src="`http://localhost:4000/api/events/header/${event.header}`"
+          :src="`${$axios.defaults.baseURL}/img/${event.header}`"
           alt="header image"
         />
         <back-link class="backBtn" />

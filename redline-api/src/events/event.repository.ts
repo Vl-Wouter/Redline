@@ -56,7 +56,7 @@ export class EventRepository extends Repository<Event> {
       event.header = await handleImage(headerImage.path, {
         width: 2000,
         isSquare: false,
-        dest: `uploads/vehicles/${user.username}`,
+        dest: `uploads/events/${event.slug}`,
         name: 'header',
         format: 'jpg',
       });

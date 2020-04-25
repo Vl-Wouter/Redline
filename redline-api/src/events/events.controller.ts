@@ -14,7 +14,6 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
-  Header,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { Event } from './event.entity';
@@ -184,5 +183,24 @@ export class EventsController {
   @ApiNotFoundResponse({ description: 'Cannot find user in list of attendees' })
   leaveEvent(@Param('id') id: number, @GetUser() user: User) {
     return this.eventService.leaveEvent(id, user);
+  }
+
+  @Post('/:id/updateHeader')
+  @UseGuards(AuthGuard())
+  @UseInterceptors(
+    FileInterceptor('header', {
+      storage: diskStorage({
+        destination: './uploads/tmp',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  updateHeader(
+    @Param('id') id: number,
+    @GetUser() user: User,
+    @UploadedFile() eventHeader,
+  ) {
+    return this.eventService.updateHeader(id, user, eventHeader);
   }
 }

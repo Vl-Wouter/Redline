@@ -90,7 +90,7 @@ export class EventsController {
   @UseInterceptors(
     FileInterceptor('header', {
       storage: diskStorage({
-        destination: './uploads/events',
+        destination: './uploads/tmp',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,

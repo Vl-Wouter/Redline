@@ -2,11 +2,11 @@ import { Repository, EntityRepository } from 'typeorm';
 import { Event } from './event.entity';
 import { CreateEventDTO } from './dto/create-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';
-import { start } from 'repl';
 import { User } from 'src/auth/user.entity';
 import { slugify } from 'src/utils/slugify.utils';
 import { unlinkSync } from 'fs';
 import { InternalServerErrorException } from '@nestjs/common';
+import { handleImage } from 'src/utils/file-upload.utils';
 
 @EntityRepository(Event)
 export class EventRepository extends Repository<Event> {
@@ -53,7 +53,13 @@ export class EventRepository extends Repository<Event> {
     try {
       const event = await Event.create(createEventDTO);
       event.slug = slugify(event.title);
-      event.header = headerImage.filename;
+      event.header = await handleImage(headerImage.path, {
+        width: 2000,
+        isSquare: false,
+        dest: `uploads/vehicles/${user.username}`,
+        name: 'header',
+        format: 'jpg',
+      });
       event.organiser = user;
       await event.save();
       return event;

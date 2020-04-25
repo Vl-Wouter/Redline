@@ -9,10 +9,9 @@
         <img v-if="person.vehicle" src="" alt="Vehicle image" />
         <img
           v-else-if="person.user && person.user.profileImg"
-          src=""
+          :src="`${apiURL}/img/${person.user.profileImg}`"
           alt="User image"
         />
-        <img v-else src="~/static/images/user.png" alt="Default image" />
       </div>
       <div>
         <p>{{ person.user.firstName }} {{ person.user.lastName }}</p>
@@ -43,7 +42,8 @@ export default {
     }
   },
   data: () => ({
-    open: false
+    open: false,
+    apiURL: process.env.API_URL
   }),
   methods: {
     toggle() {
@@ -59,7 +59,7 @@ export default {
   height: 100%;
   background: app-color('background');
   width: 100vw;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   padding: 16px;
@@ -76,8 +76,14 @@ header {
   justify-content: space-between;
   align-items: center;
 
-  button {
+  button.btn {
     padding: 0;
+    background: none;
+    height: 24px;
+    color: app-color();
+    .unicon {
+      height: 24px;
+    }
   }
 }
 

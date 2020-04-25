@@ -10,16 +10,6 @@
           <nuxt-link to="/events">View All</nuxt-link>
         </header>
         <main class="event__grid">
-          <!-- <card v-for="event in events" :key="event.id" class="event__card">
-            <img
-              :src="`http://localhost:4000/api/events/header/${event.header}`"
-              alt="Header image"
-            />
-            <main class="event__card__content">
-              <h3>{{ event.title }}</h3>
-              <p>{{ event.startTime | localDate }}</p>
-            </main>
-          </card> -->
           <square-event-card
             v-for="event in events"
             :key="event.id"
@@ -113,5 +103,16 @@ a {
   grid-template-columns: repeat(2, calc(50% - 8px));
   grid-template-rows: auto;
   gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .container {
+    width: 65%;
+    padding-top: 56px;
+  }
+
+  .event__grid {
+    grid-template-columns: repeat(3, calc(25% - (4px * 4)));
+  }
 }
 </style>

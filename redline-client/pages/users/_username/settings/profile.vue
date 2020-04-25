@@ -3,6 +3,7 @@
     <header>
       <back-link text="Settings" />
     </header>
+    <h2>Change profile settings</h2>
     <main>
       <form-field label="Change profile picture" field="avatar">
         <file-input
@@ -70,12 +71,7 @@ export default {
       try {
         const formData = new FormData()
         formData.append('image', file)
-        // const { data: updatedUser } = await this.$axios.post(
-        //   `/auth/${this.user.username}/avatar`,
-        //   formData
-        // )
         await this.$store.dispatch('user/updateAvatar', formData)
-        // this.$store.commit('user/setData', updatedUser)
       } catch (err) {
         console.log(err)
       }

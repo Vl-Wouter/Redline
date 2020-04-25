@@ -2,7 +2,8 @@ import { parseJWT } from '@/assets/js/util.js'
 
 export const state = () => ({
   current: null,
-  settingsData: null
+  settingsData: null,
+  vehicles: []
 })
 
 export const mutations = {
@@ -14,16 +15,28 @@ export const mutations = {
   },
   setData(state, data) {
     state.settingsData = data
+  },
+  setVehicles(state, data) {
+    state.vehicles = data
+  },
+  addVehicleToList(state, data) {
+    state.vehicles.push(data)
   }
 }
 
 export const actions = {
-  async signIn({ commit }, authDetails) {
+  async signIn({ commit, dispatch }, authDetails) {
     const { data } = await this.$axios.post('/auth/signin', authDetails)
+    const userDetails = parseJWT(data.accessToken)
+    dispatch('getUserVehicles', userDetails.id)
     commit('setUser', {
       token: data.accessToken,
-      ...parseJWT(data.accessToken)
+      ...userDetails
     })
+  },
+  async getUserVehicles({ commit }, userId) {
+    const { data: vehicles } = await this.$axios.get(`/vehicles/user/${userId}`)
+    commit('setVehicles', vehicles)
   },
   async getUserData({ state, commit }) {
     const { data } = await this.$axios.get(
@@ -44,6 +57,10 @@ export const actions = {
       data
     )
     commit('setData', updatedUser)
+  },
+  async addVehicle({ state, commit }, data) {
+    const { data: addedVehicle } = await this.$axios.post('/vehicles', data)
+    commit('addVehicleToList', addedVehicle)
   }
 }
 
@@ -56,5 +73,8 @@ export const getters = {
   },
   getEventSettings: (state) => {
     return state.settingsData.ownEvents
+  },
+  getVehicles: (state) => {
+    return state.vehicles
   }
 }

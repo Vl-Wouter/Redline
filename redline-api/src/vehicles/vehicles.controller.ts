@@ -62,9 +62,9 @@ export class VehiclesController {
   @Post()
   @UseGuards(AuthGuard())
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('photo', {
       storage: diskStorage({
-        destination: './uploads/vehicles',
+        destination: './uploads/tmp',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,

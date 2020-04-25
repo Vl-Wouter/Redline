@@ -11,6 +11,7 @@ import { JwtPayload } from './jwt-payload.interface';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { handleImage } from 'src/utils/file-upload.utils';
+import { genSalt, hash } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -41,8 +42,17 @@ export class AuthService {
   }
 
   async updateUserByName(username: string, userData, user: User) {
-    if (username !== user.username)
+    const validPassword = userData.current_password
+      ? user.validatePassword(userData.currentPassword)
+      : true;
+    delete userData.current_password;
+    if (username !== user.username || !validPassword)
       throw new UnauthorizedException('You cannot update this profile');
+    if (userData.password) {
+      userData.salt = await genSalt();
+      userData.password = await hash(userData.password, userData.salt);
+      delete userData.confirm_password;
+    }
     await this.userRepository.update({ username }, userData);
     return this.getAllUserDetails(username, user);
   }

@@ -1,15 +1,11 @@
 <template>
-  <div>
+  <div class="eventPage">
     <div v-if="event" class="event">
-      <!-- TODO: Refactor the event page
-        Refactor into reusable components, add new components, add current event-data to the page
-       -->
       <header>
         <img
           :src="`http://localhost:4000/api/events/header/${event.header}`"
           alt="header image"
         />
-        <!-- <a href="#" class="backBtn" @click.prevent="$router.go(-1)">Back</a> -->
         <back-link class="backBtn" />
         <div class="event__detail">
           <section>
@@ -76,19 +72,36 @@
           </div>
         </section>
       </main>
-      <attend-list
-        id="attendList"
-        ref="attendList"
-        :attendees="event.attending"
-      />
-      <review-list
-        id="reviewList"
-        ref="reviewList"
-        :reviews="event.reviews"
-        :event="event"
-        @add-review="addReview"
-      />
+      <modal v-if="modal.isOpen">
+        <h2>Attend event</h2>
+        <form-field
+          label="Are you coming with a car?"
+          field="vehicleId"
+          helper="You can also leave this field as is to attend without a car"
+        >
+          <select-input
+            name="Vehicle"
+            :options="userVehicles"
+            v-model="modal.form.vehicleId"
+          />
+        </form-field>
+        <v-button class="control primary" @click.native="setAttending"
+          >Attend event</v-button
+        >
+      </modal>
     </div>
+    <attend-list
+      id="attendList"
+      ref="attendList"
+      :attendees="event.attending"
+    />
+    <review-list
+      id="reviewList"
+      ref="reviewList"
+      :reviews="event.reviews"
+      :event="event"
+      @add-review="addReview"
+    />
   </div>
 </template>
 
@@ -100,6 +113,8 @@ import Map from '~/components/Map'
 import AttendList from '~/components/events/AttendList'
 import ReviewList from '~/components/events/ReviewList'
 import BackLink from '~/components/ui/BackLink'
+import Modal from '~/components/ui/Modal'
+import { FormField, SelectInput } from '~/components/forms'
 export default {
   layout: 'noNavNoMargin',
   middleware: 'events',
@@ -110,13 +125,38 @@ export default {
     ReviewList,
     'v-button': Button,
     Map,
-    BackLink
+    BackLink,
+    Modal,
+    FormField,
+    SelectInput
   },
   data: () => ({
+    modal: {
+      isOpen: false,
+      form: {
+        vehicleId: null
+      }
+    },
     loading: true,
     error: null
   }),
   computed: {
+    userVehicles() {
+      const vehicles = this.$store.getters['user/getVehicles']
+      const options = [
+        {
+          id: null,
+          name: 'No vehicle'
+        }
+      ]
+      vehicles.forEach((item) => {
+        options.push({
+          id: item.id,
+          name: `${item.brand} ${item.model}`
+        })
+      })
+      return options
+    },
     cleanDescription() {
       return this.event ? this.$sanitize(this.event.description) : null
     },
@@ -162,9 +202,20 @@ export default {
   },
   methods: {
     attendEvent(data) {
-      this.$store.commit('events/updateEvent', { id: this.event.id, data })
+      this.modal.isOpen = true
     },
-
+    async setAttending() {
+      try {
+        const { data } = await this.$axios.post(
+          `/events/${this.event.id}/attend`,
+          this.modal.form
+        )
+        this.$store.commit('events/updateEvent', { id: this.event.id, data })
+        this.modal.isOpen = false
+      } catch (error) {
+        console.log(error)
+      }
+    },
     leaveEvent(data) {
       this.$store.commit('events/updateEvent', { id: this.event.id, data })
     },
@@ -293,45 +344,41 @@ header {
 }
 
 @media screen and (min-width: 1024px) {
-  .event {
-    width: 100%;
+  .eventPage {
+    width: 70%;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(2, 50%);
-    grid-template-rows: 100vh auto;
-    gap: 32px;
+    grid-template-columns: 3fr 1fr;
+    min-height: 100vh;
+    box-shadow: 0 0 10px #00000020;
+  }
 
-    header {
-      grid-row: 1 / auto;
-      grid-column: 1 / 2;
-      width: 100%;
-      position: relative;
+  .event {
+    grid-row: 0;
+    grid-column: 1 / 2;
+  }
 
-      img {
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-      }
+  #attendList {
+    grid-row: 0;
+    grid-column: 2 / 3;
+    width: 100%;
+  }
 
-      .event__detail {
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-      }
-    }
+  #attendBtn {
+    position: relative;
+    width: 100%;
+  }
 
-    main {
-      grid-column: 2;
-      display: grid;
-      grid-template-rows: repeat(2, 50%);
-      padding: 16px 0;
+  #reviewList {
+    grid-row: 2;
+    grid-column: 1 / 3;
+    width: 100%;
+    position: relative;
+    transform: translateX(0);
+    box-shadow: none;
 
-      .description {
-        grid-row: 1 / 2;
-        grid-column: 1;
-      }
+    &.out {
+      transform: translateX(0);
     }
   }
 }

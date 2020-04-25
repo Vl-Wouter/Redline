@@ -62,8 +62,16 @@ export default {
     }
   }),
   methods: {
-    addVehicle() {
-      console.log(this.form)
+    async addVehicle() {
+      const formData = new FormData()
+      Object.keys(this.form).forEach((key) => {
+        formData.append(key, this.form[key])
+      })
+      try {
+        await this.$store.dispatch('user/addVehicle', formData)
+      } catch (error) {
+        console.log(error.response ? error.response.data : error)
+      }
     }
   }
 }

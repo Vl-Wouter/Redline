@@ -64,6 +64,7 @@ export default {
   transform: translateX(0);
   transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
   box-shadow: 0 0 10px #00000020;
+  z-index: 9;
 
   &.right {
     right: 0;
@@ -93,10 +94,19 @@ export default {
       margin: 0;
       height: 24px;
       display: flex;
+      background: none;
 
       .unicon {
         height: 24px;
       }
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .overlay {
+    &.fill {
+      width: auto;
     }
   }
 }

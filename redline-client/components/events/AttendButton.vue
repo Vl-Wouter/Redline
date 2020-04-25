@@ -38,10 +38,7 @@ export default {
           )
           this.$emit('leave-event', data)
         } else {
-          const { data } = await this.$axios.post(
-            `/events/${this.event.id}/attend`
-          )
-          this.$emit('attend-event', data)
+          this.$emit('attend-event')
         }
       } catch (error) {
         this.$emit('set-error', error)

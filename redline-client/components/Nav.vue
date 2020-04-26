@@ -114,6 +114,7 @@ nav {
     a {
       display: flex;
       align-items: center;
+      color: app-color-level('primary', 8);
 
       .unicon {
         margin-right: 4px;

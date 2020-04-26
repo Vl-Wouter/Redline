@@ -1,5 +1,5 @@
 <template>
-  <div v-if="user">
+  <div class="page" v-if="user">
     <back-link text="Profile" />
     <card class="user__details">
       <section>
@@ -134,6 +134,13 @@ h2 {
     h4 {
       color: app-color-level('primary');
     }
+  }
+}
+
+@media (min-width: 900px) {
+  .page {
+    margin: 0 auto;
+    width: 65%;
   }
 }
 </style>

@@ -11,10 +11,7 @@
       />
       <div class="header__profile">
         <div class="profile__img">
-          <img
-            :src="`${$axios.defaults.baseURL}/img/${user.profileImg}`"
-            alt="profile image"
-          />
+          <img :src="`/api/auth/${user.username}/avatar`" alt="profile image" />
         </div>
         <div class="profile__info">
           <h3>{{ user.firstName }} {{ user.lastName }}</h3>
@@ -288,6 +285,31 @@ export default {
         border-bottom-right-radius: 4px;
       }
     }
+  }
+}
+
+@media (min-width: 900px) {
+  .userPage {
+    width: 65%;
+    margin: 0 auto;
+    margin-top: 48px;
+    box-shadow: 0 0 10px #00000020;
+  }
+
+  .header__image {
+    max-height: 350px;
+  }
+
+  .profile__img {
+    flex: 0 0 25%;
+  }
+
+  .vehicles .vehicle__card {
+    flex: 0 0 20%;
+  }
+
+  .profile__settings {
+    top: 56px;
   }
 }
 </style>

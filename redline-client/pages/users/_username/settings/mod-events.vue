@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page">
     <back-link text="Settings" />
     <main>
       <event-actions-card
@@ -64,5 +64,12 @@ export default {
   display: flex;
   justify-content: space-between;
   margin: 8px 0;
+}
+
+@media (min-width: 900px) {
+  .page {
+    margin: 0 auto;
+    width: 65%;
+  }
 }
 </style>

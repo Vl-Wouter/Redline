@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="page">
     <header>
       <back-link text="Settings" />
       <h2>Change account settings</h2>
@@ -99,3 +99,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@media (min-width: 900px) {
+  .page {
+    margin: 0 auto;
+    width: 65%;
+  }
+}
+</style>

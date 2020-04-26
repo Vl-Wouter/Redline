@@ -52,7 +52,7 @@ import { FormField, TextInput } from '~/components/forms'
 import Button from '~/components/ui/Button'
 
 export default {
-  layout: 'no_Nav',
+  layout: 'no_nav',
   middleware: ['authenticated', 'isSelf'],
   components: {
     BackLink,

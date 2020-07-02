@@ -1,6 +1,4 @@
-# redline
-
-> BAP 2020 Wouter Vlaeyen
+# redline-client
 
 ## Build Setup
 

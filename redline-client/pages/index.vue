@@ -1,118 +1,100 @@
 <template>
-  <main class="container">
-    <header>
-      <h2>Hello {{ user ? user.fullName : 'Guest' }}</h2>
-    </header>
-    <main>
-      <section class="upcoming">
-        <header class="title__link">
-          <p>Upcoming events</p>
-          <nuxt-link to="/events">View All</nuxt-link>
-        </header>
-        <main class="event__grid">
-          <square-event-card
-            v-for="event in events"
-            :key="event.id"
-            :event="event"
-          />
-        </main>
-      </section>
-    </main>
-  </main>
+  <div class="container mx-auto">
+    <section v-if="events.length > 0">
+      <h2>Upcoming events</h2>
+      <main class="grid grid-cols-2 lg:grid-cols-6 gap-2">
+        <nuxt-link
+          v-for="event in events"
+          :key="event.id"
+          :to="`/events/${event.slug}`"
+        >
+          <div class="square rounded overflow-hidden border">
+            <div class="content">
+              <img
+                :src="`http://localhost:4000/api/img/${event.header}`"
+                :alt="event.title"
+                class="w-full h-full object-cover"
+              />
+              <div
+                class="absolute bottom-0 w-full bg-white bg-opacity-75 px-2 py-2"
+              >
+                <p>{{ event.title }}</p>
+              </div>
+            </div>
+          </div>
+        </nuxt-link>
+      </main>
+    </section>
+    <section v-else>
+      <p class="text-center text-gray-500">
+        There are no upcoming events.
+        <span v-if="user"
+          >Why don't you
+          <nuxt-link to="/new" class="text-redline-light"
+            >create one?</nuxt-link
+          ></span
+        >
+      </p>
+    </section>
+    <nuxt-link
+      v-if="user"
+      to="/new"
+      class="fixed z-top right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-redline-light flex justify-center items-center"
+      ><font-awesome-icon icon="plus" class="block"
+    /></nuxt-link>
+  </div>
 </template>
 
 <script>
-import SquareEventCard from '~/components/cards/SquareEventCard'
+import axios from 'axios'
 export default {
-  middleware: 'events',
-  components: {
-    SquareEventCard
+  layout: 'app',
+  asyncData(context) {
+    return axios.get('/api/events').then((res) => {
+      return {
+        events: res.data,
+      }
+    })
   },
-  data: () => ({
-    error: null,
-    loading: true
-  }),
+  data() {
+    return {
+      events: 'Hello',
+    }
+  },
   computed: {
     user() {
-      return this.$store.state.user.current
+      return this.$store.getters['user/getCurrent']
     },
-    events() {
-      return this.$store.getters['events/getAll'].slice(0, 6)
-    }
   },
-  methods: {
-    removeError() {
-      this.error = null
-    }
-  },
-  head() {
-    return {
-      title: 'Redline | Car Community App'
-    }
-  }
 }
 </script>
 
-<style lang="scss">
+<style>
+/* Sample `apply` at-rules with Tailwind CSS
 .container {
-  margin: 0 auto;
-  padding: 16px 0 64px 0;
-  min-height: 100%;
+@apply min-h-screen flex justify-center items-center text-center mx-auto;
 }
-
-a {
-  text-decoration: none;
-  color: app-color('primary');
-  font-weight: 700;
-}
-
-.unicon {
-  fill: currentColor;
-}
-
-.title__link {
-  display: flex;
-  justify-content: space-between;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-
-.event__grid {
+*/
+.square {
+  position: relative;
+  padding-bottom: 100%;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, calc(50% - 8px));
-  grid-template-rows: auto;
-  gap: 16px;
 }
 
-@media (min-width: 900px) {
-  .container {
-    width: 65%;
-    padding-top: 56px;
-  }
-
-  .event__grid {
-    grid-template-columns: repeat(3, calc(25% - (4px * 4)));
-  }
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }
+
+/* .container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+} */
 </style>

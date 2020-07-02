@@ -19,5 +19,7 @@
   "bugs": {
     "url": "https://github.com/Vl-Wouter/Redline/issues"
   },
-  "homepage": "https://github.com/Vl-Wouter/Redline#readme"
+  "homepage": "https://github.com/Vl-Wouter/Redline#readme",
+  "dependencies": {},
+  "devDependencies": {}
 }

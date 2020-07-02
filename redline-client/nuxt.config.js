@@ -1,7 +1,17 @@
 export default {
+  /*
+   ** Nuxt rendering mode
+   ** See https://nuxtjs.org/api/configuration-mode
+   */
   mode: 'spa',
   /*
+   ** Nuxt target
+   ** See https://nuxtjs.org/api/configuration-target
+   */
+  target: 'server',
+  /*
    ** Headers of the page
+   ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
     title: process.env.npm_package_name || '',
@@ -11,35 +21,33 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  /*
-   ** Customize the progress-bar color
-   */
-  loading: { color: '#fff' },
   /*
    ** Global CSS
    */
-  css: ['vue-datetime/dist/vue-datetime.css'],
+  css: [],
   /*
    ** Plugins to load before mounting the App
+   ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [
-    '~/plugins/filter.js',
-    { src: '~/plugins/icons.js', mode: 'client' },
-    '~/plugins/editor.js',
-    '~/plugins/datetime.js',
-    '~/plugins/sanitize.js'
-  ],
+  plugins: [],
+  /*
+   ** Auto import components
+   ** See https://nuxtjs.org/api/configuration-components
+   */
+  components: true,
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
+    '@nuxtjs/tailwindcss',
   ],
   /*
    ** Nuxt.js modules
@@ -48,59 +56,44 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/fontawesome',
+    'nuxt-leaflet',
+    '@nuxtjs/toast',
   ],
-
-  styleResources: {
-    scss: ['./assets/sass/utils/*.scss']
-  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    progress: true,
-    baseURL: '/api'
+    proxy: true,
+  },
+
+  proxy: {
+    '/api/': 'http://localhost:4000',
+  },
+
+  fontawesome: {
+    icons: {
+      solid: [
+        'faHome',
+        'faStream',
+        'faMap',
+        'faArrowLeft',
+        'faPlus',
+        'faCalendar',
+        'faImages',
+        'faNewspaper',
+        'faEnvelope',
+        'faLock',
+        'faCamera',
+        'faCar',
+        'faCalendarPlus',
+      ],
+    },
   },
   /*
    ** Build configuration
+   ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config, ctx) {}
-  },
-  manifest: {
-    name: 'Redline | Car Community App',
-    short_name: 'Redline PWA',
-    lang: 'en',
-    display: 'standalone'
-  },
-  workbox: {
-    runtimeCaching: [
-      {
-        urlPattern: 'https://use.typekit.net/*',
-        handler: 'cacheFirst',
-        method: 'GET',
-        strategyOptions: {
-          cacheableResponse: {
-            statuses: [0, 200]
-          }
-        }
-      },
-      {
-        urlPattern: 'http://localhost:4000/api/*',
-        handler: 'cacheFirst',
-        method: 'GET',
-        strategyOptions: {
-          cacheableResponse: {
-            statuses: [0, 200]
-          }
-        }
-      }
-    ]
-  }
+  build: {},
 }

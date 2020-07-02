@@ -8,10 +8,11 @@ export const constantsConfig = {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     port: parseInt(process.env.DB_PORT, 10),
+    dbName: process.env.DB_NAME,
   },
   auth: {
     jwt: {
       secret: process.env.JWT_SECRET,
-    }
-  }
-}
+    },
+  },
+};

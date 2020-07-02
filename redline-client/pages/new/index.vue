@@ -1,69 +1,40 @@
 <template>
-  <div>
-    <header>
-      <back-link text="Back" />
-    </header>
-    <main class="content__container">
-      <nuxt-link to="/new/event">
-        <card class="content__type">
-          <h1>Event</h1>
-          <p>Want to get more people to find your local meet? Post it here!</p>
-        </card>
-      </nuxt-link>
-    </main>
-  </div>
+  <main class="container mx-auto">
+    <h1 class="text-center font-bold text-xl">Add new content</h1>
+    <section
+      class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:w-1/2 lg:mx-auto lg:px-0 px-2 py-2"
+    >
+      <icon-card-link
+        icon="calendar"
+        title="Event"
+        subtitle="Add a new event to the calendar"
+        dest="event"
+      />
+      <icon-card-link
+        icon="images"
+        title="Photos"
+        subtitle="Show off your creations"
+        dest="album"
+      />
+      <icon-card-link
+        icon="newspaper"
+        title="Article"
+        subtitle="Share your thoughts"
+        dest="article"
+      />
+    </section>
+  </main>
 </template>
 
 <script>
-import BackLink from '~/components/ui/BackLink'
-import Card from '~/components/cards/Card'
+import IconCardLink from '~/components/IconCardLink'
 export default {
-  layout: 'no_nav',
-  middleware: 'authenticated',
+  layout: 'app',
+  middleware: 'auth',
   components: {
-    BackLink,
-    Card
-  }
+    IconCardLink,
+  },
 }
 </script>
 
-<style lang="scss" scoped>
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  button.btn {
-    .unicon {
-      fill: app-color();
-      display: inline-block;
-      height: 24px;
-    }
-    line-height: 24px;
-    display: flex;
-    align-items: center;
-    padding: 0;
-  }
-}
-
-.content__container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto;
-  gap: 16px;
-}
-
-.content__type {
-  text-align: center;
-  padding: 8px;
-
-  h1 {
-    color: app-color();
-  }
-
-  p {
-    color: app-color-level('foreground', 4);
-    font-size: 0.9rem;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

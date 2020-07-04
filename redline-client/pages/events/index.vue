@@ -1,6 +1,20 @@
 <template>
-  <main class="container mx-auto">
-    <section v-if="events.length > 0"></section>
+  <main class="container mx-auto mt-2">
+    <section v-if="events.length > 0" class="px-2">
+      <section v-for="(eventList, month) in filterEvents" :key="month">
+        <h2 class="text-lg font-bold">{{ month }}</h2>
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-4 my-4">
+          <nuxt-link
+            v-for="event in eventList"
+            :key="event.id"
+            :to="`/events/${event.slug}`"
+            class="bg-white rounded px-2 py-2 border"
+          >
+            <h3 class="font-bold text-redline">{{ event.title }}</h3>
+          </nuxt-link>
+        </main>
+      </section>
+    </section>
     <section v-else>
       <p class="text-center text-gray-500 px-2">
         There are no upcoming events.
@@ -34,6 +48,30 @@ export default {
   computed: {
     user() {
       return this.$store.getters['user/getCurrent']
+    },
+    filterEvents(filters) {
+      return this.groupEvents(this.events)
+    },
+  },
+  methods: {
+    groupEvents(events) {
+      return events.reduce((r, a) => {
+        r[
+          new Date(a.startTime).toLocaleString(undefined, {
+            month: 'long',
+            year: 'numeric',
+          })
+        ] = [
+          ...(r[
+            new Date(a.startTime).toLocaleString(undefined, {
+              month: 'long',
+              year: 'numeric',
+            })
+          ] || []),
+          a,
+        ]
+        return r
+      }, {})
     },
   },
 }

@@ -1,5 +1,5 @@
 <template>
-  <main class="relative bg-gray-100 min-h-screen">
+  <main class="relative bg-gray-100 w-screen min-h-screen">
     <header
       class="sticky px-4 pt-4 bg-white flex flex-row flex-wrap items-center border-b border-solid border-gray-200 justify-between"
     >
@@ -33,7 +33,7 @@
         <nav-link dest="/map" icon="map" text="Map" />
       </nav>
     </header>
-    <Nuxt class="mt-2" />
+    <Nuxt class="overflow-auto" />
   </main>
 </template>
 

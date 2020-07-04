@@ -15,4 +15,7 @@ export const constantsConfig = {
       secret: process.env.JWT_SECRET,
     },
   },
+  opencage: {
+    api_key: process.env.OPENCAGE_KEY,
+  },
 };

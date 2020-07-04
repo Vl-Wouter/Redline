@@ -17,21 +17,26 @@
       <nuxt-link to="/signup" class="text-sm text-redline-light mb-4"
         >No account? Sign up here.</nuxt-link
       >
-      <form method="post" class="w-full px-8 lg:px-16 mt-4 space-y-4">
+      <form
+        method="post"
+        class="w-full px-8 lg:px-16 mt-4 space-y-4"
+        @submit.prevent="login"
+      >
         <section
           class="w-full border rounded flex flex-row form-group overflow-hidden"
         >
           <label
-            for="email"
+            for="username"
             class="w-12 bg-gray-200 py-2 text-center text-redline"
-            ><font-awesome-icon icon="envelope"
+            ><font-awesome-icon icon="user"
           /></label>
           <input
-            id="email"
-            type="email"
-            name="email"
-            class="px-4 w-full"
-            placeholder="jeff.gordon@gmail.com"
+            id="username"
+            v-model="user.username"
+            type="text"
+            name="username"
+            class="px-4 w-full bg-white"
+            placeholder="username"
           />
         </section>
         <section
@@ -44,9 +49,10 @@
           /></label>
           <input
             id="password"
+            v-model="user.password"
             type="password"
             name="password"
-            class="px-4 w-full"
+            class="px-4 w-full bg-white"
           />
         </section>
         <section class="w-full">
@@ -71,6 +77,25 @@ export default {
     if (store.state.user.current) {
       redirect(from)
     }
+  },
+  data() {
+    return {
+      user: {
+        username: null,
+        password: null,
+      },
+    }
+  },
+  methods: {
+    async login() {
+      try {
+        await this.$store.dispatch('user/signIn', this.user)
+        this.$router.push('/')
+      } catch (error) {
+        const errObj = error.response ? error.response.data : error
+        this.$toast.error(errObj.message)
+      }
+    },
   },
 }
 </script>

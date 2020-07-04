@@ -1,6 +1,11 @@
 <template>
-  <nuxt-link :to="dest" append>
-    <icon-card :icon="icon" :title="title" :subtitle="subtitle" />
+  <nuxt-link :to="dest" append class="h-full">
+    <icon-card
+      :icon="icon"
+      :title="title"
+      :subtitle="subtitle"
+      class="h-full"
+    />
   </nuxt-link>
 </template>
 

@@ -28,3 +28,13 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.selected {
+  transition: all 0.3s ease-in-out;
+  @apply text-white bg-redline;
+  * {
+    @apply text-white;
+  }
+}
+</style>

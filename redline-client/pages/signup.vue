@@ -7,13 +7,22 @@
         {{ steps.current > 1 ? 'Back' : 'Cancel' }}
       </button>
       <p class="text-gray-700">Step {{ steps.current }} of {{ steps.total }}</p>
-      <button class="py-1 px-2 bg-redline text-white rounded" @click="nextStep">
-        {{ steps.current === steps.total ? 'Submit' : 'Next' }}
+      <button
+        class="py-1 px-2 bg-redline text-white rounded"
+        :class="steps.current === steps.total ? 'invisible' : ''"
+        @click="nextStep"
+      >
+        Next
       </button>
     </header>
     <main class="container mx-auto">
-      <form method="post" class="lg:w-1/2 lg:mx-auto">
-        <div v-show="steps.current === 1" class="step w-full px-4" id="step-0">
+      <form
+        id="signUpForm"
+        method="post"
+        class="lg:w-1/2 lg:mx-auto"
+        @submit.prevent="submitForm"
+      >
+        <div v-show="steps.current === 1" id="step-0" class="step w-full px-4">
           <p class="mt-2 text-center text-sm text-gray-700">
             Lets start with some basic info to start your profile.
           </p>
@@ -23,10 +32,10 @@
                 >Email</label
               >
               <input
+                id="email"
                 v-model="user.email"
                 type="email"
                 name="email"
-                id="email"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
               />
               <p class="text-xs text-gray-600 mt-2">
@@ -38,10 +47,10 @@
                 >Username</label
               >
               <input
+                id="username"
                 v-model="user.username"
                 type="text"
                 name="username"
-                id="username"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
               />
               <p class="text-xs text-gray-600 mt-2">
@@ -53,10 +62,10 @@
                 >Password</label
               >
               <input
+                id="password"
                 v-model="user.password"
                 type="password"
                 name="password"
-                id="password"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
               />
             </section>
@@ -67,16 +76,16 @@
                 >Confirm password</label
               >
               <input
-                v-model="user.passwordConfirm"
+                id="password_confirm"
+                v-model="passwordConfirm"
                 type="password"
                 name="password_confirm"
-                id="password_confirm"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
               />
             </section>
           </div>
         </div>
-        <div v-show="steps.current === 2" class="step w-full px-4" id="step-2">
+        <div v-show="steps.current === 2" id="step-2" class="step w-full px-4">
           <p class="mt-2 text-center text-sm text-gray-700">
             Now complete your profile with some extra details
           </p>
@@ -88,8 +97,8 @@
             >
               <img
                 v-if="user.profileImg"
-                src=""
-                alt=""
+                :src="profilePreview"
+                alt="profile image"
                 class="w-full h-full object-cover"
               />
             </div>
@@ -103,7 +112,7 @@
                 </p>
               </section>
               <section class="text-right">
-                <p class="text-gray-700">
+                <p class="text-gray-700 capitalize">
                   {{ user.role || 'No role' }}
                 </p>
                 <p class="text-sm text-redline-light">
@@ -118,10 +127,10 @@
                 >First name</label
               >
               <input
+                id="firstName"
                 v-model="user.firstName"
                 type="text"
                 name="firstName"
-                id="firstName"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
               />
             </section>
@@ -130,10 +139,10 @@
                 >Last name</label
               >
               <input
+                id="lastName"
                 v-model="user.lastName"
                 type="text"
                 name="lastName"
-                id="lastName"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
               />
             </section>
@@ -142,6 +151,15 @@
             <label for="profileImg" class="text-sm block text-gray-800 mb-2"
               >Upload a profile image</label
             >
+            <file-input
+              name="profileImg"
+              label-text
+              @files="
+                (fileData) => {
+                  user.profileImg = fileData
+                }
+              "
+            />
           </section>
           <section class="w-full my-4">
             <p class="text-sm block text-gray-800 mb-2">
@@ -152,22 +170,58 @@
               others looking to contact people.
             </p>
             <section class="my-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <icon-card
-                icon="camera"
-                title="Photographer"
-                subtitle="You like taking and sharing photos"
-              />
-              <icon-card
-                icon="car"
-                title="Owner"
-                subtitle="You want to show off your car at events"
-              />
-              <icon-card
-                icon="calendar-plus"
-                title="Organiser"
-                subtitle="You want to share your events"
-              />
+              <toggle-wrapper
+                v-model="user.role"
+                type="radio"
+                name="photographer"
+                val="PHOTOGRAPHER"
+              >
+                <icon-card
+                  icon="camera"
+                  title="Photographer"
+                  subtitle="You like taking and sharing photos"
+                  :class="
+                    user.role === 'PHOTOGRAPHER' ? 'selected' : 'cursor-pointer'
+                  "
+                />
+              </toggle-wrapper>
+              <toggle-wrapper
+                v-model="user.role"
+                type="radio"
+                name="owner"
+                val="OWNER"
+              >
+                <icon-card
+                  icon="car"
+                  title="Owner"
+                  subtitle="You want to show off your car at events"
+                  :class="user.role === 'OWNER' ? 'selected' : 'cursor-pointer'"
+                />
+              </toggle-wrapper>
+              <toggle-wrapper
+                v-model="user.role"
+                type="radio"
+                name="organiser"
+                val="ORGANISER"
+              >
+                <icon-card
+                  icon="calendar-plus"
+                  title="Organiser"
+                  subtitle="You want to share your events"
+                  :class="
+                    user.role === 'ORGANISER' ? 'selected' : 'cursor-pointer'
+                  "
+                />
+              </toggle-wrapper>
             </section>
+          </section>
+          <section class="w-full my-4">
+            <button
+              type="submit"
+              class="w-full py-2 bg-redline text-white rounded"
+            >
+              Create my account
+            </button>
           </section>
         </div>
       </form>
@@ -177,6 +231,8 @@
 
 <script>
 import IconCard from '~/components/IconCard'
+import ToggleWrapper from '~/components/ToggleWrapper'
+import FileInput from '~/components/FileInput'
 export default {
   middleware({ store, redirect, from }) {
     if (store.state.user.current) {
@@ -185,6 +241,8 @@ export default {
   },
   components: {
     IconCard,
+    ToggleWrapper,
+    FileInput,
   },
   data() {
     return {
@@ -204,6 +262,14 @@ export default {
       passwordConfirm: '',
     }
   },
+  computed: {
+    profilePreview() {
+      if (!this.user.profileImg) return null
+      else {
+        return URL.createObjectURL(this.user.profileImg)
+      }
+    },
+  },
   mounted() {
     this.$nextTick(() => {
       this.steps.total = document.querySelectorAll('.step').length
@@ -219,6 +285,34 @@ export default {
     },
     nextStep() {
       this.steps.current++
+    },
+    async submitForm() {
+      if (this.user.password !== this.passwordConfirm) {
+        this.$toast.error('Passwords do not match')
+        this.steps.current = 1
+        return
+      }
+      const formData = new FormData()
+      for (const key in this.user) {
+        formData.append(key, this.user[key])
+      }
+      try {
+        await this.$axios.post('/api/auth/signup', formData)
+        await this.$store.dispatch('user/signIn', {
+          username: this.user.username,
+          password: this.user.password,
+        })
+        return this.$router.push('/')
+      } catch (error) {
+        if (error.response) {
+          error.response.data.message.forEach((message) => {
+            this.$toast.error(message)
+          })
+        } else {
+          this.$toast.error(error.message)
+        }
+        this.steps.current = 1
+      }
     },
   },
 }

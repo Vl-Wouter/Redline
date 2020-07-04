@@ -110,6 +110,7 @@ export class EventsController {
     @Body() createEventDTO: CreateEventDTO,
     @GetUser() user: User,
   ): Promise<Event> {
+    console.log('Image', headerImage);
     console.log(createEventDTO);
     return this.eventService.createEvent(createEventDTO, user, headerImage);
   }

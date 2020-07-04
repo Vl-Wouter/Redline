@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto px-2">
     <section v-if="events.length > 0">
-      <h2>Upcoming events</h2>
+      <h2 class="font-bold lg:text-center my-2">Upcoming events</h2>
       <main class="grid grid-cols-2 lg:grid-cols-6 gap-2">
         <nuxt-link
           v-for="event in events"
@@ -26,7 +26,7 @@
       </main>
     </section>
     <section v-else>
-      <p class="text-center text-gray-500">
+      <p class="text-center text-gray-500 px-2">
         There are no upcoming events.
         <span v-if="user"
           >Why don't you

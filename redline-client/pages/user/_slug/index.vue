@@ -64,9 +64,9 @@
         class="grid grid-cols-1 lg:grid-cols-2 gap-4"
       >
         <nuxt-link
-          :to="`/events/${event.slug}`"
           v-for="event in user.ownEvents"
           :key="event.id"
+          :to="`/events/${event.slug}`"
           class="w-full px-4 py-2 rounded bg-white border text-gray-700 text-sm"
         >
           <h2 class="text-lg text-redline font-bold">{{ event.title }}</h2>

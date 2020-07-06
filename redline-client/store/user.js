@@ -19,8 +19,12 @@ export const actions = {
     const { data } = await this.$axios.post('/api/auth/signin', authDetails)
     const userDetails = parseJWT(data.accessToken)
     commit('setCurrent', userDetails)
-    this.$axios.setToken(data.accessToken)
+    this.$axios.setToken(data.accessToken, 'Bearer')
     commit('setToken', data.accessToken)
+  },
+  signOut({ commit }) {
+    commit('setCurrent', null)
+    commit('setToken', null)
   },
 }
 

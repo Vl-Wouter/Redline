@@ -16,7 +16,7 @@
       </button>
     </header>
     <main class="container mx-auto">
-      <form method="post" @submit.prevent="submit" class="lg:w-1/2 lg:mx-auto">
+      <form method="post" class="lg:w-1/2 lg:mx-auto" @submit.prevent="submit">
         <section v-show="steps.current === 1" class="step w-full px-4">
           <p class="mt-2 text-center text-sm text-gray-700">
             Please fill in the correct information about your event.
@@ -93,9 +93,9 @@
             />
             <span class="text-xs text-gray-700">
               <button
-                @click.prevent="clearAddress"
                 v-if="form.address"
                 class="text-red-500"
+                @click.prevent="clearAddress"
               >
                 <font-awesome-icon icon="times" />
               </button>
@@ -111,12 +111,12 @@
           >
             <file-input
               name="header"
+              label-element
               @files="
                 (fileData) => {
                   form.header = fileData
                 }
               "
-              labelElement
             >
               <div
                 class="w-full h-40 rounded bg-gray-400 flex justify-center items-center overflow-hidden cursor-pointer"
@@ -215,7 +215,6 @@ export default {
         const res = await this.$axios.post('/api/location', {
           address: value,
         })
-        console.log(res.data)
         this.form.address = res.data.address
         this.form.latitude = res.data.coords.lat
         this.form.longitude = res.data.coords.lng
@@ -233,7 +232,6 @@ export default {
       for (const key in this.form) {
         formData.append(key, this.form[key])
       }
-      console.log(this.form)
       try {
         const { data } = await this.$axios.post('/api/events', formData, {
           headers: {

@@ -1,6 +1,8 @@
 <template>
-  <main class="container mx-auto">
-    <header class="w-full h-40 lg:h-64 overflow-hidden">
+  <main
+    class="container mx-auto lg:grid lg:grid-cols-2 lg:min-h-screen lg:gap-4"
+  >
+    <header class="w-full h-40 lg:h-full overflow-hidden">
       <img
         :src="`/api/img/${event.header}`"
         alt="Header Image"
@@ -26,13 +28,41 @@
           >
         </p>
       </section>
-      <section class="w-full bg-gray-200 flex flex-row rounded px-4 py-4 my-4">
+      <section class="w-full flex flex-row justify-between items-center my-4">
+        <div v-if="user">
+          <button
+            class="py-1 px-4 rounded text-white"
+            :class="isAttending ? 'bg-redline' : 'bg-redline-light'"
+            @click="toggleAttendance"
+          >
+            {{ isAttending ? 'Leave' : 'Going' }}
+          </button>
+        </div>
+        <button
+          class="text-redline font-bold lg:pointer-events-none"
+          @click="showModal('reviewCont')"
+        >
+          {{ reviewLabel }}
+        </button>
+        <button class="text-redline font-bold lg:pointer-events-none">
+          {{ attendLabel }}
+        </button>
+      </section>
+      <section
+        class="w-full bg-gray-200 flex flex-row rounded items-center px-4 py-4 my-4"
+      >
         <font-awesome-icon
           icon="calendar"
           class="text-2xl text-redline-light"
         />
-        <div class="pl-2">
-          {{ event.startTime }}
+        <div class="pl-4">
+          <p class="font-bold">
+            {{ event.startTime | eventDate }}
+          </p>
+          <p>
+            {{ event.startTime | localeTime }} -
+            {{ event.endTime | localeTime }}
+          </p>
         </div>
       </section>
       <section class="w-full my-4 text-gray-700">
@@ -60,17 +90,28 @@
           >{{ event.address }}</a
         >
       </section>
-      <sections class="text-center">
+      <section class="text-center">
         <h3 class="text-lg font-bold">Albums</h3>
-      </sections>
+      </section>
     </main>
+    <reviewContainer
+      id="reviewCont"
+      :reviews="event.reviews"
+      :event="event.id"
+      class="lg:row-start-2 lg:col-start-1"
+      @close="closeModal"
+    />
   </main>
 </template>
 
 <script>
 import axios from 'axios'
+import ReviewContainer from '~/components/ReviewContainer'
 export default {
   layout: 'app',
+  components: {
+    ReviewContainer,
+  },
   asyncData({ params }) {
     return axios.get(`/api/events/${params.slug}`).then((res) => {
       return {
@@ -82,6 +123,59 @@ export default {
     return {
       event: null,
     }
+  },
+  computed: {
+    user() {
+      return this.$store.getters['user/getCurrent']
+    },
+    isOwn() {
+      return this.event.organiser.id === this.user.id
+    },
+    reviewLabel() {
+      const count = this.event.reviews.length
+      return `${count} review${count !== 1 ? 's' : ''}`
+    },
+    attendLabel() {
+      const count = this.event.attending.length
+      return `${count} going`
+    },
+    isAttending() {
+      return (
+        this.event.attending.filter((item) => {
+          return item.userId === this.user.id
+        }).length > 0
+      )
+    },
+  },
+  methods: {
+    closeModal(target) {
+      target.classList.add('invisible')
+    },
+    showModal(id) {
+      const el = document.querySelector(`#${id}`)
+      if (el.classList.contains('invisible')) {
+        el.classList.remove('invisible')
+      }
+    },
+    async toggleAttendance() {
+      let updated = this.event
+      try {
+        if (!this.isAttending) {
+          const { data } = await this.$axios.post(
+            `/api/events/${this.event.id}/attend`
+          )
+          updated = data
+        } else {
+          const { data } = await this.$axios.post(
+            `/api/events/${this.event.id}/leave`
+          )
+          updated = data
+        }
+        this.event = updated
+      } catch (err) {
+        this.$toast.error(err.message)
+      }
+    },
   },
 }
 </script>

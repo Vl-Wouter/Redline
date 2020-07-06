@@ -5,7 +5,7 @@
     <font-awesome-icon v-if="icon" :icon="icon" class="text-2xl text-redline" />
     <section :class="icon ? 'pl-4 lg:pl-0 lg:pt-2' : ''">
       <h2 class="font-bold">{{ title }}</h2>
-      <p class="text-sm text-gray-700">{{ subtitle }}</p>
+      <p v-if="subtitle" class="text-sm text-gray-700">{{ subtitle }}</p>
     </section>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
     },
     subtitle: {
       type: String,
-      default: 'This card has a link',
+      default: '',
     },
   },
 }

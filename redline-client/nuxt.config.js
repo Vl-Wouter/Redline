@@ -36,6 +36,7 @@ export default {
    */
   plugins: [
     '~/plugins/vue-ctk-datetime.js',
+    '~/plugins/filters.js',
     { src: '~/plugins/v-calendar.js', ssr: false },
   ],
   /*
@@ -95,6 +96,8 @@ export default {
         'faUser',
         'faCog',
         'faTimes',
+        'faCheck',
+        'faTrash',
       ],
     },
   },

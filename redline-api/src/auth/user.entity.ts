@@ -16,6 +16,7 @@ import { Category } from 'src/categories/category.entity';
 import { Vehicle } from 'src/vehicles/vehicle.entity';
 import { EventToUser } from 'src/events/eventToUser.entity';
 import { Review } from 'src/reviews/review.entity';
+import { Follow } from './follow.entity';
 
 @Entity()
 @Unique(['username'])
@@ -79,7 +80,15 @@ export class User extends BaseEntity {
   )
   reviews: Review[];
 
-  @ManyToMany(type => User)
-  @JoinTable()
+  @OneToMany(
+    type => Follow,
+    follow => follow.leads,
+  )
+  followed: User[];
+
+  @OneToMany(
+    type => Follow,
+    follow => follow.follows,
+  )
   follows: User[];
 }

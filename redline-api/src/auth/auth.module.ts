@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { constantsConfig as config } from 'src/config/constants.config';
 import { JwtStrategy } from './jwt.strategy';
+import { FollowRepository } from './follow.repository';
 
 @Module({
   imports: [
@@ -17,18 +18,12 @@ import { JwtStrategy } from './jwt.strategy';
       secret: config.auth.jwt.secret,
       signOptions: {
         expiresIn: 3600,
-      }
+      },
     }),
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([UserRepository, FollowRepository]),
   ],
-  providers: [
-    AuthService,
-    JwtStrategy,
-  ],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports: [
-    JwtStrategy,
-    PassportModule,
-  ]
+  exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

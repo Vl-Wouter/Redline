@@ -123,4 +123,16 @@ export class AuthController {
   ) {
     return this.authService.getAllUserDetails(username, user);
   }
+
+  @Post(':id/follow')
+  @UseGuards(AuthGuard())
+  followUser(@Param('id') followId: number, @GetUser() user: User) {
+    return this.authService.followUser(followId, user);
+  }
+
+  @Post('/:id/unfollow')
+  @UseGuards(AuthGuard())
+  unfollowUser(@Param('id') followId: number, @GetUser() user: User) {
+    return this.authService.unfollowUser(followId, user);
+  }
 }

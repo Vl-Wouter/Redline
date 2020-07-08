@@ -12,12 +12,15 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { handleImage } from 'src/utils/file-upload.utils';
 import { genSalt, hash } from 'bcrypt';
+import { FollowRepository } from './follow.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
+    @InjectRepository(FollowRepository)
+    private followRepository: FollowRepository,
     private jwtService: JwtService,
   ) {}
 
@@ -92,13 +95,21 @@ export class AuthService {
           'roles',
           'profileImg',
         ],
-        relations: ['attendingEvents', 'ownEvents', 'vehicles'],
+        relations: [
+          'attendingEvents',
+          'ownEvents',
+          'vehicles',
+          'followed',
+          'follows',
+        ],
         join: {
           alias: 'user',
           leftJoinAndSelect: {
             attendingEvents: 'user.attendingEvents',
             eventData: 'attendingEvents.event',
             eventCategory: 'eventData.category',
+            followed: 'user.followed',
+            followerUsers: 'followed.follows',
           },
         },
       },
@@ -120,6 +131,27 @@ export class AuthService {
       .leftJoinAndSelect('u.ownEvents', 'events')
       .leftJoinAndSelect('events.category', 'eventCat')
       .leftJoinAndSelect('u.vehicles', 'v')
+      .leftJoinAndSelect('u.followed', 'followed')
       .getOne();
+  }
+
+  async followUser(followId: number, user: User) {
+    const userToFollow = await this.userRepository.findOne(followId);
+    const follow = this.followRepository.create({
+      leads: userToFollow,
+      follows: user,
+    });
+    await follow.save();
+    return this.getUserByName(userToFollow.username);
+  }
+
+  async unfollowUser(followId: number, user: User) {
+    const userToUnfollow = await this.userRepository.findOne(followId);
+    const relation = await this.followRepository.findOne({
+      leads: userToUnfollow,
+      follows: user,
+    });
+    await relation.remove();
+    return this.getUserByName(userToUnfollow.username);
   }
 }

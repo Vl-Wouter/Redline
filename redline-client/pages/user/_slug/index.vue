@@ -33,7 +33,12 @@
       </div>
     </section>
     <section v-if="currentUser && !isCurrent" class="my-2 w-full">
-      <button class="w-full py-2 bg-redline text-white rounded">Follow</button>
+      <button
+        @click="toggleFollow"
+        class="w-full py-2 bg-redline text-white rounded"
+      >
+        {{ isFollowing ? 'Unfollow' : 'Follow' }}
+      </button>
     </section>
     <h2 class="mt-4 text-center font-bold">Vehicles</h2>
     <section class="w-full flex flex-row space-x-4 my-4">
@@ -130,6 +135,33 @@ export default {
       return (
         this.currentUser && this.currentUser.username === this.user.username
       )
+    },
+    isFollowing() {
+      return (
+        this.currentUser &&
+        this.user.followed.filter((item) => {
+          return item.follows.id === this.currentUser.id
+        }).length > 0
+      )
+    },
+  },
+  methods: {
+    async toggleFollow() {
+      try {
+        if (this.isFollowing) {
+          const { data } = await this.$axios.post(
+            `/api/auth/${this.user.id}/unfollow`
+          )
+          this.user = data
+        } else {
+          const { data } = await this.$axios.post(
+            `/api/auth/${this.user.id}/follow`
+          )
+          this.user = data
+        }
+      } catch (err) {
+        this.$toast.error(err.message)
+      }
     },
   },
 }

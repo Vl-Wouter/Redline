@@ -1,5 +1,17 @@
 <template>
   <div class="container mx-auto px-2">
+    <modal v-if="user && user.vehicles.length < 1 && from === 'login'">
+      <h2 class="font-bold">You don't have any vehicles</h2>
+      <p>
+        Adding a vehicle to your profile will help others to find out what cars
+        are attending an event.
+      </p>
+      <nuxt-link
+        to="/new/vehicle"
+        class="block w-full py-2 rounded text-center bg-redline text-white"
+        >Add a vehicle</nuxt-link
+      >
+    </modal>
     <section v-if="events.length > 0">
       <h2 class="font-bold lg:text-center my-2">Upcoming events</h2>
       <main class="grid grid-cols-2 lg:grid-cols-6 gap-2">
@@ -47,18 +59,24 @@
 
 <script>
 import axios from 'axios'
+import Modal from '~/components/Modal'
 export default {
   layout: 'app',
+  components: {
+    Modal,
+  },
   asyncData(context) {
     return axios.get('/api/events').then((res) => {
       return {
         events: res.data,
+        from: context.from.name,
       }
     })
   },
   data() {
     return {
       events: 'Hello',
+      from: null,
     }
   },
   computed: {

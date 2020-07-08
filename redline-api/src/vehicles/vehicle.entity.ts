@@ -18,10 +18,13 @@ export class Vehicle extends BaseEntity {
   id: number;
   @Column()
   @ApiProperty()
-  brand: string;
+  make: string;
   @Column()
   @ApiProperty()
   model: string;
+  @Column()
+  @ApiProperty()
+  year: string;
   @Column()
   @ApiProperty()
   photo: string;

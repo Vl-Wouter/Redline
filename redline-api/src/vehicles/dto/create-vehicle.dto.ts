@@ -4,10 +4,13 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export class CreateVehicleDTO {
   @IsString()
   @ApiProperty()
-  brand: string;
+  make: string;
   @IsString()
   @ApiProperty()
   model: string;
+  @IsString()
+  @ApiProperty()
+  year: string;
   @IsOptional()
   @ApiPropertyOptional()
   photo: any;

@@ -32,7 +32,7 @@ export const handleImage = async (input: string, options) => {
         })
       : image.resize({ width });
     const destExists = await existsSync(dest);
-    if (!destExists) await mkdirSync(dest);
+    if (!destExists) await mkdirSync(dest, { recursive: true });
     await image.toFormat(format).toFile(`${dest}/${name}.${format}`);
 
     return `${dest.replace('uploads/', '')}/${name}.${format}`;

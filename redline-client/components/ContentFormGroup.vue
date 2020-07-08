@@ -28,3 +28,15 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+input,
+textarea,
+select {
+  @apply border rounded w-full py-2 px-2 bg-white;
+
+  &:focus {
+    @apply border-redline outline-none;
+  }
+}
+</style>

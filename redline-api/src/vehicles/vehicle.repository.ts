@@ -9,15 +9,18 @@ import { handleImage } from 'src/utils/file-upload.utils';
 @EntityRepository(Vehicle)
 export class VehicleRepository extends Repository<Vehicle> {
   async createVehicle(createVehicleDTO: CreateVehicleDTO, user: User, image) {
+    console.log(createVehicleDTO);
     try {
       const vehicle = await Vehicle.create(createVehicleDTO);
-      vehicle.photo = await handleImage(image.path, {
-        width: 2000,
-        isSquare: false,
-        dest: `uploads/vehicles/${user.username}`,
-        name: `${user.id}-${vehicle.brand}-${vehicle.model}`,
-        format: 'jpg',
-      });
+      if (image) {
+        vehicle.photo = await handleImage(image.path, {
+          width: 2000,
+          isSquare: false,
+          dest: `uploads/vehicles/${user.username}`,
+          name: `${user.id}-${vehicle.make}-${vehicle.model}`,
+          format: 'jpg',
+        });
+      }
       vehicle.owner = user;
 
       await vehicle.save();

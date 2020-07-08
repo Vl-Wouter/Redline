@@ -1,5 +1,5 @@
 <template>
-  <main class="container mx-auto px-2">
+  <main class="container mx-auto px-2 lg:w-1/2">
     <section
       class="profile relative px-4 py-4 mt-8 bg-white w-full rounded border"
     >
@@ -34,6 +34,33 @@
     </section>
     <section v-if="currentUser && !isCurrent" class="my-2 w-full">
       <button class="w-full py-2 bg-redline text-white rounded">Follow</button>
+    </section>
+    <h2 class="mt-4 text-center font-bold">Vehicles</h2>
+    <section class="w-full flex flex-row space-x-4 my-4">
+      <nuxt-link to="/new/vehicle" v-if="isCurrent">
+        <div
+          class="h-32 w-32 lg:h-48 lg:w-48 bg-white rounded border text-center flex flex-col justify-center items-center space-y-4"
+        >
+          <font-awesome-icon icon="plus-circle" class="text-redline text-3xl" />
+          <p class="text-gray-700">Add a new vehicle</p>
+        </div>
+      </nuxt-link>
+      <div
+        v-for="vehicle in user.vehicles"
+        :key="vehicle.id"
+        class="h-32 lg:h-48 bg-white rounded border relative overflow-hidden"
+      >
+        <img
+          :src="`/api/img/${vehicle.photo}`"
+          :alt="`${vehicle.make} ${vehicle.model}`"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute bottom-0 left-0 w-full bg-white">
+          <p class="py-2 px-2 text-sm text-gray-700 text-center">
+            {{ vehicle.year + ' ' + vehicle.make + ' ' + vehicle.model }}
+          </p>
+        </div>
+      </div>
     </section>
     <section class="tabs">
       <header class="w-full flex flex-row justify-between my-4">
@@ -70,7 +97,7 @@
           class="w-full px-4 py-2 rounded bg-white border text-gray-700 text-sm"
         >
           <h2 class="text-lg text-redline font-bold">{{ event.title }}</h2>
-          <p>{{ event.startTime }}</p>
+          <p>{{ event.startTime | eventDate }}</p>
           <p class="text-xs">{{ event.address }}</p>
         </nuxt-link>
       </main>

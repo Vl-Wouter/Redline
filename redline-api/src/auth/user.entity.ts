@@ -5,6 +5,8 @@ import {
   Column,
   Unique,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { UserRole } from './user-role.enum';
 import * as bcrypt from 'bcrypt';
@@ -76,4 +78,8 @@ export class User extends BaseEntity {
     review => review.author,
   )
   reviews: Review[];
+
+  @ManyToMany(type => User)
+  @JoinTable()
+  follows: User[];
 }

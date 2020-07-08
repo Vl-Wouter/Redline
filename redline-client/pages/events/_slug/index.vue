@@ -2,6 +2,26 @@
   <main
     class="container mx-auto lg:grid lg:grid-cols-2 lg:min-h-screen lg:gap-4"
   >
+    <modal id="attend-modal" class="hidden" v-if="user">
+      <form @submit.prevent="toggleAttendance" method="post">
+        <f-group>
+          <select v-model="form.vehicle" name="vehicle" id="vehicle">
+            <option :value="null"
+              >I don't bring a vehicle / don't want to show it</option
+            >
+            <option
+              v-for="vehicle in user.vehicles"
+              :key="vehicle.id"
+              :value="vehicle.id"
+              >{{ vehicle.make + ' ' + vehicle.model }}</option
+            >
+          </select>
+        </f-group>
+        <button class="w-full py-2 rounded bg-redline text-white">
+          Confirm attendance
+        </button>
+      </form>
+    </modal>
     <header class="w-full h-40 lg:h-full overflow-hidden">
       <img
         :src="`/api/img/${event.header}`"
@@ -31,11 +51,18 @@
       <section class="w-full flex flex-row justify-between items-center my-4">
         <div v-if="user">
           <button
-            class="py-1 px-4 rounded text-white"
-            :class="isAttending ? 'bg-redline' : 'bg-redline-light'"
+            v-if="isAttending"
+            class="py-1 px-4 rounded text-white bg-redline"
             @click="toggleAttendance"
           >
-            {{ isAttending ? 'Leave' : 'Going' }}
+            Leave
+          </button>
+          <button
+            v-else
+            class="py-1 px-4 rounded text-white bg-redline-light"
+            @click="showModal('attend-modal')"
+          >
+            Go to event
           </button>
         </div>
         <button
@@ -107,10 +134,14 @@
 <script>
 import axios from 'axios'
 import ReviewContainer from '~/components/ReviewContainer'
+import Modal from '~/components/Modal'
+import ContentFormGroup from '~/components/ContentFormGroup'
 export default {
   layout: 'app',
   components: {
     ReviewContainer,
+    Modal,
+    'f-group': ContentFormGroup,
   },
   asyncData({ params }) {
     return axios.get(`/api/events/${params.slug}`).then((res) => {
@@ -122,6 +153,9 @@ export default {
   data() {
     return {
       event: null,
+      form: {
+        vehicle: null,
+      },
     }
   },
   computed: {
@@ -156,15 +190,23 @@ export default {
       if (el.classList.contains('invisible')) {
         el.classList.remove('invisible')
       }
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden')
+      }
     },
     async toggleAttendance() {
       let updated = this.event
       try {
         if (!this.isAttending) {
           const { data } = await this.$axios.post(
-            `/api/events/${this.event.id}/attend`
+            `/api/events/${this.event.id}/attend`,
+            {
+              vehicle: this.form.vehicle,
+            }
           )
           updated = data
+          this.form.vehicle = null
+          document.querySelector('#attend-modal').classList.add('hidden')
         } else {
           const { data } = await this.$axios.post(
             `/api/events/${this.event.id}/leave`

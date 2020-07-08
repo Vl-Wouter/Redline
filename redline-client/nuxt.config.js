@@ -98,6 +98,7 @@ export default {
         'faTimes',
         'faCheck',
         'faTrash',
+        'faPlusCircle',
       ],
     },
   },

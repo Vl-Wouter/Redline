@@ -64,7 +64,7 @@
           </button>
         </section>
       </form>
-      <nuxt-link to="/" class="text-center text-redline-light my-4"
+      <nuxt-link :to="returnPath" class="text-center text-redline-light my-4"
         >Go back</nuxt-link
       >
     </section>
@@ -78,19 +78,31 @@ export default {
       redirect(from)
     }
   },
+  asyncData({ from }) {
+    return {
+      from: from.path,
+    }
+  },
   data() {
     return {
       user: {
         username: null,
         password: null,
       },
+      from: null,
     }
+  },
+  computed: {
+    returnPath() {
+      if (this.from === '/login') return '/'
+      return this.from
+    },
   },
   methods: {
     async login() {
       try {
         await this.$store.dispatch('user/signIn', this.user)
-        this.$router.push('/')
+        this.$router.push(this.returnPath)
       } catch (error) {
         const errObj = error.response ? error.response.data : error
         this.$toast.error(errObj.message)

@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateReviewDTO } from './dto/create-review.dto';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { ReviewsService } from './reviews.service';
 import { AuthGuard } from '@nestjs/passport';
 import {

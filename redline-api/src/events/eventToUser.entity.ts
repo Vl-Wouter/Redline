@@ -7,7 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Event } from './event.entity';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { Vehicle } from 'src/vehicles/vehicle.entity';
 
 @Entity()

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReviewRepository } from './review.repository';
 import { CreateReviewDTO } from './dto/create-review.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { Review } from './review.entity';
 import { checkModOrAdmin } from 'src/utils/check-role.utils';
 

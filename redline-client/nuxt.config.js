@@ -99,7 +99,9 @@ export default {
         'faCheck',
         'faTrash',
         'faPlusCircle',
+        'faGavel',
       ],
+      brands: ['faFontAwesome'],
     },
   },
   /*

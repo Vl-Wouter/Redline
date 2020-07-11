@@ -2,7 +2,7 @@ import { Repository, EntityRepository } from 'typeorm';
 import { Event } from './event.entity';
 import { CreateEventDTO } from './dto/create-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { slugify } from 'src/utils/slugify.utils';
 import { unlinkSync } from 'fs';
 import { InternalServerErrorException } from '@nestjs/common';

@@ -7,7 +7,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/category.entity';
 import { EventToUser } from './eventToUser.entity';

@@ -9,7 +9,7 @@ import { Event } from './event.entity';
 import { CreateEventDTO } from './dto/create-event.dto';
 import { UpdateEventDTO } from './dto/update-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { unlinkSync } from 'fs';
 import { checkModOrAdmin } from 'src/utils/check-role.utils';
 import { EventToUser } from './eventToUser.entity';

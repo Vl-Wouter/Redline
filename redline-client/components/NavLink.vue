@@ -1,5 +1,8 @@
 <template>
-  <nuxt-link :to="dest" class="relative h-full py-2 lg:pb-2 lg:pt-0">
+  <nuxt-link
+    :to="dest"
+    class="relative text-gray-500 h-full py-2 lg:pb-2 lg:pt-0"
+  >
     <font-awesome-icon :icon="icon" class="text-xl" />
     <span class="pl-1 hidden lg:inline">{{ text }}</span>
   </nuxt-link>

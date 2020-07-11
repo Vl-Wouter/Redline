@@ -71,7 +71,10 @@
         >
           {{ reviewLabel }}
         </button>
-        <button class="text-redline font-bold lg:pointer-events-none">
+        <button
+          class="text-redline font-bold lg:pointer-events-none"
+          @click="showModal('attendCont')"
+        >
           {{ attendLabel }}
         </button>
       </section>
@@ -121,11 +124,16 @@
         <h3 class="text-lg font-bold">Albums</h3>
       </section>
     </main>
-    <reviewContainer
+    <review-container
       id="reviewCont"
       :reviews="event.reviews"
       :event="event.id"
       class="lg:row-start-2 lg:col-start-1"
+      @close="closeModal"
+    />
+    <attending-container
+      id="attendCont"
+      :attending="event.attending"
       @close="closeModal"
     />
   </main>
@@ -134,12 +142,14 @@
 <script>
 import axios from 'axios'
 import ReviewContainer from '~/components/ReviewContainer'
+import AttendingContainer from '~/components/AttendingContainer'
 import Modal from '~/components/Modal'
 import ContentFormGroup from '~/components/ContentFormGroup'
 export default {
   layout: 'app',
   components: {
     ReviewContainer,
+    AttendingContainer,
     Modal,
     'f-group': ContentFormGroup,
   },

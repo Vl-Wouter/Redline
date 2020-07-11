@@ -30,9 +30,9 @@ export class User extends BaseEntity {
   @Column()
   @ApiProperty()
   username: string;
-  @Column()
+  @Column({ select: false })
   password: string;
-  @Column()
+  @Column({ select: false })
   salt: string;
 
   async validatePassword(password: string): Promise<boolean> {
@@ -83,12 +83,14 @@ export class User extends BaseEntity {
   @OneToMany(
     type => Follow,
     follow => follow.leads,
+    { eager: true },
   )
   followed: User[];
 
   @OneToMany(
     type => Follow,
     follow => follow.follows,
+    { eager: true },
   )
   follows: User[];
 }

@@ -3,16 +3,16 @@ import {
   UnauthorizedException,
   NotFoundException,
 } from '@nestjs/common';
-import { UserRepository } from './user.repository';
+import { UserRepository } from '../users/user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDTO } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { User } from './user.entity';
+import { User } from '../users/user.entity';
 import { handleImage } from 'src/utils/file-upload.utils';
 import { genSalt, hash } from 'bcrypt';
-import { FollowRepository } from './follow.repository';
+import { FollowRepository } from '../users/follow.repository';
 
 @Injectable()
 export class AuthService {
@@ -43,6 +43,8 @@ export class AuthService {
 
     return { accessToken };
   }
+
+  // MOVE BELOW TO USERS API
 
   async updateUserByName(username: string, userData, user: User) {
     const validPassword = userData.current_password

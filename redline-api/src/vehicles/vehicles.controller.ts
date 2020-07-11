@@ -10,7 +10,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { VehiclesService } from './vehicles.service';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { Vehicle } from './vehicle.entity';

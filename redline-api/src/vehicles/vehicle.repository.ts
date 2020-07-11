@@ -1,7 +1,7 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { Vehicle } from './vehicle.entity';
 import { CreateVehicleDTO } from './dto/create-vehicle.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { unlinkSync } from 'fs';
 import { InternalServerErrorException } from '@nestjs/common';
 import { handleImage } from 'src/utils/file-upload.utils';

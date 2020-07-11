@@ -1,14 +1,14 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { User } from './user.entity';
-import { AuthCredentialsDTO } from './dto';
+import { AuthCredentialsDTO } from '../auth/dto';
 import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDTO } from './dto/create-user.dto';
+import { CreateUserDTO } from '../auth/dto/create-user.dto';
 import { UserRole } from './user-role.enum';
-import { JwtPayload } from './jwt-payload.interface';
+import { JwtPayload } from '../auth/jwt-payload.interface';
 import { handleImage } from 'src/utils/file-upload.utils';
 
 @EntityRepository(User)
@@ -63,7 +63,21 @@ export class UserRepository extends Repository<User> {
     authCredentialsDTO: AuthCredentialsDTO,
   ): Promise<JwtPayload> {
     const { username, password } = authCredentialsDTO;
-    const user = await this.findOne({ username });
+    const user = await this.findOne(
+      { username },
+      {
+        select: [
+          'id',
+          'username',
+          'email',
+          'password',
+          'salt',
+          'roles',
+          'firstName',
+          'lastName',
+        ],
+      },
+    );
 
     if (user && (await user.validatePassword(password))) {
       return {

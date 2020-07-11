@@ -17,8 +17,10 @@ export default {
   },
   props: {
     icon: {
-      type: String,
-      default: null,
+      type: [String, Array],
+      default() {
+        return ['fab', 'font-awesome']
+      },
     },
     title: {
       type: String,

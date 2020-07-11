@@ -15,7 +15,7 @@ import { AuthService } from './auth.service';
 import { AuthCredentialsDTO } from './dto';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { GetUser } from './get-user.decorator';
-import { User } from './user.entity';
+import { User } from '../users/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiOperation,
@@ -67,6 +67,8 @@ export class AuthController {
   checkExisting(@Body() criteria) {
     return this.authService.checkExisting(criteria);
   }
+
+  // MOVE ALL BELOW TO NEW USERS API
 
   @Get('/:username')
   @ApiOperation({ operationId: 'Get user profile by name' })

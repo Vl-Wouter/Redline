@@ -32,7 +32,7 @@
     <nuxt-link
       v-if="user"
       to="/new"
-      class="fixed z-top right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-redline-light flex justify-center items-center"
+      class="fixed z-top right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-rl-blue text-white flex justify-center items-center"
       ><font-awesome-icon icon="plus" class="block"
     /></nuxt-link>
   </div>

@@ -115,7 +115,7 @@ import axios from 'axios'
 export default {
   layout: 'app',
   asyncData({ params }) {
-    return axios.get(`/api/auth/${params.slug}`).then((res) => {
+    return axios.get(`/api/users/${params.slug}`).then((res) => {
       return {
         user: res.data,
       }
@@ -150,17 +150,19 @@ export default {
       try {
         if (this.isFollowing) {
           const { data } = await this.$axios.post(
-            `/api/auth/${this.user.id}/unfollow`
+            `/api/users/${this.user.id}/unfollow`
           )
           this.user = data
         } else {
           const { data } = await this.$axios.post(
-            `/api/auth/${this.user.id}/follow`
+            `/api/users/${this.user.id}/follow`
           )
           this.user = data
         }
       } catch (err) {
-        this.$toast.error(err.message)
+        this.$toast.error(
+          err.response ? err.response.data.message : err.message
+        )
       }
     },
   },

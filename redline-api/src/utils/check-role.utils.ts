@@ -1,5 +1,5 @@
-import { User } from 'src/auth/user.entity';
-import { UserRole } from 'src/auth/user-role.enum';
+import { User } from 'src/users/user.entity';
+import { UserRole } from 'src/users/user-role.enum';
 
 export const checkModOrAdmin = (user: User) => {
   return (

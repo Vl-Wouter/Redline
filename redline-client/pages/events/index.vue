@@ -3,7 +3,7 @@
     <section v-if="events.length > 0" class="px-2">
       <section v-for="(eventList, month) in filterEvents" :key="month">
         <h2 class="text-lg font-bold lg:text-center">{{ month }}</h2>
-        <main class="grid grid-cols-1 lg:grid-cols-4 gap-4 my-4">
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-4 my-4">
           <nuxt-link
             v-for="event in eventList"
             :key="event.id"

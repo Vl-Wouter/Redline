@@ -28,6 +28,7 @@ module.exports = {
       colors: {
         redline: '#e82c4b',
         'redline-light': '#ed687e',
+        'rl-blue': '#3f88c5',
       },
     },
   },

@@ -14,11 +14,12 @@
     </modal>
     <section v-if="events.length > 0">
       <h2 class="font-bold lg:text-center my-2">Upcoming events</h2>
-      <main class="grid grid-cols-2 lg:grid-cols-6 gap-2">
+      <main class="grid grid-cols-2 lg:grid-cols-3 lg:w-1/2 lg:mx-auto gap-4">
         <nuxt-link
           v-for="event in events"
           :key="event.id"
           :to="`/events/${event.slug}`"
+          class="hover:text-redline"
         >
           <div class="square rounded overflow-hidden border">
             <div class="content">
@@ -27,12 +28,13 @@
                 :alt="event.title"
                 class="w-full h-full object-cover"
               />
-              <div
-                class="absolute bottom-0 w-full bg-white bg-opacity-75 px-2 py-2"
-              >
-                <p>{{ event.title }}</p>
-              </div>
             </div>
+          </div>
+          <div>
+            <h3 class="font-bold">{{ event.title }}</h3>
+            <p class="text-gray-700 text-sm">
+              {{ event.startTime | eventDate }}
+            </p>
           </div>
         </nuxt-link>
       </main>
@@ -51,7 +53,7 @@
     <nuxt-link
       v-if="user"
       to="/new"
-      class="fixed z-top right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-redline-light flex justify-center items-center"
+      class="fixed z-top right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-rl-blue text-white flex justify-center items-center"
       ><font-awesome-icon icon="plus" class="block"
     /></nuxt-link>
   </div>
@@ -87,7 +89,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 /* Sample `apply` at-rules with Tailwind CSS
 .container {
 @apply min-h-screen flex justify-center items-center text-center mx-auto;
@@ -95,7 +97,7 @@ export default {
 */
 .square {
   position: relative;
-  padding-bottom: 100%;
+  padding-bottom: 75%;
   width: 100%;
 }
 
@@ -105,6 +107,12 @@ export default {
   height: 100%;
   top: 0;
   left: 0;
+}
+
+.card:hover {
+  h3 {
+    @apply text-redline;
+  }
 }
 
 /* .container {

@@ -4,7 +4,7 @@ import {
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { User } from 'src/auth/user.entity';
+import { User } from 'src/users/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VehicleRepository } from './vehicle.repository';
 import { Vehicle } from './vehicle.entity';

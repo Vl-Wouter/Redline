@@ -14,7 +14,12 @@
           :to="`/user/${user.username}`"
           class="block right-0 w-8 h-8 cover bg-gray-200 rounded-full overflow-hidden flex justify-center items-center"
         >
-          <img v-if="user.profileImg" src="" alt="" class="" />
+          <img
+            v-if="user.profileImg"
+            :src="`/api/img/${user.profileImg}`"
+            alt=""
+            class=""
+          />
           <span v-else>U</span>
         </nuxt-link>
         <nuxt-link
@@ -29,6 +34,7 @@
         class="w-full text-redline-light lg:w-auto flex flex-row justify-between pt-3 lg:pt-0 lg:justify-end space-x-4 lg:space-x-8"
       >
         <nav-link />
+        <nav-link v-if="user" dest="/feed" icon="stream" text="Feed" />
         <nav-link dest="/events" icon="calendar" text="Events" />
         <nav-link dest="/map" icon="map" text="Map" />
       </nav>

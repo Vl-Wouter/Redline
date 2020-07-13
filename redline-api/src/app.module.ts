@@ -18,6 +18,11 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import sgTransport from 'nodemailer-sendgrid-transport';
+import nodemailer from 'nodemailer';
+import { constantsConfig } from './config/constants.config';
 
 @Module({
   imports: [
@@ -30,6 +35,20 @@ import { UsersModule } from './users/users.module';
       rootPath: join(__dirname, '../..', 'redline-client/dist'),
       exclude: ['/api*'],
     }),
+    // MailerModule.forRoot({
+    //   transport: `smtps://apikey@domain.com:pass@smtp.domain.com`
+    //   ),
+    //   defaults: {
+    //     from: '"Redline" <noreply@redline.com>',
+    //   },
+    //   template: {
+    //     dir: __dirname + '/templates',
+    //     adapter: new HandlebarsAdapter(),
+    //     options: {
+    //       strict: true,
+    //     },
+    //   },
+    // }),
     HttpModule,
     EventsModule,
     AuthModule,

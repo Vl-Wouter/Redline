@@ -56,6 +56,7 @@
             autocomplete="current-password"
           />
         </section>
+        <nuxt-link to="forgot" class="text-redline">Forgot password?</nuxt-link>
         <section class="w-full">
           <button
             type="submit"

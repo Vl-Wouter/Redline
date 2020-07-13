@@ -164,7 +164,6 @@ export default {
           values
         )
         this.user = data
-        // Upload new values and return updated user
       } catch (err) {
         this.$toast.error(
           err.response ? err.response.data.message : err.message

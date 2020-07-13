@@ -18,4 +18,7 @@ export const constantsConfig = {
   opencage: {
     api_key: process.env.OPENCAGE_KEY,
   },
+  sendgrid: {
+    api_key: process.env.SENDGRID_KEY,
+  },
 };

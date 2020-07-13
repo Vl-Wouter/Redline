@@ -10,6 +10,7 @@ import {
   UploadedFile,
   Res,
   Patch,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDTO } from './dto';
@@ -29,6 +30,7 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/utils/file-upload.utils';
+import { request } from 'http';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -66,6 +68,14 @@ export class AuthController {
   @Post('/check')
   checkExisting(@Body() criteria) {
     return this.authService.checkExisting(criteria);
+  }
+
+  @Post('/forgot')
+  @ApiOperation({ operationId: 'Request password reset' })
+  @ApiOkResponse({ description: 'Password reset sent' })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  sendResetLink(@Req() request, @Body() details) {
+    return this.authService.sendResetLink(request, details);
   }
 
   // MOVE ALL BELOW TO NEW USERS API

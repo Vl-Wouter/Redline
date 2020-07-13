@@ -7,6 +7,8 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from './user-role.enum';
 import * as bcrypt from 'bcrypt';
@@ -51,6 +53,20 @@ export class User extends BaseEntity {
   @Column({ default: null, nullable: true })
   @ApiProperty()
   profileImg: string;
+
+  @Column({ default: null, nullable: true, select: false })
+  @ApiProperty()
+  resetToken: string;
+
+  @Column({ type: 'timestamp', default: null, nullable: true, select: false })
+  @ApiProperty()
+  tokenExpires: Date;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @OneToMany(
     type => Event,

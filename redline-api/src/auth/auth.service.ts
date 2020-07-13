@@ -2,6 +2,7 @@ import {
   Injectable,
   UnauthorizedException,
   NotFoundException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { UserRepository } from '../users/user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,6 +14,11 @@ import { User } from '../users/user.entity';
 import { handleImage } from 'src/utils/file-upload.utils';
 import { genSalt, hash } from 'bcrypt';
 import { FollowRepository } from '../users/follow.repository';
+import { MailerService } from '@nestjs-modules/mailer';
+import sgMail from '@sendgrid/mail';
+import { constantsConfig as config } from 'src/config/constants.config';
+import { promisify } from 'util';
+import crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -42,6 +48,39 @@ export class AuthService {
     const accessToken = await this.jwtService.sign(payload);
 
     return { accessToken };
+  }
+
+  async sendResetLink(req, { email }) {
+    const token = (await promisify(crypto.randomBytes)(20)).toString('hex');
+    const found = await this.userRepository.findOne(
+      { email },
+      { select: ['id', 'email'] },
+    );
+    if (!found) throw new NotFoundException('Cannot find a user');
+
+    found.resetToken = token;
+    found.tokenExpires = new Date(Date.now() + 3600000);
+    await found.save();
+
+    // Send email
+    await sgMail.setApiKey(config.sendgrid.api_key);
+    try {
+      const msg = {
+        to: found.email,
+        from: 'woutvlae@student.arteveldehs.be',
+        subject: 'Password reset',
+        text: 'You have requested a password reset',
+        html: `<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>
+      <p>Please click on the following link, or paste this into your browser to complete the process:
+      http://${req.headers.origin}/reset/${token}</p>
+      <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>`,
+      };
+      await sgMail.send(msg);
+    } catch (err) {
+      throw new InternalServerErrorException(
+        err.response ? err.response.body.message : err.message,
+      );
+    }
   }
 
   // MOVE BELOW TO USERS API

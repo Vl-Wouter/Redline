@@ -34,15 +34,15 @@
     </section>
     <section v-if="currentUser && !isCurrent" class="my-2 w-full">
       <button
-        @click="toggleFollow"
         class="w-full py-2 bg-redline text-white rounded"
+        @click="toggleFollow"
       >
         {{ isFollowing ? 'Unfollow' : 'Follow' }}
       </button>
     </section>
     <h2 class="mt-4 text-center font-bold">Vehicles</h2>
     <section class="w-full flex flex-row space-x-4 my-4">
-      <nuxt-link to="/new/vehicle" v-if="isCurrent">
+      <nuxt-link v-if="isCurrent" to="/new/vehicle">
         <div
           class="h-32 w-32 lg:h-48 lg:w-48 bg-white rounded border text-center flex flex-col justify-center items-center space-y-4"
         >

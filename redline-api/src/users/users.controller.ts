@@ -1,4 +1,13 @@
-import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  Body,
+  Query,
+  Patch,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -20,11 +29,17 @@ export class UsersController {
   @ApiOperation({ operationId: 'Get user by ID or username' })
   @ApiOkResponse({ description: 'User found', type: User })
   @ApiNotFoundResponse({ description: 'User not found' })
-  getUser(@Param('search') search: number | string): Promise<User> {
+  getUser(
+    @Param('search') search: number | string,
+    @Query('add') fields,
+  ): Promise<User> {
+    if (fields) {
+      fields = fields.split(',');
+    }
     if (typeof search === 'string') {
-      return this.usersService.getUserByName(search);
+      return this.usersService.getUserByName(search, fields);
     } else {
-      return this.usersService.getUserById(search);
+      return this.usersService.getUserById(search, fields);
     }
   }
 
@@ -46,5 +61,23 @@ export class UsersController {
   @ApiNotFoundResponse({ description: 'User not found' })
   unfollowUser(@Param('id') followId: number, @GetUser() user: User) {
     return this.usersService.unfollow(followId, user);
+  }
+
+  @Patch('/:id')
+  @UseGuards(AuthGuard())
+  @ApiOperation({ operationId: 'Update a user object' })
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'Updated user', type: User })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  updateUser(
+    @Param('id') id: number,
+    @Body() update,
+    @GetUser() user: User,
+    @Query('type') type: string,
+  ) {
+    if (type === 'account') {
+      return this.usersService.updateAccount(id, update, user);
+    }
+    return this.usersService.updateProfile(id, update, user);
   }
 }

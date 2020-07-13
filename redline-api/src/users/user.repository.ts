@@ -94,4 +94,14 @@ export class UserRepository extends Repository<User> {
   private async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);
   }
+
+  async updateAccount(values, user: User) {
+    await this.update(user.id, values);
+    if (values.password) {
+      const salt = await bcrypt.genSalt();
+      user.password = await this.hashPassword(values.password, salt);
+      await user.save();
+    }
+    return this.findOne(user.id);
+  }
 }

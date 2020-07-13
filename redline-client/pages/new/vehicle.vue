@@ -10,26 +10,26 @@
     </header>
     <main class="container mx-auto">
       <form
-        @submit.prevent="submit"
         method="post"
         class="lg:w-1/2 lg:mx-auto px-4"
+        @submit.prevent="submit"
       >
         <f-group
           label="Seach by VIN"
           field="vin"
           helper="Searching by VIN allows us to pre-fill the information about your vehicle"
         >
-          <input v-model="vin" type="text" name="vin" id="vin" />
+          <input id="vin" v-model="vin" type="text" name="vin" />
         </f-group>
         <div class="my-2 border-b"></div>
         <f-group label="Make" field="make" helper="e.g. Ford, Audi, BMW, ...">
-          <input v-model="form.make" type="text" name="make" id="make" />
+          <input id="make" v-model="form.make" type="text" name="make" />
         </f-group>
         <f-group label="Model" field="model"
-          ><input v-model="form.model" type="text" name="model" id="model"
+          ><input id="model" v-model="form.model" type="text" name="model"
         /></f-group>
         <f-group label="Year" field="year"
-          ><input v-model="form.year" type="text" name="year" id="year"
+          ><input id="year" v-model="form.year" type="text" name="year"
         /></f-group>
         <f-group
           label="Photo"
@@ -38,7 +38,7 @@
         >
           <file-input
             name="photo"
-            labelElement
+            label-element
             @files="
               (fileData) => {
                 form.photo = fileData

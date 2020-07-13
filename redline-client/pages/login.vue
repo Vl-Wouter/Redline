@@ -53,6 +53,7 @@
             type="password"
             name="password"
             class="px-4 w-full bg-white"
+            autocomplete="current-password"
           />
         </section>
         <section class="w-full">

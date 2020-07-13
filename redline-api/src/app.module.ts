@@ -18,7 +18,6 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { FeedsModule } from './feeds/feeds.module';
 
 @Module({
   imports: [
@@ -38,7 +37,6 @@ import { FeedsModule } from './feeds/feeds.module';
     VehiclesModule,
     ReviewsModule,
     UsersModule,
-    FeedsModule,
   ],
   controllers: [AppController],
   providers: [

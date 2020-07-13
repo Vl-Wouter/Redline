@@ -3,6 +3,9 @@
 
 ## To-do
 
+- [x] Split Auth API into Auth and User
+- [x] User settings
+- [ ] Add password forget flow
 - [ ] Albums API
 - [ ] Albums creation in client
 - [ ] Album pages in client
@@ -10,5 +13,3 @@
 - [ ] Article API
 - [ ] Articles in client
 - [ ] Articles list (maybe instead of feed)
-- [ ] User settings
-- [ ] Split Auth API into Auth and User

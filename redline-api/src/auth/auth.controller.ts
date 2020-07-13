@@ -70,14 +70,6 @@ export class AuthController {
 
   // MOVE ALL BELOW TO NEW USERS API
 
-  @Get('/:username')
-  @ApiOperation({ operationId: 'Get user profile by name' })
-  @ApiOkResponse({ description: 'User found', type: User })
-  @ApiNotFoundResponse({ description: 'User not found' })
-  getUserByName(@Param('username') username: string): Promise<User> {
-    return this.authService.getUserByName(username);
-  }
-
   @Patch('/:username')
   @UseGuards(AuthGuard())
   updateUserByName(
@@ -124,17 +116,5 @@ export class AuthController {
     @GetUser() user: User,
   ) {
     return this.authService.getAllUserDetails(username, user);
-  }
-
-  @Post(':id/follow')
-  @UseGuards(AuthGuard())
-  followUser(@Param('id') followId: number, @GetUser() user: User) {
-    return this.authService.followUser(followId, user);
-  }
-
-  @Post('/:id/unfollow')
-  @UseGuards(AuthGuard())
-  unfollowUser(@Param('id') followId: number, @GetUser() user: User) {
-    return this.authService.unfollowUser(followId, user);
   }
 }

@@ -2,10 +2,10 @@
   <main
     class="container mx-auto lg:grid lg:grid-cols-2 lg:min-h-screen lg:gap-4"
   >
-    <modal id="attend-modal" class="hidden" v-if="user">
-      <form @submit.prevent="toggleAttendance" method="post">
+    <modal v-if="user" id="attend-modal" class="hidden">
+      <form method="post" @submit.prevent="toggleAttendance">
         <f-group>
-          <select v-model="form.vehicle" name="vehicle" id="vehicle">
+          <select id="vehicle" v-model="form.vehicle" name="vehicle">
             <option :value="null"
               >I don't bring a vehicle / don't want to show it</option
             >

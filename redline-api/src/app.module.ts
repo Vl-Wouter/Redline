@@ -23,6 +23,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import sgTransport from 'nodemailer-sendgrid-transport';
 import nodemailer from 'nodemailer';
 import { constantsConfig } from './config/constants.config';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -56,6 +57,12 @@ import { constantsConfig } from './config/constants.config';
     VehiclesModule,
     ReviewsModule,
     UsersModule,
+    MailModule.register({
+      api_key: constantsConfig.sendgrid.api_key,
+      defaults: {
+        from: 'woutvlae@student.arteveldehs.be',
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [

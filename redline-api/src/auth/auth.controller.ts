@@ -78,8 +78,25 @@ export class AuthController {
     return this.authService.sendResetLink(request, details);
   }
 
-  // MOVE ALL BELOW TO NEW USERS API
+  @Get('/reset/:token')
+  @ApiOperation({ operationId: 'Get user from reset token' })
+  @ApiOkResponse({ description: 'Token is valid, user returned' })
+  @ApiNotFoundResponse({ description: 'Token is invalid' })
+  getUserFromToken(@Param('token') token: string) {
+    return this.authService.getUserFromToken(token);
+  }
 
+  @Post('/reset/:token')
+  @ApiOperation({ operationId: 'Reset user password' })
+  @ApiOkResponse({ description: 'Password has been updated' })
+  @ApiNotFoundResponse({
+    description: 'Cannot find a user to update / Invalid token',
+  })
+  resetPassword(@Param('token') token: string, @Body() values) {
+    return this.authService.resetPassword(token, values);
+  }
+
+  // MOVE ALL BELOW TO NEW USERS API
   @Patch('/:username')
   @UseGuards(AuthGuard())
   updateUserByName(

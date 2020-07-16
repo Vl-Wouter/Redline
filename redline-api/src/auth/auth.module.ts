@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { constantsConfig as config } from 'src/config/constants.config';
 import { JwtStrategy } from './jwt.strategy';
 import { FollowRepository } from '../users/follow.repository';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
@@ -18,6 +19,12 @@ import { FollowRepository } from '../users/follow.repository';
       secret: config.auth.jwt.secret,
       signOptions: {
         expiresIn: 3600,
+      },
+    }),
+    MailModule.register({
+      api_key: config.sendgrid.api_key,
+      defaults: {
+        from: 'woutvlae@student.arteveldehs.be',
       },
     }),
     TypeOrmModule.forFeature([UserRepository, FollowRepository]),

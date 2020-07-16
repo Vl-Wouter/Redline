@@ -10,21 +10,21 @@
       <h2 class="font-bold text-lg">Change profile settings</h2>
     </header>
     <main>
-      <form @submit.prevent="submit" method="post">
+      <form method="post" @submit.prevent="submit">
         <f-group label="First Name" field="firstName">
           <input
+            id="firstName"
             v-model="form.firstName"
             type="text"
             name="firstName"
-            id="firstName"
           />
         </f-group>
         <f-group label="Last Name" field="lastName">
           <input
+            id="lastName"
             v-model="form.lastName"
             type="text"
             name="lastName"
-            id="lastName"
           />
         </f-group>
         <f-group
@@ -80,7 +80,7 @@
         <f-group label="Change your profile picture" field="profileImg">
           <file-input
             name="profileImg"
-            labelElement
+            label-element
             @files="(fileData) => (form.profileImg = fileData)"
           >
             <section
@@ -156,9 +156,8 @@ export default {
       try {
         const { profileImg: image, ...values } = this.form
         if (image && typeof image !== 'string') {
-          console.log('Upload new image')
+          // Upload image
         }
-        console.log(values)
         const { data } = await this.$axios.patch(
           `/api/users/${this.user.id}`,
           values

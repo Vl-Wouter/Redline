@@ -20,4 +20,7 @@
 - [ ] Article API
 - [ ] Articles in client
 - [ ] Articles list (maybe instead of feed) 
+
+## Extra ideas (time-permitting)
+- [ ] VIN Decoding for vehicle info
 - [ ] If possible, look for options for feed

@@ -73,7 +73,7 @@ export class UsersController {
     @Param('id') id: number,
     @Body() update,
     @GetUser() user: User,
-    @Query('type') type: string,
+    @Query('type') type?: string,
   ) {
     if (type === 'account') {
       return this.usersService.updateAccount(id, update, user);

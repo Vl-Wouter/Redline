@@ -97,51 +97,51 @@ export class AuthController {
   }
 
   // MOVE ALL BELOW TO NEW USERS API
-  @Patch('/:username')
-  @UseGuards(AuthGuard())
-  updateUserByName(
-    @Param('username') username: string,
-    @Body() userData,
-    @GetUser() user: User,
-  ) {
-    return this.authService.updateUserByName(username, userData, user);
-  }
+  // @Patch('/:username')
+  // @UseGuards(AuthGuard())
+  // updateUserByName(
+  //   @Param('username') username: string,
+  //   @Body() userData,
+  //   @GetUser() user: User,
+  // ) {
+  //   return this.authService.updateUserByName(username, userData, user);
+  // }
 
-  @Get('/:username/avatar')
-  getUserAvatar(@Param('username') username: string, @Res() res) {
-    res.sendFile(`/users/${username}/avatar.jpg`, { root: 'uploads' });
-  }
+  // @Get('/:username/avatar')
+  // getUserAvatar(@Param('username') username: string, @Res() res) {
+  //   res.sendFile(`/users/${username}/avatar.jpg`, { root: 'uploads' });
+  // }
 
-  @Post('/:username/avatar')
-  @UseGuards(AuthGuard())
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploads/tmp',
-        filename: editFileName,
-      }),
-      fileFilter: imageFileFilter,
-    }),
-  )
-  updateUserAvatar(
-    @Param('username') username: string,
-    @UploadedFile() avatarFile,
-    @GetUser() user: User,
-  ) {
-    return this.authService.updateUserAvatar(username, avatarFile, user);
-  }
+  // @Post('/:username/avatar')
+  // @UseGuards(AuthGuard())
+  // @UseInterceptors(
+  //   FileInterceptor('image', {
+  //     storage: diskStorage({
+  //       destination: './uploads/tmp',
+  //       filename: editFileName,
+  //     }),
+  //     fileFilter: imageFileFilter,
+  //   }),
+  // )
+  // updateUserAvatar(
+  //   @Param('username') username: string,
+  //   @UploadedFile() avatarFile,
+  //   @GetUser() user: User,
+  // ) {
+  //   return this.authService.updateUserAvatar(username, avatarFile, user);
+  // }
 
-  @Get('/:username/all')
-  @UseGuards(AuthGuard())
-  @ApiOperation({ operationId: 'Get user settings' })
-  @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Found user information' })
-  @ApiUnauthorizedResponse({ description: 'Cannot fetch user details' })
-  @ApiNotFoundResponse({ description: 'Cannot find user' })
-  getAllUserDetails(
-    @Param('username') username: string,
-    @GetUser() user: User,
-  ) {
-    return this.authService.getAllUserDetails(username, user);
-  }
+  // @Get('/:username/all')
+  // @UseGuards(AuthGuard())
+  // @ApiOperation({ operationId: 'Get user settings' })
+  // @ApiBearerAuth()
+  // @ApiOkResponse({ description: 'Found user information' })
+  // @ApiUnauthorizedResponse({ description: 'Cannot fetch user details' })
+  // @ApiNotFoundResponse({ description: 'Cannot find user' })
+  // getAllUserDetails(
+  //   @Param('username') username: string,
+  //   @GetUser() user: User,
+  // ) {
+  //   return this.authService.getAllUserDetails(username, user);
+  // }
 }

@@ -33,7 +33,15 @@
           <div>
             <h3 class="font-bold">{{ event.title }}</h3>
             <p class="text-gray-700 text-sm">
-              {{ event.startTime | eventDate }}
+              {{
+                event.startTime
+                  | eventDate({
+                    day: 'numeric',
+                    month: 'numeric',
+                    year: 'numeric',
+                  })
+              }}
+              - {{ event.distance }} km
             </p>
           </div>
         </nuxt-link>
@@ -86,6 +94,21 @@ export default {
       return this.$store.getters['user/getCurrent']
     },
   },
+  async created() {
+    const { coords } = await this.$position()
+    const events = []
+    this.events.forEach((event) => {
+      event.distance = this.$distance(
+        coords.latitude,
+        coords.longitude,
+        event.latitude,
+        event.longitude
+      ).toFixed(0)
+      events.push(event)
+    })
+    this.events = events
+  },
+  methods: {},
 }
 </script>
 

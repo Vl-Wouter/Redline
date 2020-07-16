@@ -82,7 +82,6 @@ export class EventsService {
     if (!event)
       throw new NotFoundException('No owned event found with this id');
     try {
-      // unlinkSync(`./uploads/${event.header}`);
       await unlink(`./uploads/${event.header}`, err => {
         if (err) {
           throw new InternalServerErrorException(
@@ -112,16 +111,21 @@ export class EventsService {
   }
 
   async updateEvent(
-    id: number,
+    slug: string,
     updateEventDto: UpdateEventDTO,
     user: User,
   ): Promise<Event> {
-    const options = checkModOrAdmin(user) ? { id, organiser: user } : { id };
-    const result = await this.eventRepository.update(options, updateEventDto);
-    if (result.affected === 0)
-      throw new NotFoundException(`Event "${id}" is not found in the db`);
+    const result = await this.eventRepository.update(
+      { slug, organiser: user },
+      updateEventDto,
+    );
 
-    return this.getEventById(id);
+    if (result.affected === 0 || result.raw.affectedRows === 0)
+      throw new NotFoundException(
+        `Event "${slug.replace('-', ' ')}" not found`,
+      );
+
+    return this.getEventBySlug(slug);
   }
 
   async attendEvent(eventId: number, user: User, vehicleId: number) {

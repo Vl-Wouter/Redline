@@ -138,12 +138,11 @@ export class EventsController {
   @ApiNotFoundResponse({ description: 'Cannot find event to update' })
   @UsePipes(ValidationPipe)
   updateEvent(
-    @Param('id') id: number,
+    @Param('id') slug: string,
     @Body() updateEventDTO: UpdateEventDTO,
     @GetUser() user: User,
   ): Promise<Event> {
-    console.log(updateEventDTO);
-    return this.eventService.updateEvent(id, updateEventDTO, user);
+    return this.eventService.updateEvent(slug, updateEventDTO, user);
   }
 
   @Post('/:id/attend')

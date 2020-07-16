@@ -46,9 +46,10 @@
         alt="Header Image"
         class="w-full h-full object-cover"
       />
-      <div class="absolute top-0 right-0 mr-4 mt-4 flex space-x-4">
+      <div v-if="user" class="absolute top-0 right-0 mr-4 mt-4 flex space-x-4">
         <nuxt-link
-          to="#"
+          to="edit"
+          append
           class="w-12 h-12 rounded-full flex items-center justify-center bg-rl-blue text-white"
         >
           <font-awesome-icon icon="edit" />

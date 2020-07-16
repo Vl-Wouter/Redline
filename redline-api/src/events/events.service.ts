@@ -10,7 +10,7 @@ import { CreateEventDTO } from './dto/create-event.dto';
 import { UpdateEventDTO } from './dto/update-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';
 import { User } from 'src/users/user.entity';
-import { unlinkSync } from 'fs';
+import { unlinkSync, unlink } from 'fs';
 import { checkModOrAdmin } from 'src/utils/check-role.utils';
 import { EventToUser } from './eventToUser.entity';
 import { EventToUserRepository } from './eventToUser.repository';
@@ -82,11 +82,18 @@ export class EventsService {
     if (!event)
       throw new NotFoundException('No owned event found with this id');
     try {
-      unlinkSync(`./uploads/events/${event.header}`);
-      await event.remove();
+      // unlinkSync(`./uploads/${event.header}`);
+      await unlink(`./uploads/${event.header}`, err => {
+        if (err) {
+          throw new InternalServerErrorException(
+            'Failed to unlink the header image',
+          );
+        }
+      });
+      await this.eventRepository.delete(event.id);
     } catch (error) {
       throw new InternalServerErrorException(
-        'An error occured while deleting an event',
+        error.message ?? 'An error occured while deleting this event',
       );
     }
   }

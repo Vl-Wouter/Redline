@@ -62,16 +62,6 @@ export class EventsController {
     return this.eventService.getEvents(filterDTO);
   }
 
-  @Get('/header/:name')
-  @ApiOperation({
-    operationId: 'Get event header',
-    description: 'Returns the image file associated with the event',
-  })
-  @ApiOkResponse({ description: 'Image has been returned' })
-  async getEventHeader(@Param('name') name: string, @Res() res): Promise<any> {
-    res.sendFile(`/events/${name}`, { root: 'uploads' });
-  }
-
   @Get('/:slug')
   @ApiOperation({
     operationId: 'Get event by slug',
@@ -186,7 +176,7 @@ export class EventsController {
     return this.eventService.leaveEvent(id, user);
   }
 
-  @Post('/:id/updateHeader')
+  @Post('/:id/header')
   @UseGuards(AuthGuard())
   @UseInterceptors(
     FileInterceptor('header', {

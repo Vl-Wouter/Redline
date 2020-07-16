@@ -6,6 +6,8 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -59,6 +61,12 @@ export class Event extends BaseEntity {
 
   @Column({ default: 0, type: 'float' })
   longitude: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @ManyToOne(
     type => User,

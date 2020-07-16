@@ -11,10 +11,11 @@
   - [x] Create views and routes to generate new password
 - [ ] Edit and delete events in client (API is ready)
 - [x] Create module for emails
+- [ ] Calculate distance between user and event
 - [ ] Albums API
 - [ ] Albums creation in client
 - [ ] Album pages in client
 - [ ] Albums link to Events
 - [ ] Article API
 - [ ] Articles in client
-- [ ] Articles list (maybe instead of feed)
+- [ ] Articles list (maybe instead of feed) 

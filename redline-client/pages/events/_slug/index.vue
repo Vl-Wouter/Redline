@@ -22,12 +22,44 @@
         </button>
       </form>
     </modal>
-    <header class="w-full h-40 lg:h-full overflow-hidden">
+    <modal v-if="user && isOwn" id="delete-modal" class="hidden">
+      <h2 class="font-bold">Delete {{ event.title }}</h2>
+      <p>Are you sure you want to delete this event?</p>
+      <div class="w-full flex justify-between">
+        <button
+          @click="deleteEvent"
+          class="bg-red-500 text-white py-2 px-2 rounded"
+        >
+          Yes, delete it
+        </button>
+        <button
+          class="border border-rl-blue py-2 px-2 text-rl-blue rounded"
+          @click="closeModalById('delete-modal')"
+        >
+          Cancel
+        </button>
+      </div>
+    </modal>
+    <header class="relative w-full h-40 lg:h-full overflow-hidden">
       <img
         :src="`/api/img/${event.header}`"
         alt="Header Image"
         class="w-full h-full object-cover"
       />
+      <div class="absolute top-0 right-0 mr-4 mt-4 flex space-x-4">
+        <nuxt-link
+          to="#"
+          class="w-12 h-12 rounded-full flex items-center justify-center bg-rl-blue text-white"
+        >
+          <font-awesome-icon icon="edit" />
+        </nuxt-link>
+        <button
+          @click="showModal('delete-modal')"
+          class="w-12 h-12 rounded-full flex items-center justify-center bg-rl-blue text-white"
+        >
+          <font-awesome-icon icon="trash" />
+        </button>
+      </div>
     </header>
     <main class="px-2 mt-4">
       <section class="flex flex-row justify-between items-center">
@@ -195,6 +227,10 @@ export default {
     closeModal(target) {
       target.classList.add('invisible')
     },
+    closeModalById(id) {
+      console.log(document.querySelector(`#${id}`))
+      this.closeModal(document.querySelector(`#${id}`))
+    },
     showModal(id) {
       const el = document.querySelector(`#${id}`)
       if (el.classList.contains('invisible')) {
@@ -226,6 +262,15 @@ export default {
         this.event = updated
       } catch (err) {
         this.$toast.error(err.message)
+      }
+    },
+
+    async deleteEvent() {
+      try {
+        await this.$axios.delete(`/api/events/${this.event.slug}`)
+        return this.$router.push('/')
+      } catch (err) {
+        this.$toast.error(err.response.data.message ?? err.message)
       }
     },
   },

@@ -100,6 +100,7 @@ export default {
         'faTrash',
         'faPlusCircle',
         'faGavel',
+        'faEdit',
       ],
       brands: ['faFontAwesome'],
     },

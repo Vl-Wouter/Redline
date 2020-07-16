@@ -9,9 +9,10 @@
   - [x] Send email on reset request
   - [x] Generate code for user
   - [x] Create views and routes to generate new password
-- [ ] Edit and delete events in client (API is ready)
+- [x] Edit and delete events in client (API is ready)
 - [x] Create module for emails
-- [ ] Calculate distance between user and event
+- [x] Calculate distance between user and event
+- [ ] Filter events based on type, distance and search query
 - [ ] Albums API
 - [ ] Albums creation in client
 - [ ] Album pages in client
@@ -19,3 +20,4 @@
 - [ ] Article API
 - [ ] Articles in client
 - [ ] Articles list (maybe instead of feed) 
+- [ ] If possible, look for options for feed

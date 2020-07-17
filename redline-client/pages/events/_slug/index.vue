@@ -40,13 +40,16 @@
         </button>
       </div>
     </modal>
-    <header class="relative w-full h-40 lg:h-full overflow-hidden">
+    <header class="relative w-full h-40 lg:h-full overflow-hidden lg:rounded">
       <img
         :src="`/api/img/${event.header}`"
         alt="Header Image"
         class="w-full h-full object-cover"
       />
-      <div v-if="user" class="absolute top-0 right-0 mr-4 mt-4 flex space-x-4">
+      <div
+        v-if="user && isOwn"
+        class="absolute top-0 right-0 mr-4 mt-4 flex space-x-4"
+      >
         <nuxt-link
           to="edit"
           append

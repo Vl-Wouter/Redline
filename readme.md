@@ -12,7 +12,8 @@
 - [x] Edit and delete events in client (API is ready)
 - [x] Create module for emails
 - [x] Calculate distance between user and event
-- [ ] Filter events based on type, distance and search query
+- [x] Filter events based on type, distance and search query
+- [x] Fix navbar
 - [ ] Albums API
 - [ ] Albums creation in client
 - [ ] Album pages in client

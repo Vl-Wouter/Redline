@@ -1,10 +1,12 @@
 <template>
   <nuxt-link
     :to="dest"
-    class="relative text-gray-500 h-full py-2 lg:pb-2 lg:pt-0"
+    class="relative text-gray-500 h-full py-2 lg:pb-2 flex flex-col items-center justify-center lg:text-center lg:pt-0"
   >
     <font-awesome-icon :icon="icon" class="text-xl" />
-    <span class="pl-1 hidden lg:inline">{{ text }}</span>
+    <p class="text-xs" v-if="text">
+      {{ text }}
+    </p>
   </nuxt-link>
 </template>
 
@@ -21,7 +23,7 @@ export default {
     },
     text: {
       type: String,
-      default: 'Home',
+      default: '',
     },
   },
 }
@@ -30,15 +32,5 @@ export default {
 <style lang="scss" scoped>
 .nuxt-link-exact-active {
   @apply text-redline;
-
-  &::after {
-    content: '';
-    height: 4px;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    border-radius: 0.25rem 0.25rem 0 0;
-    @apply block bg-redline;
-  }
 }
 </style>

@@ -75,6 +75,7 @@ export class UserRepository extends Repository<User> {
           'roles',
           'firstName',
           'lastName',
+          'profileImg',
         ],
       },
     );
@@ -85,6 +86,7 @@ export class UserRepository extends Repository<User> {
         username: user.username,
         roles: user.roles,
         fullName: `${user.firstName} ${user.lastName}`,
+        profileImg: user.profileImg,
       };
     } else {
       return null;

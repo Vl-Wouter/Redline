@@ -5,4 +5,5 @@ export interface JwtPayload {
   username: string;
   roles: UserRole[];
   fullName: string;
+  profileImg: string;
 }

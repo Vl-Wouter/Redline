@@ -103,6 +103,8 @@ export default {
         'faGavel',
         'faEdit',
         'faFilter',
+        'faSignInAlt',
+        'faSignOutAlt',
       ],
       brands: ['faFontAwesome'],
     },

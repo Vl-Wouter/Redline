@@ -46,10 +46,6 @@ export const actions = {
     commit('clearFilters')
     return state.filters
   },
-  filterEvents({ state }, events) {
-    console.log(state.filters)
-    return events
-  },
 }
 
 export const getters = {

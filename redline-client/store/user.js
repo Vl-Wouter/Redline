@@ -20,7 +20,9 @@ export const mutations = {
 export const actions = {
   async signIn({ commit, dispatch }, authDetails) {
     const { data } = await this.$axios.post('/api/auth/signin', authDetails)
-    const { id, fullName, roles, username } = parseJWT(data.accessToken)
+    const { id, fullName, roles, username, profileImg } = parseJWT(
+      data.accessToken
+    )
     this.$axios.setToken(data.accessToken, 'Bearer')
     const { data: vehicles } = await this.$axios.get(`/api/vehicles/user/${id}`)
     commit('setCurrent', {
@@ -28,6 +30,7 @@ export const actions = {
       fullName,
       roles,
       username,
+      profileImg,
       vehicles,
     })
     commit('setToken', data.accessToken)

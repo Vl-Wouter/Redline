@@ -211,9 +211,10 @@ export default {
         )
       }
       if (date.end) {
+        const end = new Date(date.end)
+        end.setDate(end.getDate() + 1)
         events = events.filter(
-          (event) =>
-            new Date(event.endTime).getTime() <= new Date(date.end).getTime()
+          (event) => new Date(event.endTime).getTime() <= end.getTime()
         )
       }
       return this.groupEvents(events)
@@ -247,7 +248,9 @@ export default {
     },
     clearFilters() {
       this.$store.dispatch('events/clearFilters')
-      this.filters = this.$store.getters['events/getFilters']
+      this.filters = JSON.parse(
+        JSON.stringify(this.$store.getters['events/getFilters'])
+      )
     },
     groupEvents(events) {
       return events.reduce((r, a) => {

@@ -24,4 +24,5 @@
 
 ## Extra ideas (time-permitting)
 - [ ] VIN Decoding for vehicle info
+- [ ] Store cookie for session (loads user into vue store on load)
 - [ ] If possible, look for options for feed

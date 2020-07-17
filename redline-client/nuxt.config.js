@@ -39,6 +39,7 @@ export default {
     '~/plugins/filters.js',
     '~/plugins/helpers.js',
     { src: '~/plugins/v-calendar.js', ssr: false },
+    { src: '~/plugins/vuex-persist.js', ssr: false },
   ],
   /*
    ** Auto import components

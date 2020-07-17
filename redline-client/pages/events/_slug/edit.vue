@@ -7,22 +7,22 @@
       <h1 class="text-xl font-bold">Edit event</h1>
     </header>
     <main class="w-full">
-      <form @submit.prevent="submit" class="w-full" method="post">
+      <form class="w-full" method="post" @submit.prevent="submit">
         <f-group label="Event title" field="title">
-          <input v-model="form.title" type="text" name="title" id="title" />
+          <input id="title" v-model="form.title" type="text" name="title" />
         </f-group>
         <f-group label="Description" field="desc">
           <textarea
+            id="desc"
             v-model="form.description"
             name="desc"
-            id="desc"
             cols="30"
             rows="5"
           ></textarea>
           <span class="text-xs">{{ descLength }} / 500</span>
         </f-group>
         <f-group label="Category" field="category">
-          <select v-model="form.categoryId" name="category" id="category">
+          <select id="category" v-model="form.categoryId" name="category">
             <option :value="null" disabled>Select one</option>
             <option
               v-for="category in categories"
@@ -68,7 +68,7 @@
         <f-group label="Header image" field="header">
           <file-input
             name="header"
-            labelElement
+            label-element
             @files="
               (fileData) => {
                 form.header = fileData

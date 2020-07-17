@@ -4,7 +4,7 @@
     class="relative text-gray-500 h-full py-2 lg:pb-2 flex flex-col items-center justify-center lg:text-center lg:pt-0"
   >
     <font-awesome-icon :icon="icon" class="text-xl" />
-    <p class="text-xs" v-if="text">
+    <p v-if="text" class="text-xs">
       {{ text }}
     </p>
   </nuxt-link>

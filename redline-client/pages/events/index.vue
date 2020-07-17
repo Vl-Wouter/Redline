@@ -46,31 +46,31 @@
       </p>
     </section>
     <section
-      class="absolute z-20 hidden overflow-visible lg:block lg:h-auto lg:z-0 w-full h-screen top-0 left-0 lg:relative bg-white lg:rounded lg:border px-4 py-2"
       id="filters"
+      class="absolute z-20 hidden overflow-visible lg:block lg:h-auto lg:z-0 w-full h-screen top-0 left-0 lg:relative bg-white lg:rounded lg:border px-4 py-2"
     >
       <header class="w-full flex justify-between items-center">
         <h2 class="text-xl font-bold">Filters</h2>
-        <button @click="hideFilters" class="text-redline text-xl lg:hidden">
+        <button class="text-redline text-xl lg:hidden" @click="hideFilters">
           <font-awesome-icon icon="times" />
         </button>
       </header>
       <main class="w-full">
         <form class="my-4 space-y-2">
           <input
+            id="search"
             v-model="filters.search"
             type="text"
             name="search"
-            id="search"
             placeholder="Search..."
             class="border rounded w-full px-4 py-2 focus:outline-none focus:border-redline"
           />
           <h3 class="text-redline">Categories</h3>
           <select
+            id="category"
             v-model="filters.type"
             name="category"
             multiple
-            id="category"
             class="w-full rounded border h-auto focus:outline-none focus:border-redline"
           >
             <option
@@ -86,54 +86,54 @@
             class="flex flex-row justify-between border rounded overflow-hidden items-center focus-within:border-redline"
           >
             <input
+              id="distMin"
               v-model="filters.distance.min"
               type="number"
               name="distMin"
-              id="distMin"
               class="w-1/3 py-2 px-2 bg-gray-100 focus:outline-none"
             />
             <span class="font-bold">-</span>
             <input
+              id="distMax"
               v-model="filters.distance.max"
               type="number"
               name="distMax"
               class="w-1/3 py-2 px-2 bg-gray-100 focus:outline-none"
-              id="distMax"
             />
           </div>
           <h3 class="text-redline">Dates</h3>
           <div>
             <label for="startDate" class="block">From</label>
             <input
+              id="startDate"
               v-model="filters.date.start"
               type="date"
               name="startDate"
-              id="startDate"
               class="w-full py-2 px-4 rounded border focus:outline-none focus:border-redline"
             />
           </div>
           <div>
             <label for="endDate" class="block">To</label>
             <input
+              id="endDate"
               v-model="filters.date.end"
               type="date"
               name="endDate"
-              id="endDate"
               class="w-full py-2 px-4 rounded border focus:outline-none focus:border-redline"
             />
           </div>
         </form>
         <button
-          @click="clearFilters"
           class="bg-redline w-full rounded py-2 text-white"
+          @click="clearFilters"
         >
           Clear filters
         </button>
       </main>
     </section>
     <button
-      @click="showFilters"
       class="fixed z-10 lg:hidden right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-rl-blue text-white flex justify-center items-center"
+      @click="showFilters"
     >
       <font-awesome-icon icon="filter" class="block" />
     </button>

@@ -27,8 +27,8 @@
       <p>Are you sure you want to delete this event?</p>
       <div class="w-full flex justify-between">
         <button
-          @click="deleteEvent"
           class="bg-red-500 text-white py-2 px-2 rounded"
+          @click="deleteEvent"
         >
           Yes, delete it
         </button>
@@ -58,8 +58,8 @@
           <font-awesome-icon icon="edit" />
         </nuxt-link>
         <button
-          @click="showModal('delete-modal')"
           class="w-12 h-12 rounded-full flex items-center justify-center bg-rl-blue text-white"
+          @click="showModal('delete-modal')"
         >
           <font-awesome-icon icon="trash" />
         </button>
@@ -232,7 +232,6 @@ export default {
       target.classList.add('invisible')
     },
     closeModalById(id) {
-      console.log(document.querySelector(`#${id}`))
       this.closeModal(document.querySelector(`#${id}`))
     },
     showModal(id) {

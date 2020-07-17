@@ -53,7 +53,7 @@
       <div
         v-for="vehicle in user.vehicles"
         :key="vehicle.id"
-        class="h-32 lg:h-48 bg-white rounded border relative overflow-hidden"
+        class="h-32 lg:h-48 w-32 lg:w-48 bg-white rounded border relative overflow-hidden"
       >
         <img
           :src="`/api/img/${vehicle.photo}`"

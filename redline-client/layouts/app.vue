@@ -91,8 +91,8 @@
           v-else
           to="/login"
           class="block w-full py-2 mx-2 rounded bg-rl-blue border text-white flex items-center justify-center"
-          ><font-awesome-icon icon="sign-in-alt"
-        /></nuxt-link>
+          >Log in</nuxt-link
+        >
       </div>
     </nav>
     <Nuxt class="overflow-auto clearNav pt-32 lg:pt-4 lg:pl-8" />

@@ -1,6 +1,6 @@
 <template>
   <main class="container mx-auto mt-2 lg:grid lg:grid-cols-4 gap-4">
-    <section v-if="events.length > 0" class="px-2 lg:col-span-3">
+    <section v-if="eventCount > 0" class="px-2 lg:col-span-3">
       <section v-for="(eventList, month) in filterEvents" :key="month">
         <h2 class="text-lg font-bold lg:text-center">{{ month }}</h2>
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-4 my-4">
@@ -34,7 +34,7 @@
         </main>
       </section>
     </section>
-    <section v-else class="lg:col-span-4">
+    <section v-else class="lg:col-span-3 lg:col-start-1">
       <p class="text-center text-gray-500 px-2">
         There are no upcoming events.
         <span v-if="user"
@@ -194,10 +194,14 @@ export default {
         events = events.filter((event) => type.includes(event.__category__.id))
       }
       if (distance.min) {
-        events = events.filter((event) => event.distance > distance.min)
+        events = events.filter(
+          (event) => parseInt(event.distance) > parseInt(distance.min)
+        )
       }
       if (distance.max) {
-        events = events.filter((event) => event.distance < distance.max)
+        events = events.filter(
+          (event) => parseInt(event.distance) < parseInt(distance.max)
+        )
       }
       if (date.start) {
         events = events.filter(
@@ -213,6 +217,9 @@ export default {
         )
       }
       return this.groupEvents(events)
+    },
+    eventCount() {
+      return Object.keys(this.filterEvents).length
     },
   },
   async created() {

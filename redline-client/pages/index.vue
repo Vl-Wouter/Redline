@@ -41,7 +41,7 @@
                     year: 'numeric',
                   })
               }}
-              - {{ event.distance }} km
+              {{ event.distance && ` - ` + event.distance + ' km' }}
             </p>
           </div>
         </nuxt-link>
@@ -95,18 +95,24 @@ export default {
     },
   },
   async created() {
-    const { coords } = await this.$position()
-    const events = []
-    this.events.forEach((event) => {
-      event.distance = this.$distance(
-        coords.latitude,
-        coords.longitude,
-        event.latitude,
-        event.longitude
-      ).toFixed(0)
-      events.push(event)
-    })
-    this.events = events
+    try {
+      const { coords } = await this.$position()
+      if (coords) {
+        const events = []
+        this.events.forEach((event) => {
+          event.distance = this.$distance(
+            coords.latitude,
+            coords.longitude,
+            event.latitude,
+            event.longitude
+          ).toFixed(0)
+          events.push(event)
+        })
+        this.events = events
+      }
+    } catch (err) {
+      this.error = err
+    }
   },
   methods: {},
 }

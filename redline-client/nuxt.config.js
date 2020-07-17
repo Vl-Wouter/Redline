@@ -102,6 +102,7 @@ export default {
         'faPlusCircle',
         'faGavel',
         'faEdit',
+        'faFilter',
       ],
       brands: ['faFontAwesome'],
     },

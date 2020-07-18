@@ -60,7 +60,7 @@
     </section>
     <section
       id="filters"
-      class="absolute z-20 hidden overflow-visible lg:block lg:h-auto lg:z-0 w-full h-screen top-0 left-0 lg:relative bg-white lg:rounded lg:border px-4 py-2"
+      class="absolute z-50 hidden overflow-visible lg:block lg:h-auto lg:z-0 w-full h-screen top-0 left-0 lg:relative bg-white lg:rounded lg:border px-4 py-2"
     >
       <header class="w-full flex justify-between items-center">
         <h2 class="text-xl font-bold">Filters</h2>

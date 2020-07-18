@@ -204,7 +204,7 @@ export default {
         })
       }
       if (type.length > 0) {
-        events = events.filter((event) => type.includes(event.__category__.id))
+        events = events.filter((event) => type.includes(event.categoryId))
       }
       if (distance.min) {
         events = events.filter(
@@ -266,6 +266,7 @@ export default {
       )
     },
     groupEvents(events) {
+      events = events.sort((a, b) => (a.startTime > b.startTime ? 1 : -1))
       return events.reduce((r, a) => {
         r[
           new Date(a.startTime).toLocaleString(undefined, {
@@ -284,9 +285,26 @@ export default {
         return r
       }, {})
     },
+    emptyObject(object) {
+      const isArray = Array.isArray(object)
+      for (const key in object) {
+        if (object[key] === null)
+          isArray ? object.splice(key, 1) : delete object[key]
+        else if (typeof object[key] === 'object') {
+          this.emptyObject(object[key])
+          if (Object.keys(object[key]).length === 0) {
+            delete object[key]
+          }
+        }
+      }
+      return object
+    },
   },
   beforeRouteLeave(to, from, next) {
-    this.$store.dispatch('events/applyFilters', this.filters)
+    const filters = this.emptyObject({ ...this.filters })
+    if (Object.keys(filters).length) {
+      this.$store.dispatch('events/applyFilters', this.filters)
+    }
     next()
   },
   head() {

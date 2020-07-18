@@ -111,6 +111,19 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Login | Redline',
+      meta: [
+        {
+          hid: 'login-desc',
+          name: 'description',
+          content:
+            'Log in to add your own events, photo albums or articles to the community',
+        },
+      ],
+    }
+  },
 }
 </script>
 

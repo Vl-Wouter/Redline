@@ -145,6 +145,9 @@ export default {
       )
     },
   },
+  mounted() {
+    this.user.ownEvents.sort((a, b) => (a.startTime > b.startTime ? 1 : -1))
+  },
   methods: {
     async toggleFollow() {
       try {
@@ -165,6 +168,11 @@ export default {
         )
       }
     },
+  },
+  head() {
+    return {
+      title: `${this.user.username} | Redline`,
+    }
   },
 }
 </script>

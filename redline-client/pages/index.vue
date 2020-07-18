@@ -12,8 +12,45 @@
         >Add a vehicle</nuxt-link
       >
     </modal>
+    <section v-if="user" class="lg:w-1/2 lg:mx-auto">
+      <h2 class="font-bold text-lg lg:text-xl lg:text-center my-2">
+        Your events
+      </h2>
+      <p
+        v-if="!attendingEvents || attendingEvents.length === 0"
+        class="text-sm w-full text-center text-gray-700"
+      >
+        You aren't going to any events yet.
+      </p>
+      <div v-else class="flex flex-row overflow-auto w-full space-x-4">
+        <nuxt-link
+          v-for="event in attendingEvents"
+          :key="event.id"
+          :to="`/events/${event.slug}`"
+          class="w-40 md:w-48 text-gray-800 flex-shrink-0 hover:text-redline"
+        >
+          <div class="square rounded overflow-hidden border">
+            <div class="content">
+              <img
+                :src="`/api/img/${event.header}`"
+                :alt="event.title"
+                class="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <div>
+            <h3 class="font-bold">{{ event.title }}</h3>
+            <p class="text-sm text-gray-700">
+              {{ event.startTime | timeTo }}
+            </p>
+          </div>
+        </nuxt-link>
+      </div>
+    </section>
     <section v-if="events.length > 0">
-      <h2 class="font-bold lg:text-center my-2">Upcoming events</h2>
+      <h2 class="font-bold text-lg lg:text-xl lg:text-center my-2">
+        Upcoming events
+      </h2>
       <main class="grid grid-cols-2 lg:grid-cols-3 lg:w-1/2 lg:mx-auto gap-4">
         <nuxt-link
           v-for="event in events"
@@ -24,7 +61,7 @@
           <div class="square rounded overflow-hidden border">
             <div class="content">
               <img
-                :src="`http://localhost:4000/api/img/${event.header}`"
+                :src="`/api/img/${event.header}`"
                 :alt="event.title"
                 class="w-full h-full object-cover"
               />
@@ -93,9 +130,29 @@ export default {
     user() {
       return this.$store.getters['user/getCurrent']
     },
+    featuredEvents() {
+      return this.events.slice(0, 6)
+    },
+    attendingEvents() {
+      if (this.user) {
+        let events = []
+        this.events.forEach((event) => {
+          if (
+            event.attending.filter((item) => item.userId === this.user.id)
+              .length > 0
+          ) {
+            events.push(event)
+          }
+        })
+        events = events.sort((a, b) => (a.startTime > b.startTime ? 1 : -1))
+        return events
+      }
+      return null
+    },
   },
   async created() {
     try {
+      // Calculate users distance from event
       const { coords } = await this.$position()
       if (coords) {
         const events = []
@@ -115,6 +172,18 @@ export default {
     }
   },
   methods: {},
+  head() {
+    return {
+      title: 'Redline | Local Car Events',
+      meta: [
+        {
+          hid: 'home-desc',
+          name: 'description',
+          content: 'Find, create and share local car events easily on Redline.',
+        },
+      ],
+    }
+  },
 }
 </script>
 

@@ -38,6 +38,7 @@ export default {
     '~/plugins/vue-ctk-datetime.js',
     '~/plugins/filters.js',
     '~/plugins/helpers.js',
+    '~/plugins/moment.js',
     { src: '~/plugins/v-calendar.js', ssr: false },
     { src: '~/plugins/vuex-persist.js', ssr: false },
   ],

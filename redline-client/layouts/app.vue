@@ -40,7 +40,8 @@
       </nav>
     </header> -->
     <nav
-      class="w-full fixed top-0 bg-white lg:bg-gray-900 border-b px-4 shadow-sm py-2 lg:flex lg:flex-col lg:w-auto lg:h-screen"
+      id="nav"
+      class="w-full z-50 fixed top-0 bg-white lg:bg-gray-900 border-b px-4 shadow-sm py-2 lg:flex lg:flex-col lg:w-auto lg:h-screen"
     >
       <div class="w-full flex justify-between mb-2 lg:mb-8">
         <nuxt-link to="/" class="logoFont text-xl text-redline"
@@ -95,7 +96,7 @@
         >
       </div>
     </nav>
-    <Nuxt class="overflow-auto clearNav pt-32 lg:pt-4 lg:pl-8" />
+    <Nuxt id="nuxtCont" class="overflow-auto clearNav lg:pt-4 lg:pl-8" />
   </main>
 </template>
 
@@ -115,5 +116,13 @@ export default {
 <style lang="scss" scoped>
 .logoFont {
   font-family: 'Racing Sans One', sans-serif;
+}
+
+.clearNav {
+  padding-top: 7rem;
+
+  @screen lg {
+    padding-top: 1rem;
+  }
 }
 </style>

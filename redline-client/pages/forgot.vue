@@ -50,5 +50,10 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Forgot password | Redline',
+    }
+  },
 }
 </script>

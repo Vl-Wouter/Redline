@@ -33,16 +33,24 @@ export class EventsService {
   ) {}
 
   async getEvents(filterDTO: GetEventFilterDTO): Promise<Event[]> {
-    return this.eventRepository.find({
-      relations: ['organiser', 'attending'],
-      join: {
-        alias: 'event',
-        leftJoinAndSelect: {
-          reviews: 'event.reviews',
-          author: 'reviews.author',
-        },
-      },
-    });
+    // Get current date
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Create query
+    let query = this.eventRepository
+      .createQueryBuilder('event')
+      .where('event.startTime >= :time', {
+        time: today,
+      })
+      .leftJoinAndSelect('event.organiser', 'organiser')
+      .leftJoinAndSelect('event.attending', 'attending')
+      .leftJoinAndSelect('event.reviews', 'reviews')
+      .leftJoinAndSelect('reviews.author', 'reviewAuthor');
+
+    query.orderBy('RAND()');
+
+    return query.getMany();
   }
 
   async getEventBySlug(slug: string): Promise<Event> {
@@ -138,8 +146,9 @@ export class EventsService {
   }
 
   async leaveEvent(eventId: number, user: User) {
+    console.log('user leaving event');
     const result = await this.eventToUserRepository.delete({ eventId, user });
-    if (result.affected === 0)
+    if (result.affected === 0 || result.raw.rowsAffected === 0)
       throw new NotFoundException('The user is not attending this event');
     else return this.getEventById(eventId);
   }

@@ -121,5 +121,10 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Account settings | Redline',
+    }
+  },
 }
 </script>

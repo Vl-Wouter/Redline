@@ -1,6 +1,6 @@
 <template>
   <main
-    class="container mx-auto lg:w-1/3 flex flex-col h-screen items-center justify-center"
+    class="container mx-auto lg:w-1/3 px-2 flex flex-col h-screen items-center justify-center"
   >
     <h1 class="text-xl font-bold">Password reset</h1>
     <section v-if="user" class="my-2">
@@ -85,6 +85,11 @@ export default {
         )
       }
     },
+  },
+  head() {
+    return {
+      title: 'Reset password | Redline',
+    }
   },
 }
 </script>

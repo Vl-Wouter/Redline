@@ -123,5 +123,10 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Add a vehicle | Redline',
+    }
+  },
 }
 </script>

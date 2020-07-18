@@ -1,6 +1,6 @@
 <template>
   <main
-    class="container mx-auto lg:grid lg:grid-cols-2 lg:min-h-screen lg:gap-4"
+    class="container mx-auto lg:grid lg:grid-cols-3 lg:min-h-screen lg:gap-4"
   >
     <modal v-if="user" id="attend-modal" class="hidden">
       <form method="post" @submit.prevent="toggleAttendance">
@@ -40,7 +40,9 @@
         </button>
       </div>
     </modal>
-    <header class="relative w-full h-40 lg:h-full overflow-hidden lg:rounded">
+    <header
+      class="relative w-full h-40 lg:h-64 lg:col-span-3 lg:row-start-1 overflow-hidden lg:rounded"
+    >
       <img
         :src="`/api/img/${event.header}`"
         alt="Header Image"
@@ -65,7 +67,7 @@
         </button>
       </div>
     </header>
-    <main class="px-2 mt-4">
+    <main class="px-2 mt-4 lg:row-start-2 lg:col-span-2">
       <section class="flex flex-row justify-between items-center">
         <div>
           <h1 class="font-bold text-xl">{{ event.title }}</h1>
@@ -102,13 +104,13 @@
           </button>
         </div>
         <button
-          class="text-redline font-bold lg:pointer-events-none"
+          class="text-redline font-bold lg:pointer-events-none lg:hidden"
           @click="showModal('reviewCont')"
         >
           {{ reviewLabel }}
         </button>
         <button
-          class="text-redline font-bold lg:pointer-events-none"
+          class="text-redline font-bold lg:pointer-events-none lg:hidden"
           @click="showModal('attendCont')"
         >
           {{ attendLabel }}
@@ -156,22 +158,23 @@
           >{{ event.address }}</a
         >
       </section>
-      <section class="text-center">
-        <h3 class="text-lg font-bold">Albums</h3>
-      </section>
     </main>
-    <review-container
-      id="reviewCont"
-      :reviews="event.reviews"
-      :event="event.id"
-      class="lg:row-start-2 lg:col-start-1"
-      @close="closeModal"
-    />
-    <attending-container
-      id="attendCont"
-      :attending="event.attending"
-      @close="closeModal"
-    />
+    <section class="text-center lg:col-span-3">
+      <h3 class="text-xl font-bold">Albums</h3>
+    </section>
+    <section class="lg:row-start-2 lg:col-start-3">
+      <review-container
+        id="reviewCont"
+        :reviews="event.reviews"
+        :event="event.id"
+        @close="closeModal"
+      />
+      <attending-container
+        id="attendCont"
+        :attending="event.attending"
+        @close="closeModal"
+      />
+    </section>
   </main>
 </template>
 
@@ -277,5 +280,16 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: `${this.event.title} | Redline`,
+    }
+  },
 }
 </script>
+
+<style lang="scss" scoped>
+.h-half {
+  height: 4rem;
+}
+</style>

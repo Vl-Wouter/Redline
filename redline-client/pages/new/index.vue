@@ -34,6 +34,11 @@ export default {
   components: {
     IconCardLink,
   },
+  head() {
+    return {
+      title: 'Add content | Redline',
+    }
+  },
 }
 </script>
 

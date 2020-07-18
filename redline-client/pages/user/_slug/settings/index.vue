@@ -14,6 +14,7 @@
         dest="profile"
       />
       <icon-card-link
+        v-if="user && user.isAdmin"
         icon="gavel"
         title="Reports"
         subtitle="View all reported events, albums and articles"
@@ -37,11 +38,21 @@ export default {
   components: {
     IconCardLink,
   },
+  computed: {
+    user() {
+      return this.$store.getters['user/getCurrent']
+    },
+  },
   methods: {
     signOut() {
       this.$store.dispatch('user/signOut')
       this.$router.push('/')
     },
+  },
+  head() {
+    return {
+      title: 'Settings | Redline',
+    }
   },
 }
 </script>

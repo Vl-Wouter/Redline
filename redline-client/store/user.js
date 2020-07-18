@@ -47,6 +47,16 @@ export const actions = {
 
 export const getters = {
   getCurrent: (state) => {
-    return state.current
+    const user = state.current
+    if (user) {
+      return {
+        ...user,
+        isAdmin:
+          user &&
+          (user.roles.includes('ADMIN') || user.roles.includes('MODERATOR')),
+      }
+    } else {
+      return user
+    }
   },
 }

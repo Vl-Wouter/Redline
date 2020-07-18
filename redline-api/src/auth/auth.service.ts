@@ -85,7 +85,7 @@ export class AuthService {
 
   async resetPassword(token: string, update) {
     const found = await this.userRepository.findOne({
-      select: ['id', 'password', 'salt', 'resetToken', 'tokenExpires'],
+      select: ['id', 'email', 'password', 'salt', 'resetToken', 'tokenExpires'],
       where: [`resetToken = ${token} AND user.tokenExpires > ${Date.now()}`],
     });
 

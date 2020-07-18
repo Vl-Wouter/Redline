@@ -198,5 +198,10 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Edit event | Redline',
+    }
+  },
 }
 </script>

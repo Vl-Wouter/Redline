@@ -47,7 +47,7 @@
       class="w-full fixed bg-white border lg:relative px-2 py-2 lg:rounded rounded-t bottom-0 left-0 shadow-md"
     >
       <form class="w-full" @submit.prevent="submit">
-        <f-group label="Write a review">
+        <f-group label="Write a review" class="lg:block">
           <div class="grid grid-cols-2">
             <div class="flex items-center space-x-4">
               <toggle-wrapper

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import moment from 'moment'
 // Filters
 
 Vue.filter('eventDate', (value, format) => {
@@ -20,4 +21,9 @@ Vue.filter('localeTime', (value, format) => {
     'en-GB',
     format ?? { hour12: false, hour: '2-digit', minute: '2-digit' }
   )
+})
+
+Vue.filter('timeTo', (value) => {
+  const date = moment(new Date(value))
+  return date.fromNow()
 })

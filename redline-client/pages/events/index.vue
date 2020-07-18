@@ -8,10 +8,10 @@
             v-for="event in eventList"
             :key="event.id"
             :to="`/events/${event.slug}`"
-            class="bg-white rounded px-2 py-2 border flex flex-row justify-between items-center space-x-4"
+            class="bg-white relative rounded px-2 py-2 border flex flex-row lg:flex-col lg:py-0 lg:px-0 lg:justify-start justify-between items-center"
           >
             <div
-              class="w-12 h-12 rounded bg-gray-400 overflow-hidden shadow-sm"
+              class="w-12 h-12 rounded bg-gray-400 overflow-hidden shadow-sm lg:w-full lg:h-40 lg:mb-4"
             >
               <img
                 :src="`/api/img/${event.header}`"
@@ -19,14 +19,27 @@
                 class="w-full h-full object-cover"
               />
             </div>
-            <div>
+            <div
+              class="hidden lg:block absolute top-0 left-0 ml-1 mt-1 rounded bg-black bg-opacity-50 text-white px-2 py-2 text-center"
+            >
+              <p class="uppercase border-b-2 pb-1">
+                {{ event.startTime | eventDate({ month: 'short' }) }}
+              </p>
+              <p class="font-bold pt-1">
+                {{ event.startTime | eventDate({ day: 'numeric' }) }}
+              </p>
+            </div>
+            <div class="">
               <h3 class="font-bold text-redline">{{ event.title }}</h3>
-              <p class="text-xs text-gray-700">
+              <p class="text-xs text-gray-700 lg:hidden">
                 {{ event.startTime | eventDate }}
               </p>
             </div>
-            <div>
-              <div class="w-12 h-12">
+            <div class="px-4 mb-2">
+              <p class="hidden lg:block text-xs text-gray-800 text-center">
+                {{ event.address }}
+              </p>
+              <div class="w-12 h-12 lg:hidden">
                 <button class="w-full h-full">NAV</button>
               </div>
             </div>
@@ -275,6 +288,11 @@ export default {
   beforeRouteLeave(to, from, next) {
     this.$store.dispatch('events/applyFilters', this.filters)
     next()
+  },
+  head() {
+    return {
+      title: 'All Events | Redline',
+    }
   },
 }
 </script>

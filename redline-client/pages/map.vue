@@ -75,6 +75,18 @@ export default {
       }
     )
   },
+  head() {
+    return {
+      title: 'Map | Redline',
+      meta: [
+        {
+          hid: 'map-desc',
+          name: 'description',
+          content: 'Find out where your local events are on the map',
+        },
+      ],
+    }
+  },
 }
 </script>
 

@@ -244,6 +244,11 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Add an event | Redline',
+    }
+  },
 }
 </script>
 

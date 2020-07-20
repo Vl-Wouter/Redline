@@ -14,6 +14,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/category.entity';
 import { EventToUser } from './eventToUser.entity';
 import { Review } from 'src/reviews/review.entity';
+import { Album } from 'src/albums/entities/album.entity';
 
 @Entity()
 export class Event extends BaseEntity {
@@ -92,6 +93,13 @@ export class Event extends BaseEntity {
     review => review.event,
   )
   reviews: Review[];
+
+  @OneToMany(
+    type => Album,
+    album => album.event,
+    { eager: true },
+  )
+  albums: Album[];
 
   /**
    * @todo Add pricing to event

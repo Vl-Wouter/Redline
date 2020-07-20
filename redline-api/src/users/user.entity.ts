@@ -19,6 +19,7 @@ import { Vehicle } from 'src/vehicles/vehicle.entity';
 import { EventToUser } from 'src/events/eventToUser.entity';
 import { Review } from 'src/reviews/review.entity';
 import { Follow } from './follow.entity';
+import { Album } from 'src/albums/entities/album.entity';
 
 @Entity()
 @Unique(['username'])
@@ -83,6 +84,13 @@ export class User extends BaseEntity {
     { eager: true, cascade: true },
   )
   vehicles: Vehicle[];
+
+  @OneToMany(
+    type => Album,
+    album => album.photographer,
+    { eager: true },
+  )
+  albums: Album[];
 
   @OneToMany(
     type => EventToUser,

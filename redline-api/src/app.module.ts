@@ -24,6 +24,7 @@ import sgTransport from 'nodemailer-sendgrid-transport';
 import nodemailer from 'nodemailer';
 import { constantsConfig } from './config/constants.config';
 import { MailModule } from './mail/mail.module';
+import { AlbumsModule } from './albums/albums.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { MailModule } from './mail/mail.module';
         from: 'woutvlae@student.arteveldehs.be',
       },
     }),
+    AlbumsModule,
   ],
   controllers: [AppController],
   providers: [

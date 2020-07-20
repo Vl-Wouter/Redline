@@ -15,12 +15,14 @@
 - [x] Filter events based on type, distance and search query
 - [x] Fix navbar
 - [ ] Albums API
+  - [x] GET, create, update and delete
+  - [ ] Extra functionality (Deleting single photos, adding photos to albums)
 - [ ] Albums creation in client
 - [ ] Album pages in client
-- [ ] Albums link to Events
 - [ ] Article API
+  - [ ] GET, create, update, delete
 - [ ] Articles in client
-- [ ] Articles list (maybe instead of feed) 
+- [ ] Articles list (maybe instead of feed or extra tab) 
 
 ## Extra ideas (time-permitting)
 - [ ] VIN Decoding for vehicle info

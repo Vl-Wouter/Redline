@@ -8,7 +8,6 @@ import { Album } from '../entities/album.entity';
 export class PhotoRepository extends Repository<Photo> {
   async createPhoto(image, album: Album, user: User): Promise<Photo> {
     const photo = this.create();
-    console.log(image);
     photo.url = await handleImage(image.path, {
       width: 2000,
       isSquare: false,

@@ -161,6 +161,25 @@
     </main>
     <section class="text-center lg:col-span-3">
       <h3 class="text-xl font-bold">Albums</h3>
+      <section class="w-full grid grid-cols-2 lg:grid-cols-6 gap-4 px-2 mb-4">
+        <nuxt-link
+          v-for="album in event.albums"
+          :key="album.id"
+          :to="`/albums/${album.slug}`"
+          class="w-full h-40 bg-gray-400 rounded border relative overflow-hidden"
+        >
+          <img
+            :src="`/api/img/${album.photos[0].url}`"
+            :alt="album.title"
+            class="w-full h-full object-cover"
+          />
+          <section
+            class="absolute top-0 left-0 w-full h-full px-2 bg-black bg-opacity-50 text-white flex items-center justify-center"
+          >
+            <p class="font-bold">{{ album.title }}</p>
+          </section>
+        </nuxt-link>
+      </section>
     </section>
     <section class="lg:row-start-2 lg:col-start-3">
       <review-container

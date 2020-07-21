@@ -21,11 +21,19 @@ export class AlbumsService {
   ) {}
 
   async getAll() {
-    return this.albumRepository.find();
+    return this.albumRepository.find({ relations: ['photos', 'photographer'] });
   }
 
   async getById(id: number) {
-    return this.albumRepository.findOneOrFail(id, { relations: ['photos'] });
+    return this.albumRepository.findOneOrFail(id, {
+      relations: ['photos', 'photographer'],
+    });
+  }
+  async getBySlug(slug: string) {
+    return this.albumRepository.findOneOrFail(
+      { slug },
+      { relations: ['photos', 'photographer'] },
+    );
   }
 
   async create(

@@ -17,12 +17,11 @@ import { AuthGuard } from '@nestjs/passport';
 export class AppController {
   constructor(private appService: AppService) {}
 
-  @Get('img/:type/:folder/:file')
+  @Get('img/*')
   @ApiOperation({ operationId: 'Get an image from the server' })
   @ApiOkResponse({ description: 'Image file' })
   getImage(@Param() path, @Res() res: Response) {
-    const { type, folder, file } = path;
-    res.sendFile(`/${type}/${folder}/${file}`, { root: 'uploads' });
+    res.sendFile(path[0], { root: 'uploads' });
   }
 
   @Post('location')

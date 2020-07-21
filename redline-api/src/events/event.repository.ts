@@ -11,7 +11,7 @@ import { handleImage } from 'src/utils/file-upload.utils';
 @EntityRepository(Event)
 export class EventRepository extends Repository<Event> {
   async getEvents(filterDTO: GetEventFilterDTO): Promise<Event[]> {
-    const { search, category, startTime, endTime, address } = filterDTO;
+    // const { search, category, startTime, endTime, address } = filterDTO;
     const query = this.createQueryBuilder('event')
       .leftJoinAndSelect('event.organiser', 'organiser')
       .leftJoinAndSelect('event.attending', 'attendee')

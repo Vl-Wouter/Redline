@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Event } from 'src/events/event.entity';
@@ -31,6 +32,10 @@ export class Album extends BaseEntity {
   @ApiProperty()
   description: string;
 
+  @Column({ nullable: true })
+  @ApiProperty()
+  eventId: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -54,7 +59,8 @@ export class Album extends BaseEntity {
   @ManyToOne(
     type => Event,
     event => event.albums,
-    { cascade: true, nullable: true },
+    { cascade: true },
   )
+  @JoinColumn({ name: 'eventId' })
   event: Event;
 }

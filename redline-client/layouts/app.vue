@@ -33,6 +33,8 @@
       >
         <nav-link text="Home" />
         <nav-link dest="/events" icon="calendar" text="Events" />
+        <nav-link dest="/albums" icon="images" text="Gallery" />
+        <nav-link dest="/articles" icon="newspaper" text="Articles" />
         <nav-link dest="/map" icon="map" text="Map" />
       </div>
       <div

@@ -14,15 +14,18 @@
 - [x] Calculate distance between user and event
 - [x] Filter events based on type, distance and search query
 - [x] Fix navbar
-- [ ] Albums API
+- [x] Albums API
   - [x] GET, create, update and delete
   - [ ] Extra functionality (Deleting single photos, adding photos to albums)
-- [ ] Albums creation in client
+- [x] Albums creation in client
 - [ ] Album pages in client
+  - [x] Overview + linked in event and user
+  - [ ] Lightbox for image?
 - [ ] Article API
   - [ ] GET, create, update, delete
 - [ ] Articles in client
 - [ ] Articles list (maybe instead of feed or extra tab) 
+- [ ] **Deployment** (Latest by 25/07 to allow testing time)
 
 ## Extra ideas (time-permitting)
 - [ ] VIN Decoding for vehicle info

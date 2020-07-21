@@ -55,7 +55,10 @@ export class AlbumsController {
   @ApiOperation({ operationId: 'Get one album' })
   @ApiOkResponse({ description: 'A single album', type: Album })
   @ApiNotFoundResponse({ description: 'No album with this id' })
-  getById(@Param('id') id: number): Promise<Album> {
+  getById(@Param('id') id: number | string): Promise<Album> {
+    if (typeof id === 'string') {
+      return this.albumsService.getBySlug(id);
+    }
     return this.albumsService.getById(id);
   }
   // Create album
@@ -63,7 +66,7 @@ export class AlbumsController {
   @UseGuards(AuthGuard())
   @UsePipes(ValidationPipe)
   @UseInterceptors(
-    FilesInterceptor('photos', 5, {
+    FilesInterceptor('photos', 10, {
       storage: diskStorage({
         destination: './uploads/tmp',
         filename: editFileName,

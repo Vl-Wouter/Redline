@@ -67,7 +67,7 @@
         </div>
       </div>
     </section>
-    <section class="tabs">
+    <section class="tabs mb-4">
       <header class="w-full flex flex-row justify-between my-4">
         <button
           class="flex-1 border-b rounded-t py-2 text-redline-light focus:outline-none"
@@ -104,6 +104,28 @@
           <h2 class="text-lg text-redline font-bold">{{ event.title }}</h2>
           <p>{{ event.startTime | eventDate }}</p>
           <p class="text-xs">{{ event.address }}</p>
+        </nuxt-link>
+      </main>
+      <main
+        v-if="activeTab === 'albums'"
+        class="grid grid-cols-2 lg:grid-cols-3 gap-4"
+      >
+        <nuxt-link
+          v-for="album in user.albums"
+          :key="album.id"
+          :to="`/albums/${album.slug}`"
+          class="w-full h-40 bg-gray-400 rounded border relative overflow-hidden"
+        >
+          <img
+            :src="`/api/img/${album.photos[0].url}`"
+            :alt="album.title"
+            class="w-full h-full object-cover"
+          />
+          <section
+            class="absolute top-0 left-0 w-full h-full px-2 bg-black bg-opacity-50 text-white flex items-center justify-center"
+          >
+            <p class="font-bold">{{ album.title }}</p>
+          </section>
         </nuxt-link>
       </main>
     </section>

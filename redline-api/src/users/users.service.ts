@@ -29,7 +29,7 @@ export class UsersService {
         'roles',
         ...(fields ?? []),
       ],
-      relations: ['ownEvents', 'vehicles'],
+      relations: ['ownEvents', 'vehicles', 'albums'],
       join: {
         alias: 'user',
         leftJoinAndSelect: {

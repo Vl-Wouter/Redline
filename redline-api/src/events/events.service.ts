@@ -33,6 +33,7 @@ export class EventsService {
   ) {}
 
   async getEvents(filterDTO: GetEventFilterDTO): Promise<Event[]> {
+    const { withPast } = filterDTO;
     // Get current date
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -40,13 +41,18 @@ export class EventsService {
     // Create query
     let query = this.eventRepository
       .createQueryBuilder('event')
-      .where('event.startTime >= :time', {
-        time: today,
-      })
       .leftJoinAndSelect('event.organiser', 'organiser')
       .leftJoinAndSelect('event.attending', 'attending')
       .leftJoinAndSelect('event.reviews', 'reviews')
-      .leftJoinAndSelect('reviews.author', 'reviewAuthor');
+      .leftJoinAndSelect('reviews.author', 'reviewAuthor')
+      .leftJoinAndSelect('event.albums', 'albums')
+      .leftJoinAndSelect('albums.photos', 'photos');
+
+    if (!withPast) {
+      query.where('event.startTime >= :time', {
+        time: today,
+      });
+    }
 
     query.orderBy('RAND()');
 

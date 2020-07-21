@@ -64,6 +64,7 @@ export default {
       }
       if (files.length > 1) {
         this.labelContent = `${files.length} files`
+        this.$emit('files', files)
       } else {
         this.labelContent = files[0].name
         this.$emit('files', files[0])

@@ -16,7 +16,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
-import { Event } from './event.entity';
+import { Event } from './entities/event.entity';
 import { CreateEventDTO } from './dto/create-event.dto';
 import { UpdateEventDTO } from './dto/update-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';

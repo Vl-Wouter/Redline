@@ -12,11 +12,11 @@ import {
 } from 'typeorm';
 import { UserRole } from './user-role.enum';
 import * as bcrypt from 'bcrypt';
-import { Event } from 'src/events/event.entity';
+import { Event } from 'src/events/entities/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Category } from 'src/categories/category.entity';
 import { Vehicle } from 'src/vehicles/vehicle.entity';
-import { EventToUser } from 'src/events/eventToUser.entity';
+import { EventToUser } from 'src/events/entities/eventToUser.entity';
 import { Review } from 'src/reviews/review.entity';
 import { Follow } from './follow.entity';
 import { Album } from 'src/albums/entities/album.entity';

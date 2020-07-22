@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Event } from 'src/events/event.entity';
+import { Event } from 'src/events/entities/event.entity';
 
 @Entity()
 export class Category extends BaseEntity {

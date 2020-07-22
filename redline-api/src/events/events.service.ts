@@ -3,17 +3,17 @@ import {
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { EventRepository } from './event.repository';
+import { EventRepository } from './repositories/event.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Event } from './event.entity';
+import { Event } from './entities/event.entity';
 import { CreateEventDTO } from './dto/create-event.dto';
 import { UpdateEventDTO } from './dto/update-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';
 import { User } from 'src/users/user.entity';
 import { unlinkSync, unlink, existsSync } from 'fs';
 import { checkModOrAdmin } from 'src/utils/check-role.utils';
-import { EventToUser } from './eventToUser.entity';
-import { EventToUserRepository } from './eventToUser.repository';
+import { EventToUser } from './entities/eventToUser.entity';
+import { EventToUserRepository } from './repositories/eventToUser.repository';
 import { handleImage } from 'src/utils/file-upload.utils';
 
 // const getParams = (param, user: User) => {

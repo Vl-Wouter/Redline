@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
-import { Event } from 'src/events/event.entity';
+import { Event } from 'src/events/entities/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()

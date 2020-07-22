@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { EventToUser } from 'src/events/eventToUser.entity';
+import { EventToUser } from 'src/events/entities/eventToUser.entity';
 
 @Entity()
 export class Vehicle extends BaseEntity {

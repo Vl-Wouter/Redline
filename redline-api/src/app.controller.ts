@@ -7,7 +7,13 @@ import {
   Body,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiOkResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiOkResponse,
+  ApiBearerAuth,
+  ApiBody,
+} from '@nestjs/swagger';
 import { Response } from 'express';
 import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -27,6 +33,7 @@ export class AppController {
   @Post('location')
   @UseGuards(AuthGuard())
   @ApiOperation({ operationId: 'Convert address to coordinates' })
+  @ApiBearerAuth()
   @ApiOkResponse({ description: 'Converted location to coordinates' })
   getLocation(@Body('address') address: String) {
     return this.appService.fetchLocation(address);

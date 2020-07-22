@@ -25,6 +25,7 @@ import nodemailer from 'nodemailer';
 import { constantsConfig } from './config/constants.config';
 import { MailModule } from './mail/mail.module';
 import { AlbumsModule } from './albums/albums.module';
+import { ArticlesModule } from './articles/articles.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { AlbumsModule } from './albums/albums.module';
       },
     }),
     AlbumsModule,
+    ArticlesModule,
   ],
   controllers: [AppController],
   providers: [

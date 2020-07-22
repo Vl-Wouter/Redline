@@ -24,6 +24,7 @@ export class EventToUser extends BaseEntity {
   @ManyToOne(
     type => Event,
     event => event.attending,
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'eventId' })
   event: Event;
@@ -31,7 +32,7 @@ export class EventToUser extends BaseEntity {
   @ManyToOne(
     type => User,
     user => user.attendingEvents,
-    { eager: true },
+    { eager: true, onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'userId' })
   user: User;
@@ -39,7 +40,7 @@ export class EventToUser extends BaseEntity {
   @ManyToOne(
     type => Vehicle,
     vehicle => vehicle.events,
-    { eager: true },
+    { eager: true, onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'vehicleId' })
   vehicle: Vehicle;

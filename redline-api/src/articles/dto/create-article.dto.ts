@@ -1,29 +1,27 @@
 import {
   IsNotEmpty,
-  IsOptional,
-  MaxLength,
   IsString,
-  IsNumber,
+  IsOptional,
   IsNumberString,
   IsPositive,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateAlbumDTO {
+export class CreateArticleDTO {
   @IsNotEmpty()
-  @ApiProperty()
   @IsString()
+  @ApiProperty()
   title: string;
 
   @IsNotEmpty()
-  @ApiProperty()
   @IsString()
-  @MaxLength(500)
-  description: string;
+  @ApiProperty()
+  content: string;
 
   @IsOptional()
-  @ApiProperty()
+  @IsNotEmpty()
   @IsNumberString()
   @IsPositive()
+  @ApiProperty()
   eventId?: number;
 }

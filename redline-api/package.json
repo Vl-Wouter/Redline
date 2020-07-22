@@ -18,7 +18,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "seed": "node dist/seeder",
+    "seed:refresh": "node dist/seeder --refresh"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^1.5.1",
@@ -31,6 +33,7 @@
     "@nestjs/swagger": "^4.5.12",
     "@nestjs/typeorm": "^7.1.0",
     "@sendgrid/mail": "^7.2.1",
+    "@types/faker": "^4.1.12",
     "bcrypt": "^4.0.1",
     "cache-manager": "^3.3.0",
     "class-transformer": "^0.2.3",
@@ -39,6 +42,7 @@
     "handlebars": "^4.7.6",
     "mysql": "^2.18.1",
     "nestjs-redoc": "^1.2.2",
+    "nestjs-seeder": "^0.1.5",
     "nodemailer": "^6.4.10",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "passport": "^0.4.1",

@@ -16,12 +16,12 @@
         subtitle="Show off your creations"
         dest="album"
       />
-      <icon-card-link
+      <!-- <icon-card-link
         icon="newspaper"
         title="Article"
         subtitle="Share your thoughts"
         dest="article"
-      />
+      /> -->
     </section>
   </main>
 </template>

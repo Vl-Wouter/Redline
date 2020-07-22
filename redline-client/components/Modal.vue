@@ -1,6 +1,5 @@
 <template>
   <main
-    v-if="open"
     class="fixed top-0 left-0 z-top bg-black bg-opacity-50 w-screen h-screen flex justify-center items-center px-2"
   >
     <section
@@ -24,6 +23,7 @@ export default {
   methods: {
     close() {
       this.open = false
+      this.$el.classList.add('hidden')
     },
   },
 }

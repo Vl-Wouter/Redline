@@ -10,7 +10,7 @@ import { CreateEventDTO } from './dto/create-event.dto';
 import { UpdateEventDTO } from './dto/update-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';
 import { User } from 'src/users/user.entity';
-import { unlinkSync, unlink } from 'fs';
+import { unlinkSync, unlink, existsSync } from 'fs';
 import { checkModOrAdmin } from 'src/utils/check-role.utils';
 import { EventToUser } from './eventToUser.entity';
 import { EventToUserRepository } from './eventToUser.repository';
@@ -89,20 +89,21 @@ export class EventsService {
   }
 
   async deleteEvent(slug: string, user: User): Promise<void> {
-    const options = checkModOrAdmin(user)
-      ? { slug, organiser: user }
-      : { slug };
+    const options = user.isAdmin() ? { slug } : { slug, organiser: user };
     const event = await this.eventRepository.findOne(options);
     if (!event)
       throw new NotFoundException('No owned event found with this id');
     try {
-      await unlink(`./uploads/${event.header}`, err => {
-        if (err) {
-          throw new InternalServerErrorException(
-            'Failed to unlink the header image',
-          );
-        }
-      });
+      if (existsSync(`./uploads/${event.header}`)) {
+        await unlink(`./uploads/${event.header}`, err => {
+          if (err) {
+            throw new InternalServerErrorException(
+              'Failed to unlink the header image',
+            );
+          }
+        });
+      }
+
       await this.eventRepository.delete(event.id);
     } catch (error) {
       throw new InternalServerErrorException(

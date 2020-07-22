@@ -1,21 +1,19 @@
 import {
-  BaseEntity,
   Entity,
+  BaseEntity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
-  OneToMany,
   JoinColumn,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Event } from 'src/events/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Photo } from './photo.entity';
 
 @Entity()
-export class Album extends BaseEntity {
+export class Article extends BaseEntity {
   @PrimaryGeneratedColumn()
   @ApiProperty()
   id: number;
@@ -28,11 +26,15 @@ export class Album extends BaseEntity {
   @ApiProperty()
   slug: string;
 
-  @Column({ length: 500 })
+  @Column({ type: 'text' })
   @ApiProperty()
-  description: string;
+  content: string;
 
-  @Column({ nullable: true })
+  @Column()
+  @ApiProperty()
+  header: string;
+
+  @Column()
   @ApiProperty()
   eventId: number;
 
@@ -44,26 +46,18 @@ export class Album extends BaseEntity {
   @ApiProperty()
   updatedAt: Date;
 
-  @OneToMany(
-    type => Photo,
-    photo => photo.album,
-    { eager: true, cascade: true, onDelete: 'CASCADE' },
-  )
-  @ApiProperty()
-  photos: Photo[];
-
   @ManyToOne(
     type => User,
-    user => user.albums,
-    { cascade: true },
+    user => user.articles,
   )
-  photographer: User;
+  @ApiProperty()
+  author: User;
 
   @ManyToOne(
     type => Event,
-    event => event.albums,
-    { cascade: true },
+    event => event.articles,
   )
   @JoinColumn({ name: 'eventId' })
+  @ApiProperty()
   event: Event;
 }

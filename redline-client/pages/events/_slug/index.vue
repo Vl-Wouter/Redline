@@ -22,7 +22,7 @@
         </button>
       </form>
     </modal>
-    <modal v-if="user && isOwn" id="delete-modal" class="hidden">
+    <modal v-if="user && isOwn" id="delete-modal" class="invisible">
       <h2 class="font-bold">Delete {{ event.title }}</h2>
       <p>Are you sure you want to delete this event?</p>
       <div class="w-full flex justify-between">
@@ -40,32 +40,45 @@
         </button>
       </div>
     </modal>
+    <modal id="options-modal" class="invisible space-y-0">
+      <h2 class="text-lg mb-2">Event options</h2>
+      <nuxt-link
+        v-if="isOwn"
+        to="edit"
+        append
+        class="block w-full text-center py-2 border"
+        >Edit "{{ event.title }}"</nuxt-link
+      >
+      <button
+        v-if="isOwn"
+        class="block w-full py-2 text-red-600 border"
+        @click="
+          () => {
+            closeModalById('options-modal')
+            showModal('delete-modal')
+          }
+        "
+      >
+        Delete "{{ event.title }}"
+      </button>
+      <button class="block w-full py-2 border">
+        Report "{{ event.title }}"
+      </button>
+    </modal>
     <header
       class="relative w-full h-40 lg:h-64 lg:col-span-3 lg:row-start-1 overflow-hidden lg:rounded"
     >
+      <button
+        @click="showModal('options-modal')"
+        class="absolute top-0 right-0 mt-1 mr-1 text-xl text-white px-1 rounded bg-black bg-opacity-50"
+      >
+        <font-awesome-icon icon="ellipsis-h" />
+      </button>
       <img
         :src="`/api/img/${event.header}`"
         alt="Header Image"
         class="w-full h-full object-cover"
       />
-      <div
-        v-if="user && isOwn"
-        class="absolute top-0 right-0 mr-4 mt-4 flex space-x-4"
-      >
-        <nuxt-link
-          to="edit"
-          append
-          class="w-12 h-12 rounded-full flex items-center justify-center bg-rl-blue text-white"
-        >
-          <font-awesome-icon icon="edit" />
-        </nuxt-link>
-        <button
-          class="w-12 h-12 rounded-full flex items-center justify-center bg-rl-blue text-white"
-          @click="showModal('delete-modal')"
-        >
-          <font-awesome-icon icon="trash" />
-        </button>
-      </div>
     </header>
     <main class="px-2 mt-4 lg:row-start-2 lg:col-span-2">
       <section class="flex flex-row justify-between items-center">
@@ -231,7 +244,11 @@ export default {
       return this.$store.getters['user/getCurrent']
     },
     isOwn() {
-      return this.event.organiser.id === this.user.id
+      return (
+        this.event.organiser.id === this.user.id ||
+        this.user.roles.includes('ADMIN') ||
+        this.user.roles.includes('MODERATOR')
+      )
     },
     reviewLabel() {
       const count = this.event.reviews.length
@@ -258,6 +275,7 @@ export default {
     },
     showModal(id) {
       const el = document.querySelector(`#${id}`)
+      console.log(el)
       if (el.classList.contains('invisible')) {
         el.classList.remove('invisible')
       }

@@ -15,6 +15,7 @@ import { Category } from 'src/categories/category.entity';
 import { EventToUser } from './eventToUser.entity';
 import { Review } from 'src/reviews/review.entity';
 import { Album } from 'src/albums/entities/album.entity';
+import { Article } from 'src/articles/entities/article.entity';
 
 @Entity()
 export class Event extends BaseEntity {
@@ -72,7 +73,7 @@ export class Event extends BaseEntity {
   @ManyToOne(
     type => User,
     user => user.ownEvents,
-    { eager: false, cascade: true },
+    { eager: false, cascade: true, onDelete: 'CASCADE' },
   )
   @ApiProperty()
   organiser: User;
@@ -84,13 +85,14 @@ export class Event extends BaseEntity {
   @OneToMany(
     type => EventToUser,
     eventToUser => eventToUser.event,
-    { cascade: true },
+    { cascade: true, onDelete: 'CASCADE' },
   )
   attending: EventToUser[];
 
   @OneToMany(
     type => Review,
     review => review.event,
+    { onDelete: 'CASCADE' },
   )
   reviews: Review[];
 
@@ -100,6 +102,12 @@ export class Event extends BaseEntity {
     { eager: true },
   )
   albums: Album[];
+
+  @OneToMany(
+    type => Article,
+    article => article.event,
+  )
+  articles: Article[];
 
   /**
    * @todo Add pricing to event

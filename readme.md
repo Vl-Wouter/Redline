@@ -18,14 +18,17 @@
   - [x] GET, create, update and delete
   - [ ] Extra functionality (Deleting single photos, adding photos to albums)
 - [x] Albums creation in client
-- [ ] Album pages in client
+- [x] Album pages in client
   - [x] Overview + linked in event and user
   - [ ] Lightbox for image?
-- [ ] Article API
-  - [ ] GET, create, update, delete
-- [ ] Articles in client
-- [ ] Articles list (maybe instead of feed or extra tab) 
-- [ ] **Deployment** (Latest by 25/07 to allow testing time)
+- [ ] Add seeder for default data
+- [ ] Admin options to edit and delete data/users
+- [ ] Reporting for users/albums/events
+- [x] Make sure layout is responsive
+- [ ] PWA optimizations
+- [ ] Logo
+- [ ] **Deployment** (Latest by 26/07 to allow testing time)
+- [ ] Test on deployed version
 
 ## Extra ideas (time-permitting)
 - [ ] VIN Decoding for vehicle info

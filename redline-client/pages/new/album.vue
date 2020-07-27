@@ -58,8 +58,8 @@
           <f-group label="Add Images" field="photos">
             <file-input
               name="photos"
-              labelText
-              allowMultiple
+              label-text
+              allow-multiple
               @files="
                 (fileData) => {
                   form.photos = fileData
@@ -161,8 +161,7 @@ export default {
           if (!file.type.match('image.*')) continue
           formData.append('photos', file)
         }
-        const { data } = await this.$axios.post('/api/albums', formData)
-        console.log(data)
+        await this.$axios.post('/api/albums', formData)
         this.$toast.success('Created a new album')
         this.$router.push('/')
       } catch (err) {

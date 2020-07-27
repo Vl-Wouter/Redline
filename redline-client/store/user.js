@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import { parseJWT } from '~/assets/js/utils'
 
 export const state = () => ({
@@ -23,6 +24,7 @@ export const actions = {
     const { id, fullName, roles, username, profileImg } = parseJWT(
       data.accessToken
     )
+    Cookies.set('token', data.accessToken, { expires: 1 })
     this.$axios.setToken(data.accessToken, 'Bearer')
     const { data: vehicles } = await this.$axios.get(`/api/vehicles/user/${id}`)
     commit('setCurrent', {

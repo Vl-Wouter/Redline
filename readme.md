@@ -26,7 +26,7 @@
 - [x] Make sure layout is responsive
 - [ ] PWA optimizations
 - [ ] Logo
-- [ ] **Deployment** (Latest by 26/07 to allow testing time)
+- [ ] **Deployment**
 - [ ] Test on deployed version
 
 ## Extra ideas (time-permitting)

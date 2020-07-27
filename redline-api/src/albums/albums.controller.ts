@@ -117,6 +117,41 @@ export class AlbumsController {
   delete(@Param('id') id: number, @GetUser() user: User) {
     return this.albumsService.delete(id, user);
   }
+
   // Delete single photo
+  @Delete('/photo/:id')
+  @UseGuards(AuthGuard())
+  @ApiOperation({ operationId: 'Delete a photo from an album' })
+  @ApiBearerAuth()
+  @ApiNoContentResponse({ description: 'Photo is deleted' })
+  @ApiNotFoundResponse({ description: 'Cannot find a photo to delete' })
+  deletePhoto(@Param('id') photoId: number, @GetUser() user: User) {
+    return this.albumsService.deletePhoto(photoId, user);
+  }
+
   // Add photos to album
+  @Post('/:id/photo')
+  @UseGuards(AuthGuard())
+  @UseInterceptors(
+    FilesInterceptor('photos', 10, {
+      storage: diskStorage({
+        destination: './uploads/tmp',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  @ApiOperation({ operationId: 'Add a photo to an album' })
+  @ApiBearerAuth()
+  @ApiCreatedResponse({ description: 'Photo is created' })
+  @ApiNotFoundResponse({
+    description: 'Cannot find an album to add a photo to',
+  })
+  addPhoto(
+    @Param('id') albumId: number,
+    @UploadedFiles() images,
+    @GetUser() user: User,
+  ) {
+    return this.albumsService.addPhoto(albumId, images, user);
+  }
 }

@@ -72,4 +72,31 @@ export class AlbumsService {
     });
     await this.albumRepository.remove(album);
   }
+
+  async deletePhoto(photoId: number, user: User) {
+    const photo = await this.photoRepository.findOne(photoId, {
+      relations: ['album', 'album.photographer'],
+    });
+    if (photo.album.photographer !== user && !user.isAdmin) {
+      throw new NotFoundException('Cannot find a photo to delete');
+    }
+    unlinkSync(`./uploads/${photo.url}`);
+    return this.photoRepository.remove(photo);
+  }
+
+  async addPhoto(albumId: number, images, user: User) {
+    const options = user.isAdmin()
+      ? { id: albumId }
+      : { id: albumId, photographer: user };
+    const album = await this.albumRepository.findOne(options);
+    if (!album) {
+      throw new NotFoundException('Cannot find an album to add a photo to');
+    }
+
+    images.forEach(async image => {
+      await this.photoRepository.createPhoto(image, album, user);
+    });
+
+    return this.getById(albumId);
+  }
 }

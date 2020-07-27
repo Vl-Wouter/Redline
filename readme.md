@@ -16,7 +16,7 @@
 - [x] Fix navbar
 - [x] Albums API
   - [x] GET, create, update and delete
-  - [ ] Extra functionality (Deleting single photos, adding photos to albums)
+  - [x] Extra functionality (Deleting single photos, adding photos to albums)
 - [x] Albums creation in client
 - [x] Album pages in client
   - [x] Overview + linked in event and user

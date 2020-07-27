@@ -24,6 +24,5 @@ export class CreateAlbumDTO {
   @IsOptional()
   @ApiProperty()
   @IsNumberString()
-  @IsPositive()
   eventId?: number;
 }

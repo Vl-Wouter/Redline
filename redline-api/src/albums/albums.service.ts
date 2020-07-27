@@ -54,7 +54,8 @@ export class AlbumsService {
     updateAlbumDTO: UpdateAlbumDTO,
     user: User,
   ): Promise<Album> {
-    const result = await this.albumRepository.update(id, updateAlbumDTO);
+    const options = user.isAdmin() ? { id } : { id, photographer: user };
+    const result = await this.albumRepository.update(options, updateAlbumDTO);
     if (result.affected === 0 || result.raw.affectedRows === 0) {
       throw new NotFoundException('Cannot update this album');
     }
@@ -63,6 +64,9 @@ export class AlbumsService {
 
   async delete(id: number, user: User) {
     const album = await this.getById(id);
+    if (album.photographer !== user && !user.isAdmin()) {
+      throw new NotFoundException('Cannot find an album to delete');
+    }
     album.photos.forEach(image => {
       unlinkSync(`./uploads/${image.url}`);
     });

@@ -36,7 +36,7 @@
             type="text"
             name="username"
             class="px-4 w-full bg-white"
-            placeholder="username"
+            placeholder="Username"
           />
         </section>
         <section
@@ -54,9 +54,12 @@
             name="password"
             class="px-4 w-full bg-white"
             autocomplete="current-password"
+            placeholder="Password"
           />
         </section>
-        <nuxt-link to="forgot" class="text-redline">Forgot password?</nuxt-link>
+        <nuxt-link to="forgot" class="text-redline block mt-1"
+          >Forgot password?</nuxt-link
+        >
         <section class="w-full">
           <button
             type="submit"

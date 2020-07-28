@@ -38,10 +38,10 @@
 - [ ] Edit reviews
 
 ## To Fix before deadline (12/08)
-- [ ] Placeholders for username & password at login (Capitalised)
+- [x] Placeholders for username & password at login (Capitalised)
 - [ ] Only positive distances in filters
 - [ ] Fix Date Range (only allow past from date for to date)
-- [ ] Horizontal scrollbar in events page?
+- [ ] Horizontal scrollbar in events page? (Not happening on macbook)
 - [ ] Name card (fix long names)
 - [ ] Check errors in register, add rules to form
 - [ ] Fix role bug on register (if still exists)

@@ -7,7 +7,9 @@
     "dev:client": "cd redline-client && npm run dev",
     "dev:server": "cd redline-api && npm run start:dev",
     "install:all": "cd redline-api && npm install && cd .. && cd redline-client && npm install",
-    "build:client": "cd redline-client && npm run build"
+    "build:client": "cd redline-client && npm run build",
+    "start": "npm run build:client && npm run start:server",
+    "start:server": "cd redline-api && npm run start"
   },
   "repository": {
     "type": "git",

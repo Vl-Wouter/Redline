@@ -250,9 +250,10 @@ export default {
     },
     isOwn() {
       return (
-        this.event.organiser.id === this.user.id ||
-        this.user.roles.includes('ADMIN') ||
-        this.user.roles.includes('MODERATOR')
+        this.user &&
+        (this.event.organiser.id === this.user.id ||
+          this.user.roles.includes('ADMIN') ||
+          this.user.roles.includes('MODERATOR'))
       )
     },
     reviewLabel() {
@@ -325,6 +326,21 @@ export default {
   head() {
     return {
       title: `${this.event.title} | Redline`,
+      meta: [
+        { hid: 'eventURL', property: 'og:url', content: this.$router.fullPath },
+        { hid: 'eventType', property: 'og:type', content: 'article' },
+        { hid: 'eventTitle', property: 'og:title', content: this.event.title },
+        {
+          hid: 'eventDescription',
+          property: 'og:description',
+          content: 'Check out this event on Redline!',
+        },
+        {
+          hid: 'eventImage',
+          property: 'og:image',
+          content: `/api/img/${this.event.header}`,
+        },
+      ],
     }
   },
 }

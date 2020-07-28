@@ -27,7 +27,7 @@
 - [ ] PWA optimizations
 - [ ] Logo
 - [x] **Deployment**
-- [ ] Test on deployed version
+- [x] Test on deployed version
 
 ## Extra ideas (time-permitting)
 - [ ] VIN Decoding for vehicle info
@@ -35,3 +35,17 @@
 - [ ] Add seeder for default data
 - [ ] Prices for events (Free / Free for visitors / Entry Price)
 - [ ] If possible, look for options for feed
+- [ ] Edit reviews
+
+## To Fix before functionality
+- [ ] Placeholders for username & password at login (Capitalised)
+- [ ] Only positive distances in filters
+- [ ] Fix Date Range (only allow past from date for to date)
+- [ ] Horizontal scrollbar in events page?
+- [ ] Name card (fix long names)
+- [ ] Check errors in register, add rules to form
+- [ ] Fix role bug on register (if still exists)
+- [ ] Add supported image formats to upload
+- [ ] Validate username/password before next step
+- [ ] Validate vehicle input on submit (which should've happened already)
+- [ ] Tweak form in modal on large screens

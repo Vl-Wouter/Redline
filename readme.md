@@ -37,7 +37,7 @@
 - [ ] If possible, look for options for feed
 - [ ] Edit reviews
 
-## To Fix before functionality
+## To Fix before deadline (12/08)
 - [ ] Placeholders for username & password at login (Capitalised)
 - [ ] Only positive distances in filters
 - [ ] Fix Date Range (only allow past from date for to date)

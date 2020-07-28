@@ -1,5 +1,5 @@
 <template>
-  <main class="container mx-auto px-2 mt-4">
+  <main class="container mx-auto px-2 mt-4 lg:w-1/2">
     <nuxt-link :to="`/albums/${album.slug}`" class="font-bold text-redline"
       ><font-awesome-icon icon="arrow-left" /> Back
     </nuxt-link>

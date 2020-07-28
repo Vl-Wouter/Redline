@@ -1,7 +1,7 @@
 <template>
-  <main class="container mx-auto px-2">
+  <main class="container mx-auto px-2 lg:w-3/4">
     <h1 class="lg:text-center text-xl font-bold mb-2">Recent albums</h1>
-    <section v-if="albums" class="w-full grid grid-cols-2 gap-4">
+    <section v-if="albums" class="w-full grid grid-cols-2 lg:grid-cols-3 gap-4">
       <nuxt-link
         v-for="album in albums"
         :key="album.id"

@@ -4,7 +4,10 @@
   >
     <modal v-if="user" id="attend-modal" class="hidden">
       <form method="post" @submit.prevent="toggleAttendance">
-        <f-group>
+        <f-group
+          label="Do you want to bring a vehicle to this event?"
+          class="mb-4 mt-0"
+        >
           <select id="vehicle" v-model="form.vehicle" name="vehicle">
             <option :value="null"
               >I don't bring a vehicle / don't want to show it</option
@@ -23,9 +26,9 @@
       </form>
     </modal>
     <modal v-if="user && isOwn" id="delete-modal" class="invisible">
-      <h2 class="font-bold">Delete {{ event.title }}</h2>
+      <h2 class="font-bold mb-2">Delete {{ event.title }}</h2>
       <p>Are you sure you want to delete this event?</p>
-      <div class="w-full flex justify-between">
+      <div class="w-full flex justify-between mt-2">
         <button
           class="bg-red-500 text-white py-2 px-2 rounded"
           @click="deleteEvent"
@@ -46,12 +49,12 @@
         v-if="isOwn"
         to="edit"
         append
-        class="block w-full text-center py-2 border"
+        class="block w-full text-center py-2 border-t border-b"
         >Edit "{{ event.title }}"</nuxt-link
       >
       <button
         v-if="isOwn"
-        class="block w-full py-2 text-red-600 border"
+        class="block w-full py-2 text-red-600"
         @click="
           () => {
             closeModalById('options-modal')
@@ -61,7 +64,7 @@
       >
         Delete "{{ event.title }}"
       </button>
-      <button class="block w-full py-2 border">
+      <button class="block w-full py-2 border-b border-t">
         Report "{{ event.title }}"
       </button>
     </modal>
@@ -200,6 +203,7 @@
         :reviews="event.reviews"
         :event="event.id"
         @close="closeModal"
+        class="border-b"
       />
       <attending-container
         id="attendCont"
@@ -218,6 +222,7 @@ import Modal from '~/components/Modal'
 import ContentFormGroup from '~/components/ContentFormGroup'
 export default {
   layout: 'app',
+  middleware: 'token',
   components: {
     ReviewContainer,
     AttendingContainer,

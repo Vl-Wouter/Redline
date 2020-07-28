@@ -3,7 +3,7 @@
     class="w-full fixed top-0 bg-gray-100 left-0 py-4 px-2 lg:relative bg-white lg:bg-opacity-0 z-top h-screen lg:h-auto invisible lg:visible"
   >
     <header class="w-full flex justify-between items-baseline">
-      <h2 class="font-bold text-redline">
+      <h2 class="font-bold text-redline mb-2">
         {{ reviews.length }} review{{ reviews.length !== 1 ? 's' : '' }}
       </h2>
       <button class="px-4 lg:hidden" @click="$emit('close', $el)">
@@ -44,7 +44,7 @@
     </main>
     <footer
       v-if="user && !hasReviewed"
-      class="w-full fixed bg-white border lg:relative px-2 py-2 lg:rounded rounded-t bottom-0 left-0 shadow-md"
+      class="w-full fixed bg-white border lg:relative px-2 py-2 lg:rounded rounded-t bottom-0 left-0 lg:shadow-none shadow-md"
     >
       <form class="w-full" @submit.prevent="submit">
         <f-group label="Write a review" class="lg:block">

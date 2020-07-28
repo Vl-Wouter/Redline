@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+// import axios from 'axios'
 import { parseJWT } from '~/assets/js/utils'
 
 export const state = () => ({

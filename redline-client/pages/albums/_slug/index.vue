@@ -2,7 +2,7 @@
   <div>
     <modal id="delete-modal" class="hidden">
       <h2 class="font-bold">Delete {{ album.title }}?</h2>
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center mt-4">
         <button
           class="px-4 py-2 bg-red-600 border border-red-600 text-white rounded"
           @click="deleteAlbum"
@@ -17,8 +17,8 @@
         </button>
       </div>
     </modal>
-    <main class="container mx-auto">
-      <header class="relative w-full h-48">
+    <main class="container mx-auto lg:w-1/2">
+      <header class="relative w-full h-48 lg:rounded overflow-hidden">
         <img
           :src="`/api/img/${album.photos[0].url}`"
           :alt="album.title"

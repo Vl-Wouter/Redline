@@ -17,7 +17,7 @@
       </button>
     </header>
     <main class="container mx-auto">
-      <h2 class="text-lg font-bold px-4 my-2">Add an album</h2>
+      <h2 class="text-lg font-bold lg:text-center px-4 my-2">Add an album</h2>
       <form @submit.prevent="submit" class="lg:w-1/2 lg:mx-auto" method="post">
         <section v-show="steps.current === 1" class="step w-full px-4">
           <p class="text-gray-700">Let's start with some information first</p>

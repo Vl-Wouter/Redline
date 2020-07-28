@@ -49,3 +49,4 @@
 - [ ] Validate username/password before next step
 - [ ] Validate vehicle input on submit (which should've happened already)
 - [ ] Tweak form in modal on large screens
+- [ ] Better way to ask permissions (geolocation)

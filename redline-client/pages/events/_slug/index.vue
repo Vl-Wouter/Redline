@@ -3,6 +3,7 @@
     class="container mx-auto lg:grid lg:grid-cols-3 lg:min-h-screen lg:gap-4"
   >
     <modal v-if="user" id="attend-modal" class="hidden">
+      <h2 class="font-bold text-lg">Go to event</h2>
       <form method="post" @submit.prevent="toggleAttendance">
         <f-group
           label="Do you want to bring a vehicle to this event?"

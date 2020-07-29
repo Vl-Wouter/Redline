@@ -54,6 +54,9 @@
 - [x] Tweak form in modal on large screens
 - [x] Remove "Your Events" if there are no upcoming events
 - [x] Better way to ask permissions (geolocation, modal with explanation?)
+- [x] Privacy Policy and About page (add privacy policy to sign up)
+- [x] Improved return from login
+- [x] Added filetype limits to file upload
 - [ ] Switch to native datetime input (And fix Firefox support for it)
 - [ ] Horizontal scrollbar in events page? (Not happening on macbook)
 - [ ] Move site to subdomain

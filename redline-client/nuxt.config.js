@@ -107,6 +107,7 @@ export default {
         'faSignInAlt',
         'faSignOutAlt',
         'faEllipsisH',
+        'faInfo',
       ],
       brands: ['faFontAwesome'],
     },

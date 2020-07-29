@@ -7,13 +7,14 @@
       :name="name"
       class="invisible absolute w-0 h-0"
       :multiple="allowMultiple"
+      accept=".jpg,.jpeg,.gif,.png"
       @change="handleFiles($event.target.files)"
     />
     <label v-if="labelElement" :for="name"><slot /></label>
     <label
       v-if="labelText"
       :for="name"
-      class="w-full px-4 py-2 rounded bg-redline text-white cursor-pointer"
+      class="w-full block text-center px-4 py-2 rounded bg-redline text-white cursor-pointer"
     >
       <font-awesome-icon icon="upload" class="mr-2" />
       {{

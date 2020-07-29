@@ -222,9 +222,39 @@
             </section>
           </section>
           <section class="w-full my-4">
+            <input
+              v-model="termsAccepted"
+              type="checkbox"
+              name="terms"
+              id="terms"
+            />
+            <label for="terms"
+              >I accept the
+              <a
+                href="/about-us/terms"
+                target="_blank"
+                ref="noopener"
+                class="text-redline"
+                >Terms of Service</a
+              >
+              and have read the
+              <a
+                href="/about-us/privacy"
+                target="_blank"
+                ref="noopener"
+                class="text-redline"
+                >Privacy Policy
+              </a>
+              of Redline.</label
+            >
+          </section>
+          <section class="w-full my-4">
             <button
               type="submit"
-              class="w-full py-2 bg-redline text-white rounded"
+              class="w-full py-2 text-white rounded"
+              :class="
+                termsAccepted ? 'bg-redline' : 'bg-gray-500 pointer-events-none'
+              "
             >
               Create my account
             </button>
@@ -268,6 +298,7 @@ export default {
       passwordConfirm: '',
       usernameExists: false,
       emailExists: false,
+      termsAccepted: false,
     }
   },
   computed: {

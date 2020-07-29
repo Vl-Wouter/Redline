@@ -69,7 +69,7 @@
           </button>
         </section>
       </form>
-      <nuxt-link :to="returnPath" class="text-center text-redline-light my-4"
+      <nuxt-link to="/" class="text-center text-redline-light my-4"
         >Go back</nuxt-link
       >
     </section>
@@ -99,7 +99,7 @@ export default {
   },
   computed: {
     returnPath() {
-      if (this.from === '/login') return '/'
+      if (this.from === '/login' || this.from === '/signup') return '/'
       return this.from
     },
   },

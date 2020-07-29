@@ -28,7 +28,7 @@ export default {
     },
     subtitle: {
       type: String,
-      default: 'This card has a link',
+      default: null,
     },
     dest: {
       type: String,

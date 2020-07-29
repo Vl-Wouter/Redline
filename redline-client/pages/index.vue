@@ -12,7 +12,7 @@
         >Add a vehicle</nuxt-link
       >
     </modal>
-    <modal id="geolocation-prompt" class="text-center">
+    <modal id="geolocation-prompt" class="text-center hidden">
       <h2 class="font-bold text-xl text-redline">Use my location? Why?</h2>
       <p class="my-2">
         We know you don't like to give away your location. And for us, privacy

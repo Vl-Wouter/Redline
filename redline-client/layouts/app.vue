@@ -34,8 +34,13 @@
         <nav-link text="Home" />
         <nav-link dest="/events" icon="calendar" text="Events" />
         <nav-link dest="/albums" icon="images" text="Gallery" />
-        <!-- <nav-link dest="/articles" icon="newspaper" text="Articles" /> -->
         <nav-link dest="/map" icon="map" text="Map" />
+        <nav-link
+          dest="/about-us"
+          icon="info"
+          text="About"
+          class="hidden lg:block"
+        />
       </div>
       <div
         class="hidden lg:flex w-full justify-center items-center absolute bottom-0 mb-4 left-0"

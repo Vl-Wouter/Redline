@@ -327,16 +327,16 @@ export default {
     return {
       title: `${this.event.title} | Redline`,
       meta: [
-        { hid: 'eventURL', property: 'og:url', content: this.$router.fullPath },
-        { hid: 'eventType', property: 'og:type', content: 'article' },
-        { hid: 'eventTitle', property: 'og:title', content: this.event.title },
+        { hid: 'og:url', property: 'og:url', content: this.$router.fullPath },
+        { hid: 'og:type', property: 'og:type', content: 'article' },
+        { hid: 'og:title', property: 'og:title', content: this.event.title },
         {
-          hid: 'eventDescription',
+          hid: 'og:description',
           property: 'og:description',
           content: 'Check out this event on Redline!',
         },
         {
-          hid: 'eventImage',
+          hid: 'og:image',
           property: 'og:image',
           content: `/api/img/${this.event.header}`,
         },

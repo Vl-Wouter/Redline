@@ -6,10 +6,14 @@
   "scripts": {
     "dev:client": "cd redline-client && npm run dev",
     "dev:server": "cd redline-api && npm run start:dev",
-    "install:all": "cd redline-api && npm install && cd .. && cd redline-client && npm install",
+    "install:client": "cd redline-client && npm install",
+    "install:server": "cd redline-api && npm install",
     "build:client": "cd redline-client && npm run build",
-    "start": "npm run build:client && npm run start:server",
-    "start:server": "cd redline-api && npm run start"
+    "build:server": "cd redline-api && npm run prebuild && npm run build",
+    "build:all": "npm run build:client && npm run build:server",
+    "install:all": "npm run install:client && npm run install:server",
+    "start": "npm run start:server",
+    "start:server": "cd redline-api && npm run start:prod"
   },
   "repository": {
     "type": "git",

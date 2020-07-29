@@ -50,8 +50,9 @@
 - [x] Validate vehicle input on submit (which should've happened already)
   - [x] Handle multiple errors on front-end
 - [x] Error handling for images
-- [ ] Tweak form in modal on large screens
 - [x] Vehicle Delete
+- [ ] Fix Deployment Script on Server
+- [ ] Tweak form in modal on large screens
 - [ ] Better way to ask permissions (geolocation)
 - [ ] Switch to native datetime input (And fix Firefox support for it)
 - [ ] Horizontal scrollbar in events page? (Not happening on macbook)

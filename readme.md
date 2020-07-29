@@ -34,7 +34,6 @@
 - [x] Store cookie for session (loads user into vue store on load)
 - [ ] Add seeder for default data (Categories, possibly admin user?)
 - [ ] Prices for events (Free / Free for visitors / Entry Price)
-- [ ] If possible, look for options for feed
 - [ ] Edit reviews
 
 ## To Fix before deadline (12/08)

@@ -57,6 +57,8 @@
 - [x] Privacy Policy and About page (add privacy policy to sign up)
 - [x] Improved return from login
 - [x] Added filetype limits to file upload
+- [x] Move site to subdomain
 - [ ] Switch to native datetime input (And fix Firefox support for it)
+- [ ] Update to Permissions API to check if geolocation is granted
 - [ ] Horizontal scrollbar in events page? (Not happening on macbook)
-- [ ] Move site to subdomain
+- [ ] Fix embed

@@ -1,8 +1,6 @@
 import { extname } from 'path';
-import { renameSync, existsSync, mkdirSync, unlinkSync } from 'fs';
-import { InternalServerErrorException } from '@nestjs/common';
+import { existsSync, mkdirSync, unlinkSync } from 'fs';
 import sharp from 'sharp';
-import { isMainThread } from 'worker_threads';
 
 export const imageFileFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(jpg|png|jpeg|gif)$/)) {
@@ -31,8 +29,8 @@ export const handleImage = async (input: string, options) => {
           position: sharp.strategy.attention,
         })
       : image.resize({ width });
-    const destExists = await existsSync(dest);
-    if (!destExists) await mkdirSync(dest, { recursive: true });
+    const destExists = existsSync(dest);
+    if (!destExists) mkdirSync(dest, { recursive: true });
     await image.toFormat(format).toFile(`${dest}/${name}.${format}`);
 
     return `${dest.replace('uploads/', '')}/${name}.${format}`;

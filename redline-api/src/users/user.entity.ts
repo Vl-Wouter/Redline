@@ -5,8 +5,6 @@ import {
   Column,
   Unique,
   OneToMany,
-  ManyToMany,
-  JoinTable,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,7 +12,6 @@ import { UserRole } from './user-role.enum';
 import * as bcrypt from 'bcrypt';
 import { Event } from 'src/events/entities/event.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Category } from 'src/categories/category.entity';
 import { Vehicle } from 'src/vehicles/vehicle.entity';
 import { EventToUser } from 'src/events/entities/eventToUser.entity';
 import { Review } from 'src/reviews/review.entity';

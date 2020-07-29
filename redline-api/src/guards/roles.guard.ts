@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Request } from 'express';
-import { User } from 'src/users/user.entity';
 import { Reflector } from '@nestjs/core';
 
 const getField = type => {

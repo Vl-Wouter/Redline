@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsArray,
   MinLength,
   MaxLength,
   Matches,
@@ -19,7 +18,7 @@ export class CreateUserDTO {
   email: string;
   @IsNotEmpty()
   @IsString()
-  @MinLength(4)
+  @MinLength(3)
   @MaxLength(30)
   @ApiProperty()
   username: string;
@@ -49,7 +48,7 @@ export class CreateUserDTO {
     UserRole.USER,
   ])
   @ApiProperty({ enum: UserRole, enumName: 'UserRole' })
-  roles: UserRole;
+  role: UserRole;
   @IsOptional()
   @IsString()
   @ApiProperty()

@@ -1,16 +1,11 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumRepository } from './repositories/album.repository';
 import { CreateAlbumDTO } from './dto/create-album.dto';
 import { User } from 'src/users/user.entity';
 import { Album } from './entities/album.entity';
 import { PhotoRepository } from './repositories/photo.repository';
-import { unlink, unlinkSync } from 'fs';
-import { promisify } from 'util';
+import { unlinkSync } from 'fs';
 import { UpdateAlbumDTO } from './dto/update-album.dto';
 
 @Injectable()

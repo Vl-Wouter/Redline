@@ -32,21 +32,27 @@
 ## Extra ideas (time-permitting)
 - [ ] VIN Decoding for vehicle info
 - [x] Store cookie for session (loads user into vue store on load)
-- [ ] Add seeder for default data
+- [ ] Add seeder for default data (Categories, possibly admin user?)
 - [ ] Prices for events (Free / Free for visitors / Entry Price)
 - [ ] If possible, look for options for feed
 - [ ] Edit reviews
 
 ## To Fix before deadline (12/08)
 - [x] Placeholders for username & password at login (Capitalised)
-- [ ] Only positive distances in filters
-- [ ] Fix Date Range (only allow past from date for to date)
-- [ ] Horizontal scrollbar in events page? (Not happening on macbook)
-- [ ] Name card (fix long names)
-- [ ] Check errors in register, add rules to form
-- [ ] Fix role bug on register (if still exists)
-- [ ] Add supported image formats to upload
-- [ ] Validate username/password before next step
-- [ ] Validate vehicle input on submit (which should've happened already)
+- [x] Only positive distances in filters
+- [x] Fix Date Range (only allow past from date for to date)
+- [x] Check errors in register, add rules to form
+- [x] Validate username/password before next step
+- [x] fix Toast error handling
+- [x] Name card (fix long names)
+- [x] Fix role bug on register (if still exists)
+- [x] Add supported image formats to upload
+- [x] Validate vehicle input on submit (which should've happened already)
+  - [x] Handle multiple errors on front-end
+- [x] Error handling for images
 - [ ] Tweak form in modal on large screens
+- [x] Vehicle Delete
 - [ ] Better way to ask permissions (geolocation)
+- [ ] Switch to native datetime input (And fix Firefox support for it)
+- [ ] Horizontal scrollbar in events page? (Not happening on macbook)
+- [ ] Move site to subdomain

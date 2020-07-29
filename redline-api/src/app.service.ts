@@ -5,10 +5,10 @@ import { constantsConfig as config } from './config/constants.config';
 export class AppService {
   constructor(private httpService: HttpService) {}
 
-  async fetchLocation(address: String) {
+  async fetchLocation(address: string) {
     const res = await this.httpService
       .get(
-        `https://api.opencagedata.com/geocode/v1/json?key=${config.opencage.api_key}&q=${address}&limit=1&countrycode=be`,
+        `https://api.opencagedata.com/geocode/v1/json?key=${config.opencage.apiKey}&q=${address}&limit=1&countrycode=be`,
       )
       .toPromise();
     const result = res.data.results[0];

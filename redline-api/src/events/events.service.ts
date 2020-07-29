@@ -10,18 +10,10 @@ import { CreateEventDTO } from './dto/create-event.dto';
 import { UpdateEventDTO } from './dto/update-event.dto';
 import { GetEventFilterDTO } from './dto/get-event-filters.dto';
 import { User } from 'src/users/user.entity';
-import { unlinkSync, unlink, existsSync } from 'fs';
-import { checkModOrAdmin } from 'src/utils/check-role.utils';
+import { unlink, existsSync } from 'fs';
 import { EventToUser } from './entities/eventToUser.entity';
 import { EventToUserRepository } from './repositories/eventToUser.repository';
 import { handleImage } from 'src/utils/file-upload.utils';
-
-// const getParams = (param, user: User) => {
-//   if (!checkModOrAdmin(user)) {
-//     return { param, organiser: user };
-//   }
-//   return { param };
-// };
 
 @Injectable()
 export class EventsService {
@@ -39,7 +31,7 @@ export class EventsService {
     today.setHours(0, 0, 0, 0);
 
     // Create query
-    let query = this.eventRepository
+    const query = this.eventRepository
       .createQueryBuilder('event')
       .leftJoinAndSelect('event.organiser', 'organiser')
       .leftJoinAndSelect('event.attending', 'attending')

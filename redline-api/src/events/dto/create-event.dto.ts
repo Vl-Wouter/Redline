@@ -34,7 +34,7 @@ export class CreateEventDTO {
   @ApiProperty()
   longitude: number;
   @ApiProperty()
-  prices: Object[];
+  prices: Record<string, any>[];
   @ApiProperty({ type: 'string', format: 'binary' })
   header: any;
 }

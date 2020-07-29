@@ -104,6 +104,7 @@
               type="number"
               name="distMin"
               class="w-1/3 py-2 px-2 bg-gray-100 focus:outline-none"
+              :min="0"
             />
             <span class="font-bold">-</span>
             <input
@@ -112,6 +113,7 @@
               type="number"
               name="distMax"
               class="w-1/3 py-2 px-2 bg-gray-100 focus:outline-none"
+              :min="filters.distance.min ? filters.distance.min : 0"
             />
           </div>
           <h3 class="text-redline">Dates</h3>
@@ -123,6 +125,7 @@
               type="date"
               name="startDate"
               class="w-full py-2 px-4 rounded border focus:outline-none focus:border-redline"
+              :max="filters.date.end"
             />
           </div>
           <div>
@@ -133,6 +136,7 @@
               type="date"
               name="endDate"
               class="w-full py-2 px-4 rounded border focus:outline-none focus:border-redline"
+              :min="filters.date.start"
             />
           </div>
         </form>

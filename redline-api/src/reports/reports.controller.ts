@@ -28,7 +28,9 @@ export class ReportsController {
   @ApiBearerAuth()
   @ApiCreatedResponse({ description: 'Page is reported to admins' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized to report a page' })
-  create(@Body('url') url: string, @GetUser() user: User) {}
+  create(@Body('url') url: string, @GetUser() user: User) {
+    return null;
+  }
   // Remove a reported url
 
   @Delete('/:id')
@@ -37,5 +39,7 @@ export class ReportsController {
   @ApiBearerAuth()
   @ApiNoContentResponse({ description: 'Report is removed' })
   @ApiUnauthorizedResponse({ description: 'Not authorized to remove a report' })
-  delete(@Param('id') id: number, @GetUser() user: User) {}
+  delete(@Param('id') id: number, @GetUser() user: User) {
+    return null;
+  }
 }

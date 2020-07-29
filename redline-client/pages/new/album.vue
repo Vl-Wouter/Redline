@@ -18,7 +18,7 @@
     </header>
     <main class="container mx-auto">
       <h2 class="text-lg font-bold lg:text-center px-4 my-2">Add an album</h2>
-      <form @submit.prevent="submit" class="lg:w-1/2 lg:mx-auto" method="post">
+      <form class="lg:w-1/2 lg:mx-auto" method="post" @submit.prevent="submit">
         <section v-show="steps.current === 1" class="step w-full px-4">
           <p class="text-gray-700">Let's start with some information first</p>
           <f-group
@@ -26,13 +26,13 @@
             field="title"
             helper="A descriptive title for the album"
           >
-            <input v-model="form.title" type="text" name="title" id="title" />
+            <input id="title" v-model="form.title" type="text" name="title" />
           </f-group>
           <f-group label="Description" field="description">
             <textarea
+              id="description"
               v-model="form.description"
               name="description"
-              id="description"
               cols="30"
               rows="5"
             ></textarea>
@@ -42,7 +42,7 @@
             field="event"
             helper="Is this album related to an event? Event-related albums will be shown on event pages"
           >
-            <select v-model="form.eventId" name="event" id="event">
+            <select id="event" v-model="form.eventId" name="event">
               <option :value="null">Not related to an event</option>
               <option
                 v-for="event in events"
@@ -69,9 +69,9 @@
           </f-group>
           <section class="w-full grid grid-cols-2 lg:grid-cols-3 gap-4">
             <div
-              class="w-full h-full rounded overflow-hidden"
               v-for="(photo, i) in form.photos"
               :key="i"
+              class="w-full h-full rounded overflow-hidden"
             >
               <img
                 :src="getURL(photo)"

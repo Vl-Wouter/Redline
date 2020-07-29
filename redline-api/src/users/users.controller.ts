@@ -43,6 +43,14 @@ export class UsersController {
     }
   }
 
+  @Post('/check')
+  @ApiOperation({ operationId: 'Check if user with parameter exists' })
+  @ApiOkResponse({ description: 'User found', type: User })
+  @ApiNotFoundResponse({ description: 'No user with these criteria' })
+  checkUser(@Body() criteria) {
+    return this.usersService.checkExisting(criteria);
+  }
+
   @Post('/:id/follow')
   @UseGuards(AuthGuard())
   @ApiOperation({ operationId: 'Follow a user' })

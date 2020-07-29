@@ -72,8 +72,8 @@
       class="relative w-full h-40 lg:h-64 lg:col-span-3 lg:row-start-1 overflow-hidden lg:rounded"
     >
       <button
-        @click="showModal('options-modal')"
         class="absolute top-0 right-0 mt-1 mr-1 text-xl text-white px-1 rounded bg-black bg-opacity-50"
+        @click="showModal('options-modal')"
       >
         <font-awesome-icon icon="ellipsis-h" />
       </button>
@@ -202,8 +202,8 @@
         id="reviewCont"
         :reviews="event.reviews"
         :event="event.id"
-        @close="closeModal"
         class="border-b"
+        @close="closeModal"
       />
       <attending-container
         id="attendCont"
@@ -281,7 +281,6 @@ export default {
     },
     showModal(id) {
       const el = document.querySelector(`#${id}`)
-      console.log(el)
       if (el.classList.contains('invisible')) {
         el.classList.remove('invisible')
       }

@@ -3,34 +3,25 @@ import {
   Post,
   Body,
   ValidationPipe,
-  UseGuards,
   Get,
   Param,
   UseInterceptors,
   UploadedFile,
-  Res,
-  Patch,
   Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDTO } from './dto';
 import { CreateUserDTO } from './dto/create-user.dto';
-import { GetUser } from './get-user.decorator';
-import { User } from '../users/user.entity';
-import { AuthGuard } from '@nestjs/passport';
 import {
   ApiOperation,
   ApiTags,
   ApiCreatedResponse,
   ApiOkResponse,
-  ApiBearerAuth,
   ApiNotFoundResponse,
-  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { editFileName, imageFileFilter } from 'src/utils/file-upload.utils';
-import { request } from 'http';
 
 @Controller('auth')
 @ApiTags('Auth')

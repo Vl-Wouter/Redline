@@ -46,6 +46,26 @@ const toFormData = (object) => {
   return formData
 }
 
+// const error = (error, options) => {
+//   if (error.response) {
+//     error.reponse.data.message.forEach((message) => {
+//       Vue.toasted.error(message, {
+//         duration: 2000,
+//         keepOnHover: true,
+//       })
+//     })
+//   } else {
+//     Vue.toasted.error(error.message, {
+//       duration: 2000,
+//       keepOnHover: true,
+//     })
+//   }
+// }
+
+// const success = (message) => {
+//   Vue.toasted.success(message, {})
+// }
+
 export default (context, inject) => {
   inject('distance', calcCrow)
   inject('position', getPosition)

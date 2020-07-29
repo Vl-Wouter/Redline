@@ -9,7 +9,6 @@ import { handleImage } from 'src/utils/file-upload.utils';
 @EntityRepository(Vehicle)
 export class VehicleRepository extends Repository<Vehicle> {
   async createVehicle(createVehicleDTO: CreateVehicleDTO, user: User, image) {
-    console.log(createVehicleDTO);
     try {
       const vehicle = await Vehicle.create(createVehicleDTO);
       if (image) {

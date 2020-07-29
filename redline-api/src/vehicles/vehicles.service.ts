@@ -44,16 +44,13 @@ export class VehiclesService {
   }
 
   async deleteVehicle(id: number, user: User): Promise<void> {
-    const vehicle = await this.vehicleRepository.findOne({ id, owner: user });
+    const options = user.isAdmin() ? { id } : { id, owner: user };
+    const vehicle = await this.vehicleRepository.findOne(options);
     if (!vehicle)
       throw new NotFoundException(`No owned vehicle found with this id`);
-    try {
-      unlinkSync(`./uploads/vehicles/${vehicle.photo}`);
-      await vehicle.remove();
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'An error occured while deleting a vehicle',
-      );
+    if (vehicle.photo) {
+      unlinkSync(`./uploads/${vehicle.photo}`);
     }
+    await this.vehicleRepository.remove(vehicle);
   }
 }

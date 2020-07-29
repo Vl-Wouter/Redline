@@ -1,4 +1,4 @@
-export class mailContent {
+export class MailContent {
   to: string;
   subject: string;
   from?: string;

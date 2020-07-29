@@ -8,6 +8,8 @@ import {
   UseInterceptors,
   UploadedFile,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { VehiclesService } from './vehicles.service';
 import { User } from 'src/users/user.entity';
@@ -31,8 +33,6 @@ import { CreateVehicleDTO } from './dto/create-vehicle.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { editFileName, imageFileFilter } from 'src/utils/file-upload.utils';
 import { diskStorage } from 'multer';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { Roles } from 'src/guards/roles.decorator';
 
 @Controller('vehicles')
 @ApiTags('Vehicles')
@@ -61,6 +61,7 @@ export class VehiclesController {
 
   @Post()
   @UseGuards(AuthGuard())
+  @UsePipes(ValidationPipe)
   @UseInterceptors(
     FileInterceptor('photo', {
       storage: diskStorage({

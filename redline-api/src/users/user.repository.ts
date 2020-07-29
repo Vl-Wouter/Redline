@@ -20,7 +20,7 @@ export class UserRepository extends Repository<User> {
       email,
       firstName,
       lastName,
-      roles,
+      role,
     } = createUserDTO;
 
     const user = new User();
@@ -30,13 +30,12 @@ export class UserRepository extends Repository<User> {
     user.email = email;
     user.firstName = firstName;
     user.lastName = lastName;
-    if (roles && roles !== UserRole.USER) {
-      user.roles = [UserRole[roles], UserRole.USER];
+    if (role && role !== UserRole.USER) {
+      user.roles = [UserRole[role], UserRole.USER];
     } else {
       user.roles = [UserRole.USER];
     }
     if (profileImage) {
-      console.log(profileImage);
       user.profileImg = await handleImage(profileImage.path, {
         width: 256,
         isSquare: true,

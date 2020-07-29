@@ -65,6 +65,13 @@
             {{ vehicle.year + ' ' + vehicle.make + ' ' + vehicle.model }}
           </p>
         </div>
+        <button
+          v-if="currentUser && (isCurrent || currentUser.isAdmin)"
+          @click="deleteVehicle(vehicle.id)"
+          class="absolute top-0 right-0 mr-2 mt-2 bg-red-600 text-white px-2 py-1 rounded-full text-sm"
+        >
+          <font-awesome-icon icon="trash" />
+        </button>
       </div>
     </section>
     <section class="tabs mb-4">
@@ -136,6 +143,7 @@
 import axios from 'axios'
 export default {
   layout: 'app',
+  middleware: 'token',
   asyncData({ params }) {
     return axios.get(`/api/users/${params.slug}`).then((res) => {
       return {
@@ -171,6 +179,18 @@ export default {
     this.user.ownEvents.sort((a, b) => (a.startTime > b.startTime ? 1 : -1))
   },
   methods: {
+    async deleteVehicle(id) {
+      try {
+        await this.$axios.delete(`/api/vehicles/${id}`)
+        this.user.vehicles = this.user.vehicles.filter(
+          (vehicle) => vehicle.id !== id
+        )
+      } catch (err) {
+        this.$toast.error(
+          err.response ? err.response.data.message : err.message
+        )
+      }
+    },
     async toggleFollow() {
       try {
         if (this.isFollowing) {

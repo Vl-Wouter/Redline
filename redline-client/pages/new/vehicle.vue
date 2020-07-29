@@ -14,14 +14,15 @@
         class="lg:w-1/2 lg:mx-auto px-4"
         @submit.prevent="submit"
       >
-        <f-group
+        <!-- In case I can get access to VIN API -->
+        <!-- <f-group
           label="Seach by VIN"
           field="vin"
           helper="Searching by VIN allows us to pre-fill the information about your vehicle"
         >
           <input id="vin" v-model="vin" type="text" name="vin" />
         </f-group>
-        <div class="my-2 border-b"></div>
+        <div class="my-2 border-b"></div> -->
         <f-group label="Make" field="make" helper="e.g. Ford, Audi, BMW, ...">
           <input id="make" v-model="form.make" type="text" name="make" />
         </f-group>
@@ -117,9 +118,21 @@ export default {
         await this.$store.dispatch('user/addVehicle', formData)
         return this.$router.push('/')
       } catch (err) {
-        this.$toast.error(
-          err.response ? err.response.data.message : err.message
-        )
+        if (err.response) {
+          err.response.data.message.forEach((message) => {
+            this.$toast.error(message, {
+              duration: null,
+              action: {
+                text: 'Close',
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0)
+                },
+              },
+            })
+          })
+        } else {
+          this.$toast.error(err.message)
+        }
       }
     },
   },

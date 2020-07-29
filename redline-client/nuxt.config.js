@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie'
-
 export default {
   /*
    ** Nuxt rendering mode
@@ -41,8 +39,6 @@ export default {
     '~/plugins/filters.js',
     '~/plugins/helpers.js',
     '~/plugins/moment.js',
-    // '~/plugins/axios.js',
-    { src: '~/plugins/v-calendar.js', ssr: false },
     { src: '~/plugins/vuex-persist.js', ssr: false },
   ],
   /*
@@ -115,9 +111,16 @@ export default {
       brands: ['faFontAwesome'],
     },
   },
+
+  toast: {
+    duration: 2000,
+    keepOnHover: true,
+  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    analyze: true,
+  },
 }

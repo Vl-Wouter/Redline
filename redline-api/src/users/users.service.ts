@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { User } from './user.entity';
@@ -66,6 +62,14 @@ export class UsersService {
       follows: user,
     });
     return this.getUserById(id);
+  }
+
+  async checkExisting(criteria) {
+    const user = await this.userRepository.findOne(criteria);
+    if (user) {
+      return true;
+    }
+    return false;
   }
 
   // async update(id: number, update, user: User) {

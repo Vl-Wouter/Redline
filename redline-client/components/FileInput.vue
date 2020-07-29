@@ -1,5 +1,6 @@
 <template>
   <section class="w-full">
+    <p class="text-xs text-gray-700">Only .png, .jpg, .gif files are allowed</p>
     <input
       :id="name"
       type="file"

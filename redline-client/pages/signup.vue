@@ -37,6 +37,7 @@
                 type="email"
                 name="email"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
+                @change="checkExisting('email')"
               />
               <p class="text-xs text-gray-600 mt-2">
                 This email address will be used to log you in
@@ -52,9 +53,11 @@
                 type="text"
                 name="username"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
+                @change="checkExisting('username')"
               />
               <p class="text-xs text-gray-600 mt-2">
-                This is a username used to identify you.
+                This is a username used to identify you. It has to be at least 3
+                characters.
               </p>
             </section>
             <section class="w-full my-4 lg:my-0">
@@ -68,6 +71,9 @@
                 name="password"
                 class="border focus:border-redline focus:outline-none rounded w-full py-2 px-2"
               />
+              <p class="text-xs text-gray-600 mt-2">
+                Min. 8 characters. Must contain a capital letter and a number.
+              </p>
             </section>
             <section class="w-full my-4 lg:my-0">
               <label
@@ -90,7 +96,7 @@
             Now complete your profile with some extra details
           </p>
           <section
-            class="relative w-full lg:w-1/2 lg:mx-auto border rounded mb-4 mt-12 bg-white shadow-sm px-4 py-2"
+            class="relative w-full lg:min-w-1/2 lg:mx-auto border rounded mb-4 mt-12 bg-white shadow-sm px-4 py-2"
           >
             <div
               class="w-24 h-24 rounded-full border-4 border-gray-100 bg-gray-400 mx-auto transform -translate-y-1/2 overflow-hidden"
@@ -260,6 +266,8 @@ export default {
         profileImg: '',
       },
       passwordConfirm: '',
+      usernameExists: false,
+      emailExists: false,
     }
   },
   computed: {
@@ -283,15 +291,58 @@ export default {
         this.steps.current--
       }
     },
+    async checkExisting(id) {
+      try {
+        const field = document.querySelector(`#${id}`)
+        field.classList.remove([
+          'border-red-600',
+          'bg-red-200',
+          'border-green-600',
+        ])
+        const { data: exists } = await this.$axios.post('/api/users/check', {
+          [id]: field.value,
+        })
+        if (exists) {
+          field.classList.add('border-red-600')
+          this.$toast.error(`This ${id} already exists`, {
+            duration: null,
+            action: {
+              text: 'Close',
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0)
+              },
+            },
+          })
+        } else {
+          field.classList.add('border-green-600')
+        }
+      } catch (err) {
+        this.$toast.error(
+          err.response ? err.response.data.message : err.message
+        )
+      }
+    },
     nextStep() {
-      this.steps.current++
+      if (this.steps.current === 1) {
+        if (
+          !this.user.password ||
+          this.user.password !== this.passwordConfirm
+        ) {
+          return this.$toast.error('Passwords do not match')
+        }
+      }
+      if (
+        !this.emailExists &&
+        !this.usernameExists &&
+        this.user.email &&
+        this.user.username
+      ) {
+        this.steps.current++
+      } else {
+        this.$toast.error('Please fill in all fields')
+      }
     },
     async submitForm() {
-      if (this.user.password !== this.passwordConfirm) {
-        this.$toast.error('Passwords do not match')
-        this.steps.current = 1
-        return
-      }
       const formData = new FormData()
       for (const key in this.user) {
         formData.append(key, this.user[key])
@@ -306,10 +357,26 @@ export default {
       } catch (error) {
         if (error.response) {
           error.response.data.message.forEach((message) => {
-            this.$toast.error(message)
+            this.$toast.error(message, {
+              duration: null,
+              action: {
+                text: 'Close',
+                onClick: (e, toastObject) => {
+                  toastObject.goAway(0)
+                },
+              },
+            })
           })
         } else {
-          this.$toast.error(error.message)
+          this.$toast.error(error.message, {
+            duration: null,
+            action: {
+              text: 'Close',
+              onClick: (e, toastObject) => {
+                toastObject.goAway(0)
+              },
+            },
+          })
         }
         this.steps.current = 1
       }

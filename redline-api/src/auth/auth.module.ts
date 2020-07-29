@@ -22,7 +22,7 @@ import { MailModule } from 'src/mail/mail.module';
       },
     }),
     MailModule.register({
-      api_key: config.sendgrid.api_key,
+      apiKey: config.sendgrid.apiKey,
       defaults: {
         from: 'woutvlae@student.arteveldehs.be',
       },

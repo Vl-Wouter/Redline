@@ -51,8 +51,9 @@
 - [x] Error handling for images
 - [x] Vehicle Delete
 - [x] Fix Deployment Script on Server
-- [ ] Tweak form in modal on large screens
-- [ ] Better way to ask permissions (geolocation)
+- [x] Tweak form in modal on large screens
+- [x] Remove "Your Events" if there are no upcoming events
+- [x] Better way to ask permissions (geolocation, modal with explanation?)
 - [ ] Switch to native datetime input (And fix Firefox support for it)
 - [ ] Horizontal scrollbar in events page? (Not happening on macbook)
 - [ ] Move site to subdomain

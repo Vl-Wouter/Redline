@@ -12,12 +12,28 @@
         >Add a vehicle</nuxt-link
       >
     </modal>
+    <modal id="geolocation-prompt" class="text-center">
+      <h2 class="font-bold text-xl text-redline">Use my location? Why?</h2>
+      <p class="my-2">
+        We know you don't like to give away your location. And for us, privacy
+        is a concern as well. At Redline, the only reason your geolocation is
+        used is to calculate the distance from you to an event. This data is not
+        saved anywhere, as these calculations happen on your own device.
+      </p>
+      <p>
+        You can choose if you want to allow this or not, this popup will
+        disappear once you made your choice.
+      </p>
+    </modal>
     <section v-if="user" class="lg:w-1/2 lg:mx-auto">
       <h2 class="font-bold text-lg lg:text-xl lg:text-center my-2">
         Your events
       </h2>
       <p
-        v-if="!attendingEvents || attendingEvents.length === 0"
+        v-if="
+          events.length > 0 &&
+          (!attendingEvents || attendingEvents.length === 0)
+        "
         class="text-sm w-full text-center text-gray-700"
       >
         You aren't going to any events yet.
@@ -150,10 +166,11 @@ export default {
       return null
     },
   },
-  async created() {
+  async mounted() {
     try {
       // Calculate users distance from event
       const { coords } = await this.$position()
+      document.querySelector('#geolocation-prompt').classList.add('hidden')
       if (coords) {
         const events = []
         this.events.forEach((event) => {

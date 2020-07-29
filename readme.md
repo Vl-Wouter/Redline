@@ -51,7 +51,7 @@
   - [x] Handle multiple errors on front-end
 - [x] Error handling for images
 - [x] Vehicle Delete
-- [ ] Fix Deployment Script on Server
+- [x] Fix Deployment Script on Server
 - [ ] Tweak form in modal on large screens
 - [ ] Better way to ask permissions (geolocation)
 - [ ] Switch to native datetime input (And fix Firefox support for it)

@@ -18,7 +18,7 @@
         icon="gavel"
         title="Reports"
         subtitle="View all reported events, albums and articles"
-        dest="mod-queue"
+        dest="reports"
       />
     </section>
     <button

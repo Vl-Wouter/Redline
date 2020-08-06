@@ -65,9 +65,12 @@
       >
         Delete "{{ event.title }}"
       </button>
-      <button class="block w-full py-2 border-b border-t">
+      <nuxt-link
+        :to="`/report?url=${$route.fullPath}&type=event`"
+        class="block w-full py-2 border-b border-t"
+      >
         Report "{{ event.title }}"
-      </button>
+      </nuxt-link>
     </modal>
     <header
       class="relative w-full h-40 lg:h-64 lg:col-span-3 lg:row-start-1 overflow-hidden lg:rounded"

@@ -5,6 +5,9 @@ import {
   UseGuards,
   Delete,
   Param,
+  UsePipes,
+  ValidationPipe,
+  Get,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -13,33 +16,41 @@ import {
   ApiUnauthorizedResponse,
   ApiBearerAuth,
   ApiNoContentResponse,
+  ApiBody,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/users/user.entity';
+import { CreateReportDTO } from './dto/create-report.dto';
+import { ReportsService } from './reports.service';
+import { Report } from './entities/report.entity';
 
 @Controller('reports')
 @ApiTags('Reports')
 export class ReportsController {
+  constructor(private reportsService: ReportsService) {}
   // Add a report for a url
   @Post()
   @UseGuards(AuthGuard())
+  @UsePipes(ValidationPipe)
   @ApiOperation({ operationId: 'Report a page' })
   @ApiBearerAuth()
+  @ApiBody({ type: CreateReportDTO })
   @ApiCreatedResponse({ description: 'Page is reported to admins' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized to report a page' })
-  create(@Body('url') url: string, @GetUser() user: User) {
-    return null;
+  create(@Body() createReportDTO: CreateReportDTO, @GetUser() user: User) {
+    return this.reportsService.create(createReportDTO, user);
   }
-  // Remove a reported url
 
-  @Delete('/:id')
+  @Get()
   @UseGuards(AuthGuard())
-  @ApiOperation({ operationId: 'Remove a report' })
+  @ApiOperation({ operationId: 'Get all reports' })
   @ApiBearerAuth()
-  @ApiNoContentResponse({ description: 'Report is removed' })
-  @ApiUnauthorizedResponse({ description: 'Not authorized to remove a report' })
-  delete(@Param('id') id: number, @GetUser() user: User) {
-    return null;
+  @ApiOkResponse({ description: 'Reports', type: Report, isArray: true })
+  @ApiUnauthorizedResponse({ description: 'Not Authorized' })
+  getAll(@GetUser() user: User) {
+    console.log('TEST');
+    return this.reportsService.getAll(user);
   }
 }

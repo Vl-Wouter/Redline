@@ -19,6 +19,7 @@ import { Follow } from './follow.entity';
 import { Album } from 'src/albums/entities/album.entity';
 import { Article } from 'src/articles/entities/article.entity';
 import { Factory } from 'nestjs-seeder';
+import { Report } from 'src/reports/entities/report.entity';
 
 @Entity()
 @Unique(['username'])
@@ -145,4 +146,10 @@ export class User extends BaseEntity {
     { eager: true },
   )
   follows: User[];
+
+  @OneToMany(
+    type => Report,
+    report => report.reportedBy,
+  )
+  reports: Report[];
 }

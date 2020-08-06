@@ -5,8 +5,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from 'src/users/user.entity';
+import { use } from 'passport';
 
 @Entity()
 export class Report extends BaseEntity {
@@ -15,26 +18,23 @@ export class Report extends BaseEntity {
   id: number;
 
   @Column()
-  @ApiProperty()
   url: string;
 
   @Column()
-  @ApiProperty()
-  type: string;
+  type: string; // Event / Review / User / Gallery
 
   @Column()
-  @ApiProperty()
-  count: number;
+  reason: string; // Possibly default options?
+
+  @Column({ default: 'active' })
+  flag: string;
 
   @CreateDateColumn()
-  @ApiProperty()
-  createdAt: Date;
+  reportedAt: Date;
 
-  @UpdateDateColumn()
-  @ApiProperty()
-  updatedAt: Date;
-
-  @Column('date')
-  @ApiProperty()
-  readAt: Date;
+  @ManyToOne(
+    type => User,
+    user => user.reports,
+  )
+  reportedBy: User;
 }

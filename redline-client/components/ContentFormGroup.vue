@@ -38,5 +38,9 @@ select {
   &:focus {
     @apply border-redline outline-none;
   }
+
+  &:disabled {
+    @apply bg-gray-200 text-gray-700;
+  }
 }
 </style>

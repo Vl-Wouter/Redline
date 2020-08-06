@@ -58,7 +58,9 @@
 - [x] Improved return from login
 - [x] Added filetype limits to file upload
 - [x] Move site to subdomain
-- [ ] Switch to native datetime input (And fix Firefox support for it)
-- [ ] Update to Permissions API to check if geolocation is granted
+- [x] Switch to native datetime input
+  - [ ] Firefox support for datetime-local
+- [x] Update to Permissions API to check if geolocation is granted (support is ok)
 - [ ] Horizontal scrollbar in events page? (Not happening on macbook)
-- [ ] Fix embed
+- [ ] Fix page embeds (open graph / Meta tags)
+- [ ] Add share button for facebook

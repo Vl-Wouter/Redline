@@ -63,10 +63,20 @@
             field="startTime"
             helper="When does your event start?"
           >
-            <vue-ctk-date-time-picker
+            <!-- <vue-ctk-date-time-picker
               v-model="form.startTime"
               format="YYYY-MM-DDTHH:mm:ss.sssZ"
               name="startTime"
+            /> -->
+            <input
+              v-model="form.startTime"
+              type="datetime-local"
+              name="startTime"
+              id="startTime"
+              :min="today"
+              :max="form.endTime"
+              pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
+              placeholder="yyyy-mm-ddThh:mm"
             />
           </f-group>
           <f-group
@@ -74,10 +84,19 @@
             field="endTime"
             helper="When does your event end?"
           >
-            <vue-ctk-date-time-picker
+            <!-- <vue-ctk-date-time-picker
               v-model="form.endTime"
               format="YYYY-MM-DDTHH:mm:ss.sssZ"
               name="endTime"
+            /> -->
+            <input
+              v-model="form.endTime"
+              type="datetime-local"
+              name="endTime"
+              id="endTime"
+              :min="form.startTime ? form.startTime : today"
+              pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
+              placeholder="yyyy-mm-ddThh:mm"
             />
           </f-group>
           <f-group
@@ -193,6 +212,9 @@ export default {
       } else {
         return null
       }
+    },
+    today() {
+      return new Date().toISOString().substring(0, 16)
     },
   },
   mounted() {

@@ -140,6 +140,7 @@ export default {
     return {
       events: 'Hello',
       from: null,
+      coords: null,
     }
   },
   computed: {
@@ -167,8 +168,11 @@ export default {
     },
   },
   async mounted() {
-    try {
-      // Calculate users distance from event
+    const permission = await navigator.permissions.query({
+      name: 'geolocation',
+    })
+
+    const calculateDistances = async () => {
       const { coords } = await this.$position()
       document.querySelector('#geolocation-prompt').classList.add('hidden')
       if (coords) {
@@ -184,11 +188,28 @@ export default {
         })
         this.events = events
       }
-    } catch (err) {
-      this.error = err
     }
+
+    if (permission.state === 'prompt') {
+      document.querySelector('#geolocation-prompt').classList.remove('hidden')
+    }
+    if (permission.state === 'granted') {
+      calculateDistances()
+    }
+
+    permission.onchange = function () {
+      document.querySelector('#geolocation-prompt').classList.add('hidden')
+      if (this.state === 'granted') {
+        calculateDistances()
+      }
+    }
+    await this.$position()
   },
-  methods: {},
+  methods: {
+    calculateDistances() {
+      console.log('Test')
+    },
+  },
   head() {
     return {
       title: 'Redline | Local Car Events',

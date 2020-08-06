@@ -59,7 +59,7 @@
 - [x] Added filetype limits to file upload
 - [x] Move site to subdomain
 - [x] Switch to native datetime input
-  - [ ] Firefox support for datetime-local
+  - [ ] Firefox support for datetime-local (defaults to text)
 - [x] Update to Permissions API to check if geolocation is granted (support is ok)
 - [ ] Horizontal scrollbar in events page? (Not happening on macbook)
 - [ ] Fix page embeds (open graph / Meta tags)

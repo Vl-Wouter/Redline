@@ -136,6 +136,14 @@
         </nuxt-link>
       </main>
     </section>
+    <section class="w-full">
+      <nuxt-link
+        :to="`/report?url=${$route.fullPath}&type=user`"
+        class="block text-center w-full py-2 text-redline font-bold"
+      >
+        Report "{{ user.username }}"
+      </nuxt-link>
+    </section>
   </main>
 </template>
 

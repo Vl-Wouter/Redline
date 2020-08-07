@@ -71,6 +71,14 @@
           />
         </div>
       </main>
+      <section class="w-full">
+        <nuxt-link
+          :to="`/report?url=${$route.fullPath}&type=event`"
+          class="block text-center w-full py-2 text-redline font-bold"
+        >
+          Report "{{ album.title }}"
+        </nuxt-link>
+      </section>
     </main>
   </div>
 </template>

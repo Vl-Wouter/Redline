@@ -57,11 +57,7 @@ export default {
   middleware: ['auth', 'isAdmin'],
   // asyncData() {
   //   return axios
-  //     .get(`/api/reports`, {
-  //       headers: {
-  //         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJ0ZXN0VXNlciIsInJvbGVzIjpbIkFETUlOIl0sImZ1bGxOYW1lIjoiQWRtaW4gIiwicHJvZmlsZUltZyI6InVzZXJzL2RlZmF1bHQvdXNlci5wbmciLCJpYXQiOjE1OTY3OTM0NjEsImV4cCI6MTU5Njg3OTg2MX0.9m9TXHDJOh1k3fT04mbAgcToxwbR-JitW6MlIgiCO8o`,
-  //       },
-  //     })
+  //     .get(`/api/reports`)
   //     .then((res) => {
   //       return {
   //         reports: res.data,

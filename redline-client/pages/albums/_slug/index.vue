@@ -71,7 +71,7 @@
           />
         </div>
       </main>
-      <section class="w-full">
+      <section class="w-full" v-if="user">
         <nuxt-link
           :to="`/report?url=${$route.fullPath}&type=event`"
           class="block text-center w-full py-2 text-redline font-bold"

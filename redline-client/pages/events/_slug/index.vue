@@ -44,7 +44,7 @@
         </button>
       </div>
     </modal>
-    <modal id="options-modal" class="invisible space-y-0">
+    <modal v-if="user" id="options-modal" class="invisible space-y-0">
       <h2 class="text-lg mb-2">Event options</h2>
       <div class="divide-y divide-gray-400">
         <nuxt-link
@@ -78,6 +78,7 @@
       class="relative w-full h-40 lg:h-64 lg:col-span-3 lg:row-start-1 overflow-hidden lg:rounded"
     >
       <button
+        v-if="user"
         class="absolute top-0 right-0 mt-1 mr-1 text-xl text-white px-1 rounded bg-black bg-opacity-50"
         @click="showModal('options-modal')"
       >

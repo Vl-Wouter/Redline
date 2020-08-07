@@ -136,7 +136,7 @@
         </nuxt-link>
       </main>
     </section>
-    <section class="w-full">
+    <section class="w-full" v-if="currentUser && !isCurrent">
       <nuxt-link
         :to="`/report?url=${$route.fullPath}&type=user`"
         class="block text-center w-full py-2 text-redline font-bold"

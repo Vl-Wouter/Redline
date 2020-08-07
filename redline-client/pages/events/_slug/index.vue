@@ -46,31 +46,33 @@
     </modal>
     <modal id="options-modal" class="invisible space-y-0">
       <h2 class="text-lg mb-2">Event options</h2>
-      <nuxt-link
-        v-if="isOwn"
-        to="edit"
-        append
-        class="block w-full text-center py-2 border-t border-b"
-        >Edit "{{ event.title }}"</nuxt-link
-      >
-      <button
-        v-if="isOwn"
-        class="block w-full py-2 text-red-600"
-        @click="
-          () => {
-            closeModalById('options-modal')
-            showModal('delete-modal')
-          }
-        "
-      >
-        Delete "{{ event.title }}"
-      </button>
-      <nuxt-link
-        :to="`/report?url=${$route.fullPath}&type=event`"
-        class="block w-full py-2 border-b border-t"
-      >
-        Report "{{ event.title }}"
-      </nuxt-link>
+      <div class="divide-y divide-gray-400">
+        <nuxt-link
+          v-if="isOwn"
+          to="edit"
+          append
+          class="block w-full text-center py-2"
+          >Edit "{{ event.title }}"</nuxt-link
+        >
+        <button
+          v-if="isOwn"
+          class="block w-full py-2 text-red-600"
+          @click="
+            () => {
+              closeModalById('options-modal')
+              showModal('delete-modal')
+            }
+          "
+        >
+          Delete "{{ event.title }}"
+        </button>
+        <nuxt-link
+          :to="`/report?url=${$route.fullPath}&type=event`"
+          class="block text-center w-full py-2"
+        >
+          Report "{{ event.title }}"
+        </nuxt-link>
+      </div>
     </modal>
     <header
       class="relative w-full h-40 lg:h-64 lg:col-span-3 lg:row-start-1 overflow-hidden lg:rounded"

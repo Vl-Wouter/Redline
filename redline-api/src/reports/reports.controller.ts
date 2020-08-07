@@ -30,6 +30,17 @@ import { Report } from './entities/report.entity';
 @ApiTags('Reports')
 export class ReportsController {
   constructor(private reportsService: ReportsService) {}
+
+  @Get()
+  @UseGuards(AuthGuard())
+  @ApiOperation({ operationId: 'Get all reports' })
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'Reports', type: Report, isArray: true })
+  @ApiUnauthorizedResponse({ description: 'Not Authorized' })
+  getAll(@GetUser() user: User): Promise<Report[]> {
+    return this.reportsService.getAll(user);
+  }
+
   // Add a report for a url
   @Post()
   @UseGuards(AuthGuard())
@@ -39,18 +50,10 @@ export class ReportsController {
   @ApiBody({ type: CreateReportDTO })
   @ApiCreatedResponse({ description: 'Page is reported to admins' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized to report a page' })
-  create(@Body() createReportDTO: CreateReportDTO, @GetUser() user: User) {
+  create(
+    @Body() createReportDTO: CreateReportDTO,
+    @GetUser() user: User,
+  ): Promise<Report> {
     return this.reportsService.create(createReportDTO, user);
-  }
-
-  @Get()
-  @UseGuards(AuthGuard())
-  @ApiOperation({ operationId: 'Get all reports' })
-  @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Reports', type: Report, isArray: true })
-  @ApiUnauthorizedResponse({ description: 'Not Authorized' })
-  getAll(@GetUser() user: User) {
-    console.log('TEST');
-    return this.reportsService.getAll(user);
   }
 }

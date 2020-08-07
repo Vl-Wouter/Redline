@@ -44,7 +44,9 @@ export class AuthService {
     // const { id, username, roles, fullName, profileImg } = result;
 
     const payload: JwtPayload = { ...result };
-    const accessToken = await this.jwtService.sign(payload);
+    const accessToken = await this.jwtService.sign(payload, {
+      expiresIn: '1 day',
+    });
 
     return { accessToken };
   }

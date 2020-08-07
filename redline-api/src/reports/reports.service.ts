@@ -31,7 +31,7 @@ export class ReportsService {
     }, {});
 
   async getAll(user: User) {
-    if (!user.isAdmin()) throw new ForbiddenException();
+    if (!user.isAdmin()) throw new UnauthorizedException();
     const reports = await this.reportRepository.find({
       relations: ['reportedBy'],
     });

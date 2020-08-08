@@ -251,6 +251,8 @@ export default {
     },
     async submit() {
       const formData = new FormData()
+      this.form.startTime = new Date(this.form.startTime).toISOString()
+      this.form.endTime = new Date(this.form.endTime).toISOString()
       for (const key in this.form) {
         formData.append(key, this.form[key])
       }
@@ -262,7 +264,13 @@ export default {
         })
         this.$router.push(`/events/${data.slug}`)
       } catch (err) {
-        this.$toast.error(err.message)
+        if (err.response) {
+          err.response.data.message.forEach((message) => {
+            this.$toast.error(message)
+          })
+        } else {
+          this.$toast.error(err.message)
+        }
       }
     },
   },

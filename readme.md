@@ -36,7 +36,7 @@
 - [ ] Prices for events (Free / Free for visitors / Entry Price)
 - [ ] Edit reviews
 
-## To Fix before deadline (12/08)
+## Feedback To Fix before deadline (12/08)
 - [x] Placeholders for username & password at login (Capitalised)
 - [x] Only positive distances in filters
 - [x] Fix Date Range (only allow past from date for to date)
@@ -60,6 +60,7 @@
 - [x] Move site to subdomain
 - [x] Switch to native datetime input
   - [ ] Firefox support for datetime-local (defaults to text)
+  - [x] Fix submit to get full date
 - [x] Update to Permissions API to check if geolocation is granted (support is ok)
 - [ ] Horizontal scrollbar in events page? (Not happening on macbook)
 - [ ] Fix page embeds (open graph / Meta tags)

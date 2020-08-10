@@ -17,7 +17,7 @@
 - [x] Albums creation in client
 - [x] Album pages in client
   - [x] Overview + linked in event and user
-  - [ ] Lightbox for image?
+  - [x] Lightbox for image?
 - [x] Admin options to edit and delete data/users
 - [x] Reporting for users/albums/events
 - [x] Make sure layout is responsive

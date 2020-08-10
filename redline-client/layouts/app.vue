@@ -1,5 +1,5 @@
 <template>
-  <main class="relative bg-gray-100 w-screen min-h-screen">
+  <main class="relative bg-gray-100 w-full min-h-screen">
     <nav
       id="nav"
       class="w-full z-40 fixed top-0 bg-white lg:bg-gray-900 border-b px-4 shadow-sm py-2 lg:flex lg:flex-col lg:w-auto lg:h-screen"

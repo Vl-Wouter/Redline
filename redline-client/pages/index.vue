@@ -225,11 +225,6 @@ export default {
           content: 'http://localhost:3000',
         },
         {
-          hid: 'og-image',
-          property: 'og:image',
-          content: '/api/img/albums/Vl-Wouter/summer-test/_WVL5950-af91.jpg',
-        },
-        {
           hid: 'index-description',
           name: 'description',
           content: 'Find, create and share local car events easily on Redline.',

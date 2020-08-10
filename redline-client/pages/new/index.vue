@@ -2,7 +2,7 @@
   <main class="container mx-auto mt-2">
     <h1 class="text-center font-bold text-xl">Add new content</h1>
     <section
-      class="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:w-1/2 lg:mx-auto lg:px-0 px-2 py-2"
+      class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:w-1/2 lg:mx-auto lg:px-0 px-2 py-2"
     >
       <icon-card-link
         icon="calendar"

@@ -23,6 +23,20 @@ export default {
         name: 'description',
         content: process.env.npm_package_description || '',
       },
+      {
+        property: 'og-url',
+        content: 'localhost:3000',
+      },
+      {
+        hid: 'fb-app_id',
+        property: 'fb:app_id',
+        content: '652524668951143',
+      },
+      {
+        hid: 'og-image',
+        property: 'og:image',
+        content: './basic.jpg',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },

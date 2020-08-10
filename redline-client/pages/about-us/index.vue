@@ -10,6 +10,9 @@
       Redline is built for petrolheads. And built by one. Putting together a
       passion with studies is a great way to enjoy building a project.
     </p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <img src="ARTEVELDE.png" alt="Artevelde logo" />
+    </div>
     <h2 class="font-bold">More information</h2>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <icon-card-link dest="terms" icon="info" title="Terms of Service" />

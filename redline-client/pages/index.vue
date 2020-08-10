@@ -215,7 +215,22 @@ export default {
       title: 'Redline | Local Car Events',
       meta: [
         {
-          hid: 'home-desc',
+          hid: 'og-title',
+          property: 'og:title',
+          content: 'Redline | Local Car Events',
+        },
+        {
+          hid: 'og-url',
+          property: 'og:url',
+          content: 'http://localhost:3000',
+        },
+        {
+          hid: 'og-image',
+          property: 'og:image',
+          content: '/api/img/albums/Vl-Wouter/summer-test/_WVL5950-af91.jpg',
+        },
+        {
+          hid: 'index-description',
           name: 'description',
           content: 'Find, create and share local car events easily on Redline.',
         },

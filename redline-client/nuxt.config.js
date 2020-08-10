@@ -35,7 +35,7 @@ export default {
       {
         hid: 'og-image',
         property: 'og:image',
-        content: './basic.jpg',
+        content: 'logo.png',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

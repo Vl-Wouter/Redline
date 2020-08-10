@@ -22,7 +22,7 @@
 - [x] Reporting for users/albums/events
 - [x] Make sure layout is responsive
 - [x] PWA optimizations
-- [ ] Logo
+- [x] Logo
 - [x] **Deployment**
 - [x] Test on deployed version
 - [x] Rewrite parts of document!

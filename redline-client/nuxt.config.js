@@ -39,6 +39,7 @@ export default {
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [{ src: 'https://connect.facebook.net/en_US/sdk.js' }],
   },
   /*
    ** Global CSS

@@ -46,28 +46,19 @@ const toFormData = (object) => {
   return formData
 }
 
-// const error = (error, options) => {
-//   if (error.response) {
-//     error.reponse.data.message.forEach((message) => {
-//       Vue.toasted.error(message, {
-//         duration: 2000,
-//         keepOnHover: true,
-//       })
-//     })
-//   } else {
-//     Vue.toasted.error(error.message, {
-//       duration: 2000,
-//       keepOnHover: true,
-//     })
-//   }
-// }
-
-// const success = (message) => {
-//   Vue.toasted.success(message, {})
-// }
+/* global FB */
+const initFBSDK = () => {
+  FB.init({
+    appId: '652524668951143',
+    autoLogAppEvents: true,
+    xfbml: true,
+    version: 'v8.0',
+  })
+}
 
 export default (context, inject) => {
   inject('distance', calcCrow)
   inject('position', getPosition)
   inject('toFormData', toFormData)
+  inject('initFBSDK', initFBSDK)
 }

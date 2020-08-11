@@ -26,6 +26,12 @@
     <section v-else class="w-full text-center">
       <p class="text-gray-700">There are no albums.</p>
     </section>
+    <nuxt-link
+      v-if="user"
+      to="/new"
+      class="fixed z-top right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-rl-blue text-white flex justify-center items-center"
+      ><font-awesome-icon icon="plus" class="block"
+    /></nuxt-link>
   </main>
 </template>
 
@@ -42,6 +48,11 @@ export default {
     return {
       albums: null,
     }
+  },
+  computed: {
+    user() {
+      return this.$store.getters['user/getCurrent']
+    },
   },
 }
 </script>

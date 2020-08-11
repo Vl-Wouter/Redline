@@ -148,6 +148,12 @@
         </button>
       </main>
     </section>
+    <nuxt-link
+      v-if="user"
+      to="/new"
+      class="hidden lg:flex fixed z-top right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-rl-blue text-white justify-center items-center"
+      ><font-awesome-icon icon="plus" class="block"
+    /></nuxt-link>
     <button
       class="fixed z-10 lg:hidden right-0 bottom-0 mb-4 mr-4 shadow-md rounded-full h-12 w-12 bg-rl-blue text-white flex justify-center items-center"
       @click="showFilters"

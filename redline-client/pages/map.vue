@@ -18,8 +18,20 @@
           :lat-lng="[event.latitude, event.longitude]"
         >
           <l-popup>
-            <h1>{{ event.title }}</h1>
-            <p>{{ event.address }}</p>
+            <nuxt-link
+              class="text-redline font-bold"
+              :to="`/events/${event.slug}`"
+              >{{ event.title }}</nuxt-link
+            >
+            <p class="truncate text-sm text-gray-700">
+              {{ event.description }}
+            </p>
+            <a
+              :href="`https://www.waze.com/ul?ll=${event.latitude}%2C${event.longitude}&navigate=yes`"
+              target="_blank"
+              rel="noopener"
+              >{{ event.address }}</a
+            >
           </l-popup>
         </l-marker>
       </l-map>

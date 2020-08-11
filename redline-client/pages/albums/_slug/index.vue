@@ -57,6 +57,19 @@
               {{ album.photographer.lastName }}</nuxt-link
             >
           </p>
+          <div
+            class="fb-share-button mt-2"
+            :data-href="`https://redline.wouterv.dev/albums/${album.slug}`"
+            data-layout="button"
+            data-size="large"
+          >
+            <a
+              target="_blank"
+              :href="`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fredline.wouterv.dev%2Falbums%2F${album.slug}&amp;src=sdkpreparse`"
+              class="fb-xfbml-parse-ignore"
+              >Share</a
+            >
+          </div>
         </section>
       </header>
       <section
@@ -131,6 +144,9 @@ export default {
     isOwn() {
       return this.album.photographer.id === this.user.id
     },
+  },
+  mounted() {
+    this.$initFBSDK()
   },
   methods: {
     showModal(id) {

@@ -26,9 +26,9 @@
 - [x] **Deployment**
 - [x] Test on deployed version
 - [x] Rewrite parts of document!
-- [ ] Record presentation
 - [ ] Record screencast
 - [ ] Prep final readme
+- [ ] Record presentation
 
 ## Extra ideas (time-permitting)
 - [ ] VIN Decoding for vehicle info (need credit card for API...)
@@ -61,5 +61,10 @@
   - [x] Fix submit to get full date
 - [x] Update to Permissions API to check if geolocation is granted (support is ok)
 - [x] Horizontal scrollbar in events page? (Not happening on macbook)
+- [x] Fix album delete
+- [x] Allow no event with album
+- [x] Fix event delete if event has an album
+- [x] Add "new content" FAB to more pages
+- [x] Update popup on map to link content and address.
+- [x] Add share button for facebook
 - [ ] Fix page embeds (open graph / Meta tags)
-- [ ] Add share button for facebook

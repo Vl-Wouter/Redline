@@ -155,6 +155,7 @@ export default {
     async submit() {
       try {
         const { photos, ...form } = this.form
+        if (form.eventId === null) delete form.eventId
         const formData = this.$toFormData(form)
         for (let i = 0; i < photos.length; i++) {
           const file = photos[i]

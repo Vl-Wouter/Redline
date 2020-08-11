@@ -59,7 +59,7 @@ export class AlbumsService {
 
   async delete(id: number, user: User) {
     const album = await this.getById(id);
-    if (album.photographer !== user && !user.isAdmin()) {
+    if (album.photographer.id !== user.id && !user.isAdmin()) {
       throw new NotFoundException('Cannot find an album to delete');
     }
     album.photos.forEach(image => {

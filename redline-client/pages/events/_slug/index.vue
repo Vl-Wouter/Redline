@@ -159,6 +159,19 @@
       <section class="w-full my-4 text-gray-700">
         {{ event.description }}
       </section>
+      <div
+        class="fb-share-button"
+        :data-href="`https://redline.wouterv.dev/events/${event.slug}`"
+        data-layout="button"
+        data-size="large"
+      >
+        <a
+          target="_blank"
+          :href="`https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fredline.wouterv.dev%2Fevents%2F${event.slug}&amp;src=sdkpreparse`"
+          class="fb-xfbml-parse-ignore"
+          >Share</a
+        >
+      </div>
       <section class="text-center my-4">
         <div class="w-full h-48 rounded overflow-hidden pointer-events-none">
           <l-map
@@ -278,6 +291,9 @@ export default {
         }).length > 0
       )
     },
+  },
+  mounted() {
+    this.$initFBSDK()
   },
   methods: {
     closeModal(target) {

@@ -86,6 +86,13 @@ export class EventsService {
     if (!event)
       throw new NotFoundException('No owned event found with this id');
     try {
+      if (event.albums) {
+        event.albums.forEach(async album => {
+          album.eventId = null;
+          await album.save();
+          event.albums.filter(item => item.id !== album.id);
+        });
+      }
       if (existsSync(`./uploads/${event.header}`)) {
         await unlink(`./uploads/${event.header}`, err => {
           if (err) {

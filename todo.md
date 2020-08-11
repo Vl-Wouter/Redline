@@ -26,7 +26,7 @@
 - [x] **Deployment**
 - [x] Test on deployed version
 - [x] Rewrite parts of document!
-- [ ] Record screencast
+- [x] Record screencast
 - [ ] Prep final readme
 - [ ] Record presentation
 

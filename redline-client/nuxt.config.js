@@ -35,7 +35,7 @@ export default {
       {
         hid: 'og-image',
         property: 'og:image',
-        content: 'logo.png',
+        content: '/logo.png',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
@@ -131,6 +131,28 @@ export default {
   toast: {
     duration: 2000,
     keepOnHover: true,
+  },
+
+  pwa: {
+    icon: {
+      iconSrc: '/logo.png',
+    },
+    manifest: {
+      name: 'Redline | Local Car Events',
+      short_name: 'Redline',
+      description: 'Find local car events and meet up with other enthusiasts!',
+      lang: 'en',
+      display: 'standalone',
+      background_color: '#e82c4b',
+      theme_color: '#e82c4b',
+    },
+    meta: {
+      ogType: 'website',
+      ogSiteName: 'Redline',
+      ogTitle: 'Redline | Local Car Events',
+      ogDescription: 'Find local car events and meet up with other enthusiasts',
+      ogImage: '/basic.jpg',
+    },
   },
   /*
    ** Build configuration

@@ -8,7 +8,12 @@ import { slugify } from 'src/utils/slugify.utils';
 export class AlbumRepository extends Repository<Album> {
   async createAlbum(dto: CreateAlbumDTO, user: User): Promise<Album> {
     const album = await this.create(dto);
-    album.slug = slugify(album.title);
+    const [albums, existing] = await this.findAndCount({ title: album.title });
+    if (existing > 0) {
+      album.slug = slugify(`${album.title} ${existing}`);
+    } else {
+      album.slug = slugify(album.title);
+    }
     album.eventId = dto.eventId;
     album.photographer = user;
 

@@ -7,6 +7,7 @@ import { slugify } from 'src/utils/slugify.utils';
 import { unlinkSync } from 'fs';
 import { InternalServerErrorException } from '@nestjs/common';
 import { handleImage } from 'src/utils/file-upload.utils';
+import { ECONNRESET } from 'constants';
 
 @EntityRepository(Event)
 export class EventRepository extends Repository<Event> {
@@ -28,7 +29,14 @@ export class EventRepository extends Repository<Event> {
   ): Promise<any> {
     try {
       const event = await Event.create(createEventDTO);
-      event.slug = slugify(event.title);
+      const [events, existing] = await this.findAndCount({
+        title: event.title,
+      });
+      if (existing > 0) {
+        event.slug = slugify(`${event.title} ${existing}`);
+      } else {
+        event.slug = slugify(event.title);
+      }
       event.header = await handleImage(headerImage.path, {
         width: 2000,
         isSquare: false,

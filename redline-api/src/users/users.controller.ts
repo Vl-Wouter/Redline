@@ -7,6 +7,7 @@ import {
   Body,
   Query,
   Patch,
+  Delete,
 } from '@nestjs/common';
 import {
   ApiTags,

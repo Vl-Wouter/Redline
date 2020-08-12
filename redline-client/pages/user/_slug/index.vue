@@ -90,13 +90,6 @@
         >
           Albums
         </button>
-        <button
-          class="flex-1 border-b rounded-t py-2 text-redline-light focus:outline-none"
-          :class="activeTab === 'articles' ? 'active__tab' : ''"
-          @click="activeTab = 'articles'"
-        >
-          Articles
-        </button>
       </header>
       <main
         v-if="activeTab === 'events'"
